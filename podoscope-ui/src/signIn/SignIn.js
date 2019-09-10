@@ -9,11 +9,12 @@ import Copyright from './Copyright';
 
 
 export default class SignIn extends Component {
-  constructor(props) {
+  constructor(props){
     super(props);
-
-
+    
   }
+
+  
 
   render() {
     return (
@@ -57,6 +58,7 @@ export default class SignIn extends Component {
               fullWidth
               variant='contained'
               color='primary'
+              onClick = {this.props.authTrue}
             >
               Sign In
             </Button>
