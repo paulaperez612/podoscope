@@ -8,10 +8,6 @@ var mysql = require('mysql');
 require('dotenv').config();
 var bodyParser = require('body-parser');
 
-
-
-
-
 var indexRouter = require('./routes/index');
 var tryoutRouter = require('./routes/tryout');
 var usersRouter = require('./routes/users');
