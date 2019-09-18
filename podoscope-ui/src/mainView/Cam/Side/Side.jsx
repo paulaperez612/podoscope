@@ -43,7 +43,8 @@ export default class Side extends React.Component {
           <Button
             className={"cam-btn"}
             color={(this.state.action === 3 ? 'secondary' : 'primary')}
-            variant="contained">x</Button>
+            variant="contained"
+            onClick={this.setAction(3)}>x</Button>
         </Grid>
         <Grid item xs={3}>
           <Button

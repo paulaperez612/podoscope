@@ -8,6 +8,7 @@ import Side from './Side/Side';
 const tempColor = 'red';
 const tempPColor = 'yellow';
 const defColor = 'cyan';
+const freeColor = 'blue';
 
 export default class CamCanvas extends React.Component {
 
@@ -17,6 +18,7 @@ export default class CamCanvas extends React.Component {
     this.infoRef = React.createRef();
 
     this.setAction = this.setAction.bind(this);
+    this.mouseDownUpHandler = this.mouseDownUpHandler.bind(this);
 
     this.action = 0;
     this.rect = undefined;
@@ -28,6 +30,10 @@ export default class CamCanvas extends React.Component {
       right: {
         lineX: undefined,
         point: undefined
+      },
+      free: {
+        down: false,
+        path: [[]]
       }
     };
     this.side = this.data.left;
@@ -52,6 +58,7 @@ export default class CamCanvas extends React.Component {
     };
 
     this.ctx.clearRect(0, 0, this.rect.width + 20, this.rect.height + 20);
+    this.drawPath();
     drawSide(this.data.left);
     drawSide(this.data.right);
   }
@@ -98,6 +105,29 @@ export default class CamCanvas extends React.Component {
     }
   }
 
+  freePaint(x, y) {
+    if (this.data.free.down) {
+      this.ctx.strokeStyle = freeColor;
+      this.sketchLine(this.data.free.path[this.data.free.path.length - 1].x, this.data.free.path[this.data.free.path.length - 1].y, x, y);
+      this.data.free.path[this.data.free.path.length - 1].push({ x, y });
+    }
+  }
+
+  drawPath() {
+    this.ctx.setLineDash([1, 0])
+    this.ctx.strokeStyle = freeColor;
+
+    this.data.free.path.forEach(p => {
+      let last = undefined;
+      p.forEach(({ x, y }) => {
+        if (last) {
+          this.sketchLine(last.x, last.y, x, y);
+        }
+        last = { x, y };
+      });
+    })
+  }
+
   mouseOverHandler(e) {
     const x = e.nativeEvent.offsetX;
     const y = e.nativeEvent.offsetY;
@@ -110,6 +140,8 @@ export default class CamCanvas extends React.Component {
       case 2:
         this.drawPoint(x, y, true, this.side.lineX);
         break;
+      case 3:
+        this.freePaint(x, y);
       default:
         break;
     }
@@ -132,6 +164,22 @@ export default class CamCanvas extends React.Component {
     if (this.action === 1 || this.action === 2) {
       this.drawState();
       this.updateAngle();
+    }
+  }
+
+  mouseDownUpHandler(act) {
+    return (e) => {
+      const x = e.nativeEvent.offsetX;
+      const y = e.nativeEvent.offsetY;
+
+      if (this.action === 3) {
+        if (act) {
+          this.data.free.path[this.data.free.path.length - 1].push({ x, y });
+        } else {
+          this.data.free.path.push([]);
+        }
+        this.data.free.down = act;
+      }
     }
   }
 
@@ -176,6 +224,8 @@ export default class CamCanvas extends React.Component {
                 ref={r => this.canvasRef = r}
                 onMouseMove={this.mouseOverHandler.bind(this)}
                 onClick={this.mouseClickHandler.bind(this)}
+                onMouseDown={this.mouseDownUpHandler(true)}
+                onMouseUp={this.mouseDownUpHandler(false)}
                 onMouseOut={this.drawState.bind(this)}
               ></Box>
             </Grid>
