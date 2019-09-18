@@ -11,7 +11,7 @@ router.get('/:cedula', (req, response) => {
 });
 
 router.post('/', (req, res) => {
-    pool.query(`INSERT INTO users (
+    pool.query(`REPLACE INTO users (
                     FIRST_NAME,
                     SECOND_NAME,
                     FIRST_SURNAME ,
