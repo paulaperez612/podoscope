@@ -27,3 +27,7 @@ button.cam-btn {
   height: calc(100% - 40px);
   margin: 20px 0 0 10px;
 }
+
+button.cam-btn.active {
+  background-color: red;
+}

@@ -1,8 +1,9 @@
 import React from 'react';
 import './camCanvas.css';
 
-import { Grid, Box, Button } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 import Info from './Info/Info';
+import Side from './Side/Side';
 
 const tempColor = 'red';
 const tempPColor = 'yellow';
@@ -14,13 +15,22 @@ export default class CamCanvas extends React.Component {
     super(props);
     this.canvasRef = React.createRef();
     this.infoRef = React.createRef();
-    this.rect = undefined;
-    this.action = 0;
+
     this.setAction = this.setAction.bind(this);
+
+    this.action = 0;
+    this.rect = undefined;
     this.data = {
-      lineX: undefined,
-      point: undefined
+      left: {
+        lineX: undefined,
+        point: undefined
+      },
+      right: {
+        lineX: undefined,
+        point: undefined
+      }
     };
+    this.side = this.data.left;
   }
 
   componentDidMount() {
@@ -32,13 +42,18 @@ export default class CamCanvas extends React.Component {
   }
 
   drawState() {
+    const drawSide = (side) => {
+      if (side.lineX) {
+        this.drawLine(side.lineX, false, side.point);
+      }
+      if (side.point) {
+        this.drawPoint(side.point.x, side.point.y, false, side.line);
+      }
+    };
+
     this.ctx.clearRect(0, 0, this.rect.width + 20, this.rect.height + 20);
-    if (this.data.lineX) {
-      this.drawLine(this.data.lineX, false);
-    }
-    if (this.data.point) {
-      this.drawPoint(this.data.point.x, this.data.point.y, false);
-    }
+    drawSide(this.data.left);
+    drawSide(this.data.right);
   }
 
   sketchLine(x1, y1, x2, y2) {
@@ -48,7 +63,7 @@ export default class CamCanvas extends React.Component {
     this.ctx.stroke();
   }
 
-  drawLine(x, temp = true) {
+  drawLine(x, temp, point) {
     this.ctx.strokeStyle = temp ? tempColor : defColor;
     if (temp) {
       this.ctx.setLineDash([5, 3])
@@ -57,28 +72,29 @@ export default class CamCanvas extends React.Component {
     }
     this.sketchLine(x, 0, x, this.rect.height + 20);
 
-    if (this.data.point) {
+
+    if (point) {
       if (temp) {
         this.ctx.setLineDash([5, 3]);
       }
-      this.sketchLine(this.data.point.x, this.data.point.y, x, 0);
-      this.sketchLine(this.data.point.x, this.data.point.y, x, this.canvasRef.height);
+      this.sketchLine(point.x, point.y, x, 0);
+      this.sketchLine(point.x, point.y, x, this.canvasRef.height);
     }
   };
 
-  drawPoint(x, y, temp = true) {
+  drawPoint(x, y, temp, lineX) {
     this.ctx.strokeStyle = temp ? tempColor : defColor;
     this.ctx.fillStyle = temp ? tempPColor : defColor;
     this.ctx.beginPath();
     this.ctx.arc(x, y, 5, 0, 2 * Math.PI);
     this.ctx.fill();
 
-    if (this.data.lineX) {
+    if (lineX) {
       if (temp) {
         this.ctx.setLineDash([5, 3]);
       }
-      this.sketchLine(x, y, this.data.lineX, 0);
-      this.sketchLine(x, y, this.data.lineX, this.canvasRef.height);
+      this.sketchLine(x, y, lineX, 0);
+      this.sketchLine(x, y, lineX, this.canvasRef.height);
     }
   }
 
@@ -89,10 +105,10 @@ export default class CamCanvas extends React.Component {
     this.drawState();
     switch (this.action) {
       case 1:
-        this.drawLine(x);
+        this.drawLine(x, true, this.side.point);
         break;
       case 2:
-        this.drawPoint(x, y);
+        this.drawPoint(x, y, true, this.side.lineX);
         break;
       default:
         break;
@@ -105,37 +121,44 @@ export default class CamCanvas extends React.Component {
 
     switch (this.action) {
       case 1:
-        this.data.lineX = x;
+        this.side.lineX = x;
         break;
       case 2:
-        this.data.point = { x, y };
+        this.side.point = { x, y };
         break;
       default:
         break;
     }
-    this.drawState();
-
-    if (this.data.lineX && this.data.point) {
+    if (this.action === 1 || this.action === 2) {
+      this.drawState();
       this.updateAngle();
     }
   }
 
   setAction(action) {
-    return () => this.action = (this.action === action ? 0 : action);
+    this.action = (this.action === action ? 0 : action);
   }
 
   updateAngle() {
-    if (this.data.lineX && this.data.point) {
+    if (this.side.lineX && this.side.point) {
       const b = this.canvasRef.height;
-      const p1 = { x: this.data.lineX, y: b };
-      const p2 = { x: this.data.point.x, y: this.data.point.y };
+      const p1 = { x: this.side.lineX, y: b };
+      const p2 = { x: this.side.point.x, y: this.side.point.y };
 
       const c = Math.sqrt((p1.x - p2.x) ** 2 + (p2.y) ** 2);
       const a = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
 
       const thetaRads = Math.acos(((a ** 2) + (b ** 2) - (c ** 2)) / (2 * a * b));
 
-      this.infoRef.update(0, Math.round((thetaRads * 180 / Math.PI) * 100) / 100);
+      this.infoRef.update(this.side === this.data.left ? 0 : 1, Math.round((thetaRads * 180 / Math.PI) * 100) / 100);
+    }
+  }
+
+  onSideChange(side) {
+    if (side) {
+      this.side = this.data.right;
+    } else {
+      this.side = this.data.left;
     }
   }
 
@@ -143,7 +166,7 @@ export default class CamCanvas extends React.Component {
     return (
       <Grid container direction="column">
         <Grid item>
-          <Info ref={r => this.infoRef = r} />
+          <Info ref={r => this.infoRef = r} onSideChange={this.onSideChange.bind(this)} />
         </Grid >
         <Grid item>
           <Grid container direcction="row">
@@ -157,20 +180,7 @@ export default class CamCanvas extends React.Component {
               ></Box>
             </Grid>
             <Grid item xs={1}>
-              <Grid container direction="column" className="cam-btn-container">
-                <Grid item xs={3}>
-                  <Button className="cam-btn" color="primary" variant="contained" onClick={this.setAction(1)}>x</Button>
-                </Grid>
-                <Grid item xs={3}>
-                  <Button className="cam-btn" color="primary" variant="contained" onClick={this.setAction(2)}>x</Button>
-                </Grid>
-                <Grid item xs={3}>
-                  <Button className="cam-btn" color="primary" variant="contained">x</Button>
-                </Grid>
-                <Grid item xs={3}>
-                  <Button className="cam-btn" color="primary" variant="contained">x</Button>
-                </Grid>
-              </Grid>
+              <Side setAction={this.setAction} />
             </Grid>
           </Grid>
         </Grid>

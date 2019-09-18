@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { Typography, Grid, Switch } from '@material-ui/core';
 
 export default class Info extends React.Component {
@@ -27,7 +27,7 @@ export default class Info extends React.Component {
           <Typography>{this.state.leftAngle || '-'}°</Typography>
           <Typography>Left</Typography>
         </Grid>
-        <Switch color="primary" />
+        <Switch color="primary" onChange={(e) => this.props.onSideChange(e.target.checked)} />
         <Grid item>
           <Typography>{this.state.rightAngle || '-'}°</Typography>
           <Typography>Right</Typography>
@@ -38,5 +38,5 @@ export default class Info extends React.Component {
 }
 
 Info.propTypes = {
-
+  onSideChange: PropTypes.func.isRequired
 }
