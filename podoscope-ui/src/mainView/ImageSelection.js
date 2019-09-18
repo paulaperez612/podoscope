@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Grid, Container, Typography, Paper } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+import ImageCard from './ImageCard';
 
 export default class ImageSelection extends Component {
   render() {
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={2} alignItems='center'>
 
         <Grid item xs={12}>
           <Typography variant='h5' align='center'>
@@ -13,49 +14,60 @@ export default class ImageSelection extends Component {
         </Grid>
 
 
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Typography variant='h5'>
             Back
           </Typography>
         </Grid>
 
         <Grid item xs={3}>
-          <Paper>
-            Im1
-          </Paper>
+          <ImageCard cardCaption='Chaplin Pos' />
         </Grid>
         <Grid item xs={3}>
-          <Paper>
-            Im2
-          </Paper>
+          <ImageCard cardCaption='Chaplin Pos Raise Toes Up' />
         </Grid>
         <Grid item xs={3}>
-          <Paper>
-            Im3
-          </Paper>
+          <ImageCard cardCaption='Insoles' />
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Typography variant='h5'>
             Front
           </Typography>
         </Grid>
 
         <Grid item xs={3}>
-          <Paper>
-            Im1
-          </Paper>
+          <ImageCard />
         </Grid>
         <Grid item xs={3}>
-          <Paper>
-            Im2
-          </Paper>
+          <ImageCard />
         </Grid>
         <Grid item xs={3}>
-          <Paper>
-            Im3
-          </Paper>
+          <ImageCard />
         </Grid>
+
+        <Grid item xs={2}>
+
+        </Grid>
+
+        <Grid item xs={3}>
+          <Typography align='center' variant='body2'>
+            Chaplin Pos
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography align='center' variant='body2'>
+            Chaplin Pos 
+            <br/>
+            Raise Toes Up
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography align='center' variant='body2'>
+            Insoles
+          </Typography>
+        </Grid>
+
 
       </Grid>
 
