@@ -1,0 +1,29 @@
+div.switch-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.switch-container > div:nth-child(1) {
+  text-align: right;
+}
+
+.switch-container > span:nth-child(2) {
+  margin: auto;
+}
+
+canvas {
+  width: 100%;
+  background-color: grey;
+  display: block;
+  /* padding: 25% 0; */
+}
+
+.cam-btn-container {
+  height: 100%;
+  padding: 100% 0;
+}
+
+button.cam-btn {
+  height: calc(100% - 40px);
+  margin: 20px 0 0 10px;
+}

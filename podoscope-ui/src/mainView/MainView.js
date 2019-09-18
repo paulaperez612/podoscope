@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 
 import UserCard from './UserCard';
 import ImageSelection from './ImageSelection';
+import CamCanvas from "./Cam/CamCanvas";
 
 export default class MainView extends Component {
 
@@ -33,7 +34,7 @@ export default class MainView extends Component {
 
         </Grid>
         <Grid item xs={5}>
-          <Paper >Lo de Millos</Paper>
+          <CamCanvas/>
         </Grid>
 
       </Grid>
