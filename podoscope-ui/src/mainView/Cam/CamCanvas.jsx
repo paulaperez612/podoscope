@@ -1,6 +1,5 @@
 import React from 'react';
 import './camCanvas.css';
-
 import { Grid, Box } from '@material-ui/core';
 import Info from './Info/Info';
 import Side from './Side/Side';
@@ -47,6 +46,7 @@ export default class CamCanvas extends React.Component {
     this.rect = this.canvasRef.getBoundingClientRect();
   }
 
+  // draws lines and points of both feet and draws path
   drawState() {
     const drawSide = (side) => {
       if (side.lineX) {
@@ -73,10 +73,11 @@ export default class CamCanvas extends React.Component {
   drawLine(x, temp, point) {
     this.ctx.strokeStyle = temp ? tempColor : defColor;
     if (temp) {
-      this.ctx.setLineDash([5, 3])
+      this.ctx.setLineDash([5, 3]);
     } else {
-      this.ctx.setLineDash([1, 0])
+      this.ctx.setLineDash([1, 0]);
     }
+    //+20 to avoid white space just before border of canvas
     this.sketchLine(x, 0, x, this.rect.height + 20);
 
 
@@ -87,7 +88,7 @@ export default class CamCanvas extends React.Component {
       this.sketchLine(point.x, point.y, x, 0);
       this.sketchLine(point.x, point.y, x, this.canvasRef.height);
     }
-  };
+  }
 
   drawPoint(x, y, temp, lineX) {
     this.ctx.strokeStyle = temp ? tempColor : defColor;
@@ -114,7 +115,7 @@ export default class CamCanvas extends React.Component {
   }
 
   drawPath() {
-    this.ctx.setLineDash([1, 0])
+    this.ctx.setLineDash([1, 0]);
     this.ctx.strokeStyle = freeColor;
 
     this.data.free.path.forEach(p => {
@@ -125,7 +126,7 @@ export default class CamCanvas extends React.Component {
         }
         last = { x, y };
       });
-    })
+    });
   }
 
   mouseOverHandler(e) {
@@ -134,16 +135,14 @@ export default class CamCanvas extends React.Component {
 
     this.drawState();
     switch (this.action) {
-      case 1:
-        this.drawLine(x, true, this.side.point);
-        break;
-      case 2:
-        this.drawPoint(x, y, true, this.side.lineX);
-        break;
-      case 3:
-        this.freePaint(x, y);
-      default:
-        break;
+    case 1:
+      this.drawLine(x, true, this.side.point);
+      break;
+    case 2:
+      this.drawPoint(x, y, true, this.side.lineX);
+      break;
+    case 3:
+      this.freePaint(x, y);
     }
   }
 
@@ -152,14 +151,14 @@ export default class CamCanvas extends React.Component {
     const y = e.nativeEvent.offsetY;
 
     switch (this.action) {
-      case 1:
-        this.side.lineX = x;
-        break;
-      case 2:
-        this.side.point = { x, y };
-        break;
-      default:
-        break;
+    case 1:
+      this.side.lineX = x;
+      break;
+    case 2:
+      this.side.point = { x, y };
+      break;
+    default:
+      break;
     }
     if (this.action === 1 || this.action === 2) {
       this.drawState();
@@ -180,7 +179,7 @@ export default class CamCanvas extends React.Component {
         }
         this.data.free.down = act;
       }
-    }
+    };
   }
 
   setAction(action) {
@@ -241,4 +240,4 @@ export default class CamCanvas extends React.Component {
 
 CamCanvas.propTypes = {
 
-}
+};

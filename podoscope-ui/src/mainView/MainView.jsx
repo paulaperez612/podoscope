@@ -12,9 +12,9 @@ export default class MainView extends Component {
 
     return (
       // try justify center and space around
-      <Grid container spacing={2} justify='center' >
+      <Grid container spacing={0} justify='space-around' >
 
-        <Grid item xs={5} >
+        <Grid item xs={4} >
 
           <Grid container
             spacing={0}
