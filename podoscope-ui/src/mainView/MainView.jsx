@@ -8,6 +8,7 @@ import CamCanvas from "./Cam/CamCanvas";
 
 export default class MainView extends Component {
 
+
   render() {
 
     return (
