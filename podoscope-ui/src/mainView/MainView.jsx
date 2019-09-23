@@ -12,23 +12,12 @@ import AddIcon from '@material-ui/icons/Add';
 import UserCard from './UserCard';
 import ImageSelection from './ImageSelection';
 import CamCanvas from "./Cam/CamCanvas";
+import CreateUser from './CreateUser';
 
 import './MainView.css';
 
 
-const useStyles = makeStyles(theme => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
+
 
 export default class MainView extends Component {
 
@@ -99,7 +88,7 @@ export default class MainView extends Component {
             in={this.state.open}
             className='modalContent'
           >
-            <UserCard />
+            <CreateUser />
 
           </Fade>
         </Modal>
