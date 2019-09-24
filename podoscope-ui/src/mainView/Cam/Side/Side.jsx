@@ -18,8 +18,11 @@ export default class Side extends React.Component {
         action: prevState.action === action ? 0 : action
       }), () => {
         this.props.setAction(action);
+        if (action === 4) {
+          this.setState({ action: 0 });
+        }
       });
-    }
+    };
   }
 
   render() {
@@ -27,30 +30,31 @@ export default class Side extends React.Component {
       <Grid container direction="column" className="cam-btn-container">
         <Grid item xs={3}>
           <Button
-            className={"cam-btn"}
+            className={'cam-btn'}
             color={(this.state.action === 1 ? 'secondary' : 'primary')}
             variant="contained"
             onClick={this.setAction(1)}>x</Button>
         </Grid>
         <Grid item xs={3}>
           <Button
-            className={"cam-btn"}
+            className={'cam-btn'}
             color={(this.state.action === 2 ? 'secondary' : 'primary')}
             variant="contained"
             onClick={this.setAction(2)}>x</Button>
         </Grid>
         <Grid item xs={3}>
           <Button
-            className={"cam-btn"}
+            className={'cam-btn'}
             color={(this.state.action === 3 ? 'secondary' : 'primary')}
             variant="contained"
             onClick={this.setAction(3)}>x</Button>
         </Grid>
         <Grid item xs={3}>
           <Button
-            className={"cam-btn"}
+            className={'cam-btn'}
             color={(this.state.action === 4 ? 'secondary' : 'primary')}
-            variant="contained">x</Button>
+            variant="contained"
+            onClick={this.setAction(4)}>x</Button>
         </Grid>
       </Grid>
     );
@@ -59,4 +63,4 @@ export default class Side extends React.Component {
 
 Side.propTypes = {
   setAction: PropTypes.func.isRequired
-}
+};

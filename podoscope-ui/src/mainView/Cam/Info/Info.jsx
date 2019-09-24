@@ -39,4 +39,4 @@ export default class Info extends React.Component {
 
 Info.propTypes = {
   onSideChange: PropTypes.func.isRequired
-}
+};

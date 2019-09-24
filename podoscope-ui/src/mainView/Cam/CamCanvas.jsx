@@ -24,6 +24,7 @@ export default class CamCanvas extends React.Component {
     this.takePicture = this.takePicture.bind(this);
     this.cancelPicture = this.cancelPicture.bind(this);
     this.savePicture = this.savePicture.bind(this);
+    this.updateDimension = this.updateDimension.bind(this);
 
     this.action = 0;
     this.rect = undefined;
@@ -48,10 +49,7 @@ export default class CamCanvas extends React.Component {
     this.rect = this.canvasRef.getBoundingClientRect();
     this.videoRef.width = this.rect.width;
     this.rect = this.videoRef.getBoundingClientRect();
-    this.canvasRef.height = this.rect.height;
-    this.canvasRef.width = this.rect.width;
-    this.imgRef.width = this.rect.width;
-    this.ctx = this.canvasRef.getContext("2d");
+    this.ctx = this.canvasRef.getContext('2d');
 
     navigator.getMedia = (navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
@@ -65,15 +63,24 @@ export default class CamCanvas extends React.Component {
 
         setTimeout(() => {
           this.videoRef.play();
-
-          this.rect = this.videoRef.getBoundingClientRect();
-          this.canvasRef.height = this.rect.height;
-          this.canvasRef.width = this.rect.width;
-          this.imgRef.width = this.rect.width;
-          this.imgRef.height = this.rect.height;
-        }, 100);
+          this.updateDimension();
+          window.addEventListener('resize', this.updateDimension);
+        }, 500);
       },
-      (err) => console.log("An error occured! " + err));
+      (err) => console.log('An error occured! ' + err));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimension);
+  }
+
+  updateDimension() {
+    this.rect = this.videoRef.getBoundingClientRect();
+    this.canvasRef.height = this.rect.height;
+    this.canvasRef.width = this.rect.width;
+    this.imgRef.height = this.rect.height;
+    this.imgRef.width = this.rect.width;
+    this.drawState();
   }
 
   // draws lines and points of both feet and draws path
@@ -144,6 +151,11 @@ export default class CamCanvas extends React.Component {
     }
   }
 
+  deleteFreePaint() {
+    this.data.free.path = [[]];
+    this.drawState();
+  }
+
   drawPath() {
     this.ctx.setLineDash([1, 0]);
     this.ctx.strokeStyle = freeColor;
@@ -165,14 +177,17 @@ export default class CamCanvas extends React.Component {
 
     this.drawState();
     switch (this.action) {
-      case 1:
-        this.drawLine(x, true, this.side.point);
-        break;
-      case 2:
-        this.drawPoint(x, y, true, this.side.lineX);
-        break;
-      case 3:
-        this.freePaint(x, y);
+    case 1:
+      this.drawLine(x, true, this.side.point);
+      break;
+    case 2:
+      this.drawPoint(x, y, true, this.side.lineX);
+      break;
+    case 3:
+      this.freePaint(x, y);
+      break;
+    default:
+      break;
     }
   }
 
@@ -181,14 +196,14 @@ export default class CamCanvas extends React.Component {
     const y = e.nativeEvent.offsetY;
 
     switch (this.action) {
-      case 1:
-        this.side.lineX = x;
-        break;
-      case 2:
-        this.side.point = { x, y };
-        break;
-      default:
-        break;
+    case 1:
+      this.side.lineX = x;
+      break;
+    case 2:
+      this.side.point = { x, y };
+      break;
+    default:
+      break;
     }
     if (this.action === 1 || this.action === 2) {
       this.drawState();
@@ -213,7 +228,12 @@ export default class CamCanvas extends React.Component {
   }
 
   setAction(action) {
-    this.action = (this.action === action ? 0 : action);
+    if (action === 4) {
+      this.deleteFreePaint();
+      this.action = 0;
+    } else {
+      this.action = (this.action === action ? 0 : action);
+    }
   }
 
   updateAngle() {
@@ -289,8 +309,8 @@ export default class CamCanvas extends React.Component {
               <Side setAction={this.setAction} />
             </Grid>
           </Grid>
-          <Grid container direcction="row" xs={11} id="bottom-container">
-            <Down takePicture={this.takePicture} cancelPicture={this.cancelPicture} savePictur={this.savePicture}/>
+          <Grid container item direcction="row" xs={11} id="bottom-container">
+            <Down takePicture={this.takePicture} cancelPicture={this.cancelPicture} savePicture={this.savePicture} />
           </Grid>
         </Grid>
       </Grid>

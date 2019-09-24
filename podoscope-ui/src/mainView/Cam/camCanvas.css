@@ -33,6 +33,7 @@ button.cam-btn.active {
 #canvas-video-container > video {
   position: absolute;
   z-index: -2;
+  min-height: 50vh;
 }
 
 #canvas-video-container > canvas {
@@ -53,7 +54,7 @@ button.cam-btn.active {
   display: none;
 }
 
-#bottom-container{
+#bottom-container {
   padding: 20px;
 }
 

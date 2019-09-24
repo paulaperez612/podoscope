@@ -44,4 +44,4 @@ Down.propTypes = {
   takePicture: PropTypes.func.isRequired,
   cancelPicture: PropTypes.func.isRequired,
   savePicture: PropTypes.func.isRequired
-}
+};
