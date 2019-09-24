@@ -9,15 +9,16 @@ import Grid from '@material-ui/core/Grid';
 
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import CakeIcon from '@material-ui/icons/Cake';
-import WcIcon from '@material-ui/icons/Wc';
+// import CakeIcon from '@material-ui/icons/Cake';
+// import WcIcon from '@material-ui/icons/Wc';
 import DateFnsUtils from '@date-io/date-fns';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 
+import {postUser} from '../utils/requestsManager';
 
 import {
   MuiPickersUtilsProvider,
@@ -34,10 +35,18 @@ export default class CreateUser extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+      firstName:'',
+      secondName:'',
+      firstSurname:'',
+      secondSurname:'',
+      phoneNumber:'',
+      email:'',
       selectedDate: new Date('1990-01-01T21:11:54'),
-      sex: 'OTHER' 
+      sex: 'OTHER',
+      cedula: ''
     };
     this.handleSexChange = this.handleSexChange.bind(this); 
+    this.createUser = this.createUser.bind(this); 
   }
 
   handleSexChange (event) {
@@ -45,6 +54,13 @@ export default class CreateUser extends Component {
     this.setState(
       {sex:event.target.value}
     );
+  }
+
+  createUser(){
+
+    postUser(this.state);
+    //close modal
+    this.props.toggleModal();
   }
 
   render() {
@@ -56,22 +72,19 @@ export default class CreateUser extends Component {
           <Typography gutterBottom variant="h5" component="h2">
             Create new user
           </Typography>
-          {/* <Typography variant="body2" color="textSecondary" component="p">
-            Please fill out all of the following fields:
-          </Typography> */}
+        
           <form
-            // className={classes.container} 
             noValidate
             autoComplete="off"
           >
             <Grid container spacing={1} justify='space-around' >
               <Grid item xs={5}>
                 <TextField
-                  // id="first-name"
+                  id="first-name"
                   label="First name"
                   // className={classes.textField}
-                  // value={'laksdjas'}
-                  // onChange={handleChange('name')}
+                  value={this.state.firstName}
+                  onChange={(x)=>this.setState({firstName:x.target.value})}
                   margin="normal"
                 />
               </Grid>
@@ -80,8 +93,8 @@ export default class CreateUser extends Component {
                   // id="first-name"
                   label="Second name"
                   // className={classes.textField}
-                  // value={'laksdjas'}
-                  // onChange={handleChange('name')}
+                  value={this.state.secondName}
+                  onChange={(x)=>this.setState({secondName:x.target.value})}
                   margin="normal"
                 />
               </Grid>
@@ -90,8 +103,8 @@ export default class CreateUser extends Component {
                   // id="first-name"
                   label="First surname"
                   // className={classes.textField}
-                  // value={'laksdjas'}
-                  // onChange={handleChange('name')}
+                  value={this.state.firstSurname}
+                  onChange={(x)=>this.setState({firstSurname:x.target.value})}
                   margin="normal"
                 />
               </Grid>
@@ -100,8 +113,8 @@ export default class CreateUser extends Component {
                   // id="first-name"
                   label="Second surname"
                   // className={classes.textField}
-                  // value={'laksdjas'}
-                  // onChange={handleChange('name')}
+                  value={this.state.secondSurname}
+                  onChange={(x)=>this.setState({secondSurname:x.target.value})}
                   margin="normal"
                 />
               </Grid>
@@ -110,7 +123,24 @@ export default class CreateUser extends Component {
                 <TextField
                   // className={classes.margin}
                   // id="input-with-icon-textfield"
-                  label="Phone Number"
+                  label="Cedula"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <AccountCircle />
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={this.state.cedula}
+                  onChange={(x)=>this.setState({cedula:x.target.value})}
+                />
+              </Grid>
+
+              <Grid item xs={5}>
+                <TextField
+                  // className={classes.margin}
+                  // id="input-with-icon-textfield"
+                  label="Cellphone"
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -118,8 +148,11 @@ export default class CreateUser extends Component {
                       </InputAdornment>
                     ),
                   }}
+                  value={this.state.phoneNumber}
+                  onChange={(x)=>this.setState({phoneNumber:x.target.value})}
                 />
               </Grid>
+              
 
               <Grid item xs={5}>
                 <TextField
@@ -133,6 +166,8 @@ export default class CreateUser extends Component {
                       </InputAdornment>
                     ),
                   }}
+                  value={this.state.email}
+                  onChange={(x)=>this.setState({email:x.target.value})}
                 />
               </Grid>
 
@@ -156,7 +191,7 @@ export default class CreateUser extends Component {
               <Grid item xs={5} className='formGrid'>
                 <FormControl className='formControl'
                 >
-                  <InputLabel htmlFor="sex-selector">Age</InputLabel>
+                  <InputLabel htmlFor="sex-selector">Sex</InputLabel>
                   <Select 
                     value={this.state.sex}
                     onChange={this.handleSexChange}
@@ -172,6 +207,7 @@ export default class CreateUser extends Component {
                   </Select>
                 </FormControl>
               </Grid>
+              
 
             </Grid>
 
@@ -181,10 +217,10 @@ export default class CreateUser extends Component {
         </CardContent>
 
         <CardActions >
-          <Button size="small" color="secondary" className='createUserActionButtons'>
+          <Button size="small" color="secondary" className='createUserActionButtons' onClick={this.props.toggleModal}>
             Cancel
           </Button>
-          <Button size="small" color="primary" className='createUserActionButtons'>
+          <Button size="small" color="primary" className='createUserActionButtons' onClick={this.createUser}>
             Create
           </Button>
         </CardActions>

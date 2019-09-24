@@ -25,9 +25,12 @@ export default class MainView extends Component {
     super(props);
 
     this.state = { open: false };
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
-  // classes = useStyles();  
+  toggleModal(){
+    this.setState({open:!this.state.open});
+  }
 
   render() {
 
@@ -81,14 +84,14 @@ export default class MainView extends Component {
           closeAfterTransition
           BackdropComponent={Backdrop}
           BackdropProps={{
-            timeout: 500,
+            timeout: 200,
           }}
         >
           <Fade 
             in={this.state.open}
             className='modalContent'
           >
-            <CreateUser />
+            <CreateUser toggleModal={this.toggleModal}/>
 
           </Fade>
         </Modal>
