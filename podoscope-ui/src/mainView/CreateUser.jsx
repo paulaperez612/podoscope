@@ -18,7 +18,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 
-import {postUser} from '../utils/requestsManager';
+import { postUser } from '../utils/requestsManager';
 
 import {
   MuiPickersUtilsProvider,
@@ -34,29 +34,29 @@ export default class CreateUser extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
-      firstName:'',
-      secondName:'',
-      firstSurname:'',
-      secondSurname:'',
-      phoneNumber:'',
-      email:'',
+    this.state = {
+      firstName: '',
+      secondName: '',
+      firstSurname: '',
+      secondSurname: '',
+      phoneNumber: '',
+      email: '',
       selectedDate: new Date('1990-01-01T21:11:54'),
       sex: 'OTHER',
       cedula: ''
     };
-    this.handleSexChange = this.handleSexChange.bind(this); 
-    this.createUser = this.createUser.bind(this); 
+    this.handleSexChange = this.handleSexChange.bind(this);
+    this.createUser = this.createUser.bind(this);
   }
 
-  handleSexChange (event) {
+  handleSexChange(event) {
     console.log(event.target);
     this.setState(
-      {sex:event.target.value}
+      { sex: event.target.value }
     );
   }
 
-  createUser(){
+  createUser() {
 
     postUser(this.state);
     //close modal
@@ -64,7 +64,7 @@ export default class CreateUser extends Component {
   }
 
   render() {
-    
+
     return (
       <Card >
 
@@ -72,7 +72,7 @@ export default class CreateUser extends Component {
           <Typography gutterBottom variant="h5" component="h2">
             Create new user
           </Typography>
-        
+
           <form
             noValidate
             autoComplete="off"
@@ -84,7 +84,7 @@ export default class CreateUser extends Component {
                   label="First name"
                   // className={classes.textField}
                   value={this.state.firstName}
-                  onChange={(x)=>this.setState({firstName:x.target.value})}
+                  onChange={(x) => this.setState({ firstName: x.target.value })}
                   margin="normal"
                 />
               </Grid>
@@ -94,7 +94,7 @@ export default class CreateUser extends Component {
                   label="Second name"
                   // className={classes.textField}
                   value={this.state.secondName}
-                  onChange={(x)=>this.setState({secondName:x.target.value})}
+                  onChange={(x) => this.setState({ secondName: x.target.value })}
                   margin="normal"
                 />
               </Grid>
@@ -104,7 +104,7 @@ export default class CreateUser extends Component {
                   label="First surname"
                   // className={classes.textField}
                   value={this.state.firstSurname}
-                  onChange={(x)=>this.setState({firstSurname:x.target.value})}
+                  onChange={(x) => this.setState({ firstSurname: x.target.value })}
                   margin="normal"
                 />
               </Grid>
@@ -114,7 +114,7 @@ export default class CreateUser extends Component {
                   label="Second surname"
                   // className={classes.textField}
                   value={this.state.secondSurname}
-                  onChange={(x)=>this.setState({secondSurname:x.target.value})}
+                  onChange={(x) => this.setState({ secondSurname: x.target.value })}
                   margin="normal"
                 />
               </Grid>
@@ -132,7 +132,7 @@ export default class CreateUser extends Component {
                     ),
                   }}
                   value={this.state.cedula}
-                  onChange={(x)=>this.setState({cedula:x.target.value})}
+                  onChange={(x) => this.setState({ cedula: x.target.value })}
                 />
               </Grid>
 
@@ -149,27 +149,12 @@ export default class CreateUser extends Component {
                     ),
                   }}
                   value={this.state.phoneNumber}
-                  onChange={(x)=>this.setState({phoneNumber:x.target.value})}
+                  onChange={(x) => this.setState({ phoneNumber: x.target.value })}
                 />
               </Grid>
-              
 
-              <Grid item xs={5}>
-                <TextField
-                  // className={classes.margin}
-                  // id="input-with-icon-textfield"
-                  label="Email"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <MailOutlineIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  value={this.state.email}
-                  onChange={(x)=>this.setState({email:x.target.value})}
-                />
-              </Grid>
+
+
 
               <Grid item xs={5} >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -192,7 +177,7 @@ export default class CreateUser extends Component {
                 <FormControl className='formControl'
                 >
                   <InputLabel htmlFor="sex-selector">Sex</InputLabel>
-                  <Select 
+                  <Select
                     value={this.state.sex}
                     onChange={this.handleSexChange}
                     inputProps={{
@@ -208,6 +193,23 @@ export default class CreateUser extends Component {
                 </FormControl>
               </Grid>
               
+              <Grid item xs={5}>
+                <TextField
+                  // className={classes.margin}
+                  // id="input-with-icon-textfield"
+                  label="Email"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <MailOutlineIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  value={this.state.email}
+                  onChange={(x) => this.setState({ email: x.target.value })}
+                />
+              </Grid>
+
 
             </Grid>
 
