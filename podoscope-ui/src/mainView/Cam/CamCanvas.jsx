@@ -3,6 +3,7 @@ import './camCanvas.css';
 import { Grid, Box } from '@material-ui/core';
 import Info from './Info/Info';
 import Side from './Side/Side';
+import Down from './Down/Down';
 
 const tempColor = 'red';
 const tempPColor = 'yellow';
@@ -14,10 +15,15 @@ export default class CamCanvas extends React.Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
+    this.videoRef = React.createRef();
+    this.imgRef = React.createRef();
     this.infoRef = React.createRef();
 
     this.setAction = this.setAction.bind(this);
     this.mouseDownUpHandler = this.mouseDownUpHandler.bind(this);
+    this.takePicture = this.takePicture.bind(this);
+    this.cancelPicture = this.cancelPicture.bind(this);
+    this.savePicture = this.savePicture.bind(this);
 
     this.action = 0;
     this.rect = undefined;
@@ -40,10 +46,34 @@ export default class CamCanvas extends React.Component {
 
   componentDidMount() {
     this.rect = this.canvasRef.getBoundingClientRect();
-    this.canvasRef.height = this.rect.width;
+    this.videoRef.width = this.rect.width;
+    this.rect = this.videoRef.getBoundingClientRect();
+    this.canvasRef.height = this.rect.height;
     this.canvasRef.width = this.rect.width;
+    this.imgRef.width = this.rect.width;
     this.ctx = this.canvasRef.getContext("2d");
-    this.rect = this.canvasRef.getBoundingClientRect();
+
+    navigator.getMedia = (navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia);
+
+
+    navigator.getMedia({ video: true, audio: false },
+      (stream) => {
+        this.videoRef.srcObject = stream;
+
+        setTimeout(() => {
+          this.videoRef.play();
+
+          this.rect = this.videoRef.getBoundingClientRect();
+          this.canvasRef.height = this.rect.height;
+          this.canvasRef.width = this.rect.width;
+          this.imgRef.width = this.rect.width;
+          this.imgRef.height = this.rect.height;
+        }, 100);
+      },
+      (err) => console.log("An error occured! " + err));
   }
 
   // draws lines and points of both feet and draws path
@@ -135,14 +165,14 @@ export default class CamCanvas extends React.Component {
 
     this.drawState();
     switch (this.action) {
-    case 1:
-      this.drawLine(x, true, this.side.point);
-      break;
-    case 2:
-      this.drawPoint(x, y, true, this.side.lineX);
-      break;
-    case 3:
-      this.freePaint(x, y);
+      case 1:
+        this.drawLine(x, true, this.side.point);
+        break;
+      case 2:
+        this.drawPoint(x, y, true, this.side.lineX);
+        break;
+      case 3:
+        this.freePaint(x, y);
     }
   }
 
@@ -151,14 +181,14 @@ export default class CamCanvas extends React.Component {
     const y = e.nativeEvent.offsetY;
 
     switch (this.action) {
-    case 1:
-      this.side.lineX = x;
-      break;
-    case 2:
-      this.side.point = { x, y };
-      break;
-    default:
-      break;
+      case 1:
+        this.side.lineX = x;
+        break;
+      case 2:
+        this.side.point = { x, y };
+        break;
+      default:
+        break;
     }
     if (this.action === 1 || this.action === 2) {
       this.drawState();
@@ -209,6 +239,24 @@ export default class CamCanvas extends React.Component {
     }
   }
 
+  takePicture() {
+    this.ctx.clearRect(0, 0, this.rect.width + 20, this.rect.height + 20);
+    this.ctx.drawImage(this.videoRef, 0, 0, this.rect.width, this.rect.height);
+    const imgData = this.canvasRef.toDataURL('image/png');
+    this.imgRef.setAttribute('src', imgData);
+    this.imgRef.classList.remove('hidden');
+    this.drawState();
+  }
+
+  cancelPicture() {
+    this.imgRef.removeAttribute('src');
+    this.imgRef.classList.add('hidden');
+  }
+
+  savePicture() {
+    // TODO
+  }
+
   render() {
     return (
       <Grid container direction="column">
@@ -217,7 +265,16 @@ export default class CamCanvas extends React.Component {
         </Grid >
         <Grid item>
           <Grid container direcction="row">
-            <Grid item xs={11}>
+            <Grid item xs={11} id="canvas-video-container">
+              <Box
+                component="img"
+                ref={r => this.imgRef = r}
+                className='hidden'
+              />
+              <Box
+                component="video"
+                ref={r => this.videoRef = r}
+              />
               <Box
                 component="canvas"
                 ref={r => this.canvasRef = r}
@@ -231,6 +288,9 @@ export default class CamCanvas extends React.Component {
             <Grid item xs={1}>
               <Side setAction={this.setAction} />
             </Grid>
+          </Grid>
+          <Grid container direcction="row" xs={11} id="bottom-container">
+            <Down takePicture={this.takePicture} cancelPicture={this.cancelPicture} savePictur={this.savePicture}/>
           </Grid>
         </Grid>
       </Grid>

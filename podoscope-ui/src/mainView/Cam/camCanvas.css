@@ -11,13 +11,6 @@ div.switch-container {
   margin: auto;
 }
 
-canvas {
-  width: 100%;
-  background-color: grey;
-  display: block;
-  /* padding: 25% 0; */
-}
-
 .cam-btn-container {
   height: 100%;
   padding: 100% 0;
@@ -30,4 +23,40 @@ button.cam-btn {
 
 button.cam-btn.active {
   background-color: red;
+}
+
+#canvas-video-container {
+  position: relative;
+  overflow: hidden;
+}
+
+#canvas-video-container > video {
+  position: absolute;
+  z-index: -2;
+}
+
+#canvas-video-container > canvas {
+  width: 100%;
+  background-color: transparent;
+  display: block;
+  z-index: 1;
+  /* padding: 25% 0; */
+}
+
+#canvas-video-container > img {
+  /* display: none; */
+  position: absolute;
+  z-index: -1;
+}
+
+#canvas-video-container > img.hidden {
+  display: none;
+}
+
+#bottom-container{
+  padding: 20px;
+}
+
+#bottom-container > button {
+  margin: auto;
 }
