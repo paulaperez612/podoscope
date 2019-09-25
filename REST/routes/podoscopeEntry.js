@@ -18,23 +18,43 @@ router.post('/', (req, res) => {
                                     LINE_L ,
                                     X_L ,
                                     Y_L ,
+                                    ANGLE_L,
+                                    HUELLA_L,
+                                    TIPO_TALON_L,
+                                    TIPO_L,
                                     LINE_R ,
                                     X_R ,
                                     Y_R,
+                                    ANGLE_R,
+                                    HUELLA_R,
+                                    TIPO_TALON_R,
+                                    TIPO_R,
+                                    OBSERVACIONES,
                                     LAST_MOD
                                 )
-                VALUES (?,?,?,?,?,?,?,?,?,NOW()
-                    )`,
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`,
         [
             req.body.user_id,
             req.body.img_id,
             req.body.image,
+
             req.body.line_l,
             req.body.x_l,
             req.body.y_l,
+            req.body.angle_l,
+            req.body.huella_l,
+            req.body.tipo_talon_l,
+            req.body.tipo_l,
+
             req.body.line_r,
             req.body.x_r,
-            req.body.y_r
+            req.body.y_r,
+            req.body.angle_r,
+            req.body.huella_r,
+            req.body.tipo_talon_r,
+            req.body.tipo_r,
+
+            req.body.obervaciones
         ],
         (error, result) => {
             if (error) throw error;
