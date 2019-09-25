@@ -1,3 +1,7 @@
+div.switch-container{
+  width: 100%;
+}
+
 div.switch-container > div:nth-child(1) {
   display: grid;
   grid-template-columns: 1fr 1fr;

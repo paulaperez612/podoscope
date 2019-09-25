@@ -59,8 +59,6 @@ export default class MainView extends Component {
   }
 
   savePhoto(data) {
-    console.log(data);
-    
     if (this.imageIndex >= 0) {
       this.images[this.imageIndex] = data;
       this.imageselRef.updateImage(this.imageIndex, data.image);
