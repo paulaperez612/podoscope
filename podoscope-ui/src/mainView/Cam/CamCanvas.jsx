@@ -41,6 +41,21 @@ export default class CamCanvas extends React.Component {
       free: {
         down: false,
         path: [[]]
+      },
+      extra: {
+        left: {
+          huella: undefined,
+          angle: undefined,
+          tipoTalon: undefined,
+          tipo: undefined
+        },
+        right: {
+          huella: undefined,
+          angle: undefined,
+          tipoTalon: undefined,
+          tipo: undefined
+        },
+        obs: ''
       }
     };
     this.side = this.data.left;
@@ -275,9 +290,9 @@ export default class CamCanvas extends React.Component {
   }
 
   savePicture() {
-    this.props.savePhoto(
-      this.imgRef.src,
-      {
+    this.props.savePhoto({
+      image: this.imgRef.src,
+      data: {
         left: {
           point: this.data.left.point,
           line: this.data.left.lineX
@@ -289,14 +304,15 @@ export default class CamCanvas extends React.Component {
         free: {
           paths: this.data.free.path
         }
-      }
-    );
+      },
+      extra: this.infoRef.getState()
+    });
   }
 
   render() {
     return (
       <Grid container direction="column">
-        <Grid item>
+        <Grid item xs={11}>
           <Info ref={r => this.infoRef = r} onSideChange={this.onSideChange.bind(this)} />
         </Grid >
         <Grid item>

@@ -54,10 +54,9 @@ export default class MainView extends Component {
     this.setState({ user: newUser });
   }
 
-  savePhoto(image, data) {
+  savePhoto(data) {
     if (this.imageIndex >= 0) {
-      
-      this.images[this.imageIndex] = { image, data };
+      this.images[this.imageIndex] = data;
     }
   }
 
