@@ -11,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 
@@ -21,15 +20,20 @@ import CakeIcon from '@material-ui/icons/Cake';
 import WcIcon from '@material-ui/icons/Wc';
 
 export default class UserCard extends Component {
+  
+
   render() {
     return (
       <Card style={{minWidth: 400}} >
         <CardContent>
 
           <Typography variant="h5" component="h2" align='center' style={{maxWidth:400}}>
-            Mauricio Neira Giraldo Rojas
+            {this.props.user.name}
           </Typography>
 
+          <Typography variant='body2' align='center'>
+            CC {this.props.user.cedula}
+          </Typography>
 
           <List >
             <ListItem>
@@ -38,7 +42,7 @@ export default class UserCard extends Component {
                 <PhoneIcon color='primary' />
               </ListItemAvatar>
 
-              <ListItemText secondary="324 378 6756" />
+              <ListItemText secondary={this.props.user.cellphone} />
 
             </ListItem>
 
@@ -50,7 +54,7 @@ export default class UserCard extends Component {
                 <MailOutlineIcon color='primary' />
               </ListItemAvatar>
 
-              <ListItemText secondary="mauro@prueba.com" />
+              <ListItemText secondary={this.props.user.email} />
 
             </ListItem>
 
@@ -62,7 +66,7 @@ export default class UserCard extends Component {
                 <CakeIcon color='primary' />
               </ListItemAvatar>
 
-              <ListItemText secondary="11-01-1996" />
+              <ListItemText secondary={this.props.user.dob} />
 
             </ListItem>
 
@@ -74,7 +78,7 @@ export default class UserCard extends Component {
                 <WcIcon color='primary' />
               </ListItemAvatar>
 
-              <ListItemText secondary="M" />
+              <ListItemText secondary={this.props.user.sex} />
 
             </ListItem>
 

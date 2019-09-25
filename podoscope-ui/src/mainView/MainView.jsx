@@ -24,12 +24,27 @@ export default class MainView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { open: false };
+    this.state = {
+      open: false,
+      user: {
+        name: '-',
+        cedula: '-',
+        cellphone: '-',
+        email: '-',
+        dob: '-',
+        sex: '-'
+      }
+    };
     this.toggleModal = this.toggleModal.bind(this);
+    this.setUser = this.setUser.bind(this);
   }
 
-  toggleModal(){
-    this.setState({open:!this.state.open});
+  toggleModal() {
+    this.setState({ open: !this.state.open });
+  }
+
+  setUser(newUser){
+    this.setState({user:newUser});
   }
 
   render() {
@@ -49,7 +64,7 @@ export default class MainView extends Component {
               justify="center">
               <Grid item xs={12}>
 
-                <UserCard />
+                <UserCard user={this.state.user}/>
               </Grid>
               <br />
               <Grid item xs={12}>
@@ -87,11 +102,11 @@ export default class MainView extends Component {
             timeout: 200,
           }}
         >
-          <Fade 
+          <Fade
             in={this.state.open}
             className='modalContent'
           >
-            <CreateUser toggleModal={this.toggleModal}/>
+            <CreateUser toggleModal={this.toggleModal} setUser={this.setUser}/>
 
           </Fade>
         </Modal>
