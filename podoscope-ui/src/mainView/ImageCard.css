@@ -1,5 +1,9 @@
 .selected {
-    border-style: solid;
-    border-width: 3px;
-    border-color: #303F9F;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #303f9f;
+}
+
+.MuiPaper-root.MuiPaper-elevation1.MuiCard-root.MuiPaper-rounded:not(.selected) {
+  border: 3px solid transparent;
 }
