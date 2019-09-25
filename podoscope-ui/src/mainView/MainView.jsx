@@ -22,6 +22,8 @@ export default class MainView extends Component {
   constructor(props) {
     super(props);
 
+    this.canvasRef = React.createRef();
+
     this.state = {
       open: false,
       user: {
@@ -38,12 +40,13 @@ export default class MainView extends Component {
     this.selectImage = this.selectImage.bind(this);
     this.setUser = this.setUser.bind(this);
 
-    this.imageIndex = 1;
+    this.imageIndex = 0;
     this.images = [{}, {}, {}, {}, {}, {}];
   }
 
   selectImage(index) {
     this.imageIndex = index;
+    this.canvasRef.setImg(this.images[this.imageIndex]);
   }
 
   toggleModal() {
@@ -76,12 +79,12 @@ export default class MainView extends Component {
               </Grid>
               <br />
               <Grid item xs={12}>
-                <ImageSelection />
+                <ImageSelection selectImage={this.selectImage} />
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <CamCanvas savePhoto={this.savePhoto} />
+            <CamCanvas savePhoto={this.savePhoto} ref={r => this.canvasRef = r} />
           </Grid>
         </Grid>
 

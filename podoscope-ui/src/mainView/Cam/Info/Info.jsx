@@ -42,12 +42,12 @@ export default class Info extends React.Component {
         tipoTalonR: { name: 'Tipo Talon', value: tipoTalon.NEUTRO, values: tipoTalon },
         tipoL: { name: 'Tipo', value: tipo.NEUTRO, values: tipo },
         tipoR: { name: 'Tipo', value: tipo.NEUTRO, values: tipo },
-      }
+      },
+      action: false
     };
 
-    this.selectedValues = [0, 0, 0, 0, 0, 0];
-
     this.changeValue = this.changeValue.bind(this);
+    this.setAction = this.setAction.bind(this);
   }
 
   update(side, angle) {
@@ -81,6 +81,30 @@ export default class Info extends React.Component {
     return data;
   }
 
+  updateState(data) {
+    this.setState(prevState => {
+      const rta = prevState;
+
+      rta.drops.huellaL.value = data ? data.drops.huellaL : huella.NEUTRO;
+      rta.drops.huellaR.value = data ? data.drops.huellaR : huella.NEUTRO;
+      rta.drops.tipoTalonL.value = data ? data.drops.tipoTalonL : tipoTalon.NEUTRO;
+      rta.drops.tipoTalonR.value = data ? data.drops.tipoTalonR : tipoTalon.NEUTRO;
+      rta.drops.tipoL.value = data ? data.drops.tipoL : tipo.NEUTRO;
+      rta.drops.tipoR.value = data ? data.drops.tipoR : tipo.NEUTRO;
+
+      rta.leftAngle = data && data.leftAngle;
+      rta.rightAngle = data && data.rightAngle;
+      rta.action = false;
+      
+      return rta;
+    });
+  }
+
+  setAction(e) {
+    this.props.onSideChange(e.target.checked);
+    this.setState({ action: e.target.checked });
+  }
+
   render() {
     return (
       <Grid item xs={11} className="switch-container">
@@ -106,7 +130,7 @@ export default class Info extends React.Component {
             <Typography>{this.state.leftAngle || '-'}°</Typography>
             <Typography>Left</Typography>
           </Grid>
-          <Switch color="primary" onChange={(e) => this.props.onSideChange(e.target.checked)} />
+          <Switch color="primary" onChange={this.setAction} checked={this.state.action} />
           <Grid item>
             <Typography>{this.state.rightAngle || '-'}°</Typography>
             <Typography>Right</Typography>

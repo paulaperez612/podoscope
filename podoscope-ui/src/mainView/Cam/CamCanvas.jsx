@@ -19,6 +19,7 @@ export default class CamCanvas extends React.Component {
     this.videoRef = React.createRef();
     this.imgRef = React.createRef();
     this.infoRef = React.createRef();
+    this.downRef = React.createRef();
 
     this.setAction = this.setAction.bind(this);
     this.mouseDownUpHandler = this.mouseDownUpHandler.bind(this);
@@ -96,6 +97,74 @@ export default class CamCanvas extends React.Component {
     this.canvasRef.width = this.rect.width;
     this.imgRef.height = this.rect.height;
     this.imgRef.width = this.rect.width;
+    this.drawState();
+  }
+
+  setImg(data) {
+    if (data.image) {
+      this.imgRef.classList.remove('hidden');
+      this.imgRef.src = data.image;
+    } else {
+      this.imgRef.removeAttribute('src');
+      this.imgRef.classList.add('hidden');
+    }
+    this.data = data.data || {
+      left: {
+        lineX: undefined,
+        point: undefined
+      },
+      right: {
+        lineX: undefined,
+        point: undefined
+      },
+      free: {
+        down: false,
+        path: [[]]
+      },
+      // extra: {
+      //   left: {
+      //     huella: undefined,
+      //     angle: undefined,
+      //     tipoTalon: undefined,
+      //     tipo: undefined
+      //   },
+      //   right: {
+      //     huella: undefined,
+      //     angle: undefined,
+      //     tipoTalon: undefined,
+      //     tipo: undefined
+      //   },
+      //   obs: ''
+      // }
+    };
+    this.data.extra = {
+      left: {
+        huella: undefined,
+        angle: undefined,
+        tipoTalon: undefined,
+        tipo: undefined
+      },
+      right: {
+        huella: undefined,
+        angle: undefined,
+        tipoTalon: undefined,
+        tipo: undefined
+      },
+      obs: ''
+    };
+    this.data.extra.left.angle = (data && data.extra) ? data.extra.leftAngle : undefined;
+    this.data.extra.left.huella = (data && data.extra) ? data.extra.drops.huellaL : undefined;
+    this.data.extra.left.tipo = (data && data.extra) ? data.extra.drops.tipoL : undefined;
+    this.data.extra.left.tipoTalon = (data && data.extra) ? data.extra.drops.tipoTalonL : undefined;
+    this.data.extra.right.angle = (data && data.extra) ? data.extra.rightAngle : undefined;
+    this.data.extra.right.huella = (data && data.extra) ? data.extra.drops.huellaR : undefined;
+    this.data.extra.right.tipo = (data && data.extra) ? data.extra.drops.tipoR : undefined;
+    this.data.extra.right.tipoTalon = (data && data.extra) ? data.extra.drops.tipoTalonR : undefined;
+    this.infoRef.updateState(data.extra);
+    this.downRef.reset(!!data.image);
+
+    this.side = this.data.left;
+
     this.drawState();
   }
 
@@ -295,14 +364,14 @@ export default class CamCanvas extends React.Component {
       data: {
         left: {
           point: this.data.left.point,
-          line: this.data.left.lineX
+          lineX: this.data.left.lineX
         },
         right: {
           point: this.data.right.point,
-          line: this.data.right.lineX
+          lineX: this.data.right.lineX
         },
         free: {
-          paths: this.data.free.path
+          path: this.data.free.path
         }
       },
       extra: this.infoRef.getState()
@@ -342,7 +411,11 @@ export default class CamCanvas extends React.Component {
             </Grid>
           </Grid>
           <Grid container item direcction="row" xs={11} id="bottom-container">
-            <Down takePicture={this.takePicture} cancelPicture={this.cancelPicture} savePicture={this.savePicture} />
+            <Down
+              takePicture={this.takePicture}
+              cancelPicture={this.cancelPicture}
+              savePicture={this.savePicture}
+              ref={r => this.downRef = r} />
           </Grid>
         </Grid>
       </Grid>

@@ -7,8 +7,9 @@ export default class Down extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasPhoto: undefined
+      photo: undefined
     };
+    this.reset = this.reset.bind(this);
   }
 
   updateButtons(action) {
@@ -20,6 +21,10 @@ export default class Down extends React.Component {
       action ? this.props.takePicture() : this.props.cancelPicture();
       this.setState({ photo: action });
     };
+  }
+
+  reset(hasPhoto) {
+    this.setState({ photo: hasPhoto });
   }
 
   render() {
