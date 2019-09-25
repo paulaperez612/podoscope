@@ -1,4 +1,4 @@
-export function postUser(user) {
+export function postUser(user, callback, onError) {
 
   let userToSend = {
     first_name: user.firstName,
@@ -15,9 +15,19 @@ export function postUser(user) {
 
   fetch('/users', {
     method: 'post',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userToSend)
-  }).then(function (response) {
-    console.log(response.json());
-  });
+  })
+    .then((response)=>{
+      if (!response.ok) {
+        console.log('ERROR could not make post request.');
+        onError();
+      }
+    })
+    .then(function () {
+      callback();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }

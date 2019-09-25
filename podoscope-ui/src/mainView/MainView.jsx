@@ -22,12 +22,23 @@ export default class MainView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { open: false };
+    this.state = {
+      open: false,
+      user: {
+        name: '-',
+        cedula: '-',
+        cellphone: '-',
+        email: '-',
+        dob: '-',
+        sex: '-'
+      }
+    };
     this.toggleModal = this.toggleModal.bind(this);
     this.savePhoto = this.savePhoto.bind(this);
     this.selectImage = this.selectImage.bind(this);
+    this.setUser = this.setUser.bind(this);
 
-    this.imageIndex = -1;
+    this.imageIndex = 1;
     this.images = [{}, {}, {}, {}, {}, {}];
   }
 
@@ -35,14 +46,19 @@ export default class MainView extends Component {
     this.imageIndex = index;
   }
 
-  savePhoto(image, data) {
-    if (this.imageIndex >= 0) {
-      this.images[this.imageIndex] = { image, data };
-    }
+  toggleModal() {
+    this.setState((prevState) => ({ open: !prevState.open }));
   }
 
-  toggleModal() {
-    this.setState({ open: !this.state.open });
+  setUser(newUser) {
+    this.setState({ user: newUser });
+  }
+
+  savePhoto(image, data) {
+    if (this.imageIndex >= 0) {
+      
+      this.images[this.imageIndex] = { image, data };
+    }
   }
 
   render() {
@@ -57,7 +73,7 @@ export default class MainView extends Component {
               alignItems="center"
               justify="center">
               <Grid item xs={12}>
-                <UserCard />
+                <UserCard user={this.state.user} />
               </Grid>
               <br />
               <Grid item xs={12}>
@@ -66,7 +82,7 @@ export default class MainView extends Component {
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <CamCanvas savePhoto={this.savePhoto}/>
+            <CamCanvas savePhoto={this.savePhoto} />
           </Grid>
         </Grid>
 
@@ -90,7 +106,7 @@ export default class MainView extends Component {
           <Fade
             in={this.state.open}
             className='modalContent'>
-            <CreateUser toggleModal={this.toggleModal} />
+            <CreateUser toggleModal={this.toggleModal} setUser={this.setUser} />
           </Fade>
         </Modal>
       </div>

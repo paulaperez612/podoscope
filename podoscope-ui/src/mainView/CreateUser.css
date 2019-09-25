@@ -11,3 +11,10 @@
     /* what a hack https://github.com/mui-org/material-ui/issues/9826*/
     margin-top:16px !important; 
 }
+
+.waitingCard {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+}
+

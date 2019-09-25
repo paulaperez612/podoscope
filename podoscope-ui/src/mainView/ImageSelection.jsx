@@ -3,6 +3,17 @@ import { Grid, Typography } from '@material-ui/core';
 import ImageCard from './ImageCard';
 
 export default class ImageSelection extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { selection: 0 };
+    this.changeSelection = this.changeSelection.bind(this);
+  }
+
+  changeSelection(id) {
+    this.setState({ selection: id });
+  }
+
   render() {
     return (
       <Grid container spacing={2} alignItems='center'>
@@ -21,13 +32,13 @@ export default class ImageSelection extends Component {
         </Grid>
 
         <Grid item xs={3}>
-          <ImageCard cardCaption='Chaplin Pos' />
+          <ImageCard changeSelect={this.changeSelection} cardId={0} selection={this.state.selection} cardCaption='Chaplin Pos' />
         </Grid>
         <Grid item xs={3}>
-          <ImageCard cardCaption='Chaplin Pos Raise Toes Up' />
+          <ImageCard changeSelect={this.changeSelection} cardId={1} selection={this.state.selection} cardCaption='Chaplin Pos Raise Toes Up' />
         </Grid>
         <Grid item xs={3}>
-          <ImageCard cardCaption='Insoles' />
+          <ImageCard changeSelect={this.changeSelection} cardId={2} selection={this.state.selection} cardCaption='Insoles' />
         </Grid>
 
         <Grid item xs={2}>
@@ -37,13 +48,13 @@ export default class ImageSelection extends Component {
         </Grid>
 
         <Grid item xs={3}>
-          <ImageCard />
+          <ImageCard changeSelect={this.changeSelection} cardId={3} selection={this.state.selection} />
         </Grid>
         <Grid item xs={3}>
-          <ImageCard />
+          <ImageCard changeSelect={this.changeSelection} cardId={4} selection={this.state.selection} />
         </Grid>
         <Grid item xs={3}>
-          <ImageCard />
+          <ImageCard changeSelect={this.changeSelection} cardId={5} selection={this.state.selection} />
         </Grid>
 
         <Grid item xs={2}>
@@ -57,8 +68,8 @@ export default class ImageSelection extends Component {
         </Grid>
         <Grid item xs={3}>
           <Typography align='center' variant='body2'>
-            Chaplin Pos 
-            <br/>
+            Chaplin Pos
+            <br />
             Raise Toes Up
           </Typography>
         </Grid>
