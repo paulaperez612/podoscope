@@ -23,6 +23,7 @@ export default class MainView extends Component {
     super(props);
 
     this.canvasRef = React.createRef();
+    this.imageselRef = React.createRef();
 
     this.state = {
       open: false,
@@ -58,8 +59,11 @@ export default class MainView extends Component {
   }
 
   savePhoto(data) {
+    console.log(data);
+    
     if (this.imageIndex >= 0) {
       this.images[this.imageIndex] = data;
+      this.imageselRef.updateImage(this.imageIndex, data.image);
     }
   }
 
@@ -79,7 +83,7 @@ export default class MainView extends Component {
               </Grid>
               <br />
               <Grid item xs={12}>
-                <ImageSelection selectImage={this.selectImage} />
+                <ImageSelection selectImage={this.selectImage} ref={r => this.imageselRef = r} />
               </Grid>
             </Grid>
           </Grid>

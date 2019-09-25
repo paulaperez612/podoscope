@@ -1,21 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Card, CardMedia, Container } from '@material-ui/core';
+import { Card, CardMedia } from '@material-ui/core';
 import defaultImage from '../assets/defaultImage.png';
 import './ImageCard.css';
 export default class ImageCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: defaultImage
+    };
+  }
+
+  updateImage(img) {
+    this.setState({ image: img });
+  }
+
   render() {
     return (
-
-      <Card className={this.props.cardId == this.props.selection ? 'selected' : null}
+      <Card
+        className={this.props.cardId == this.props.selection ? 'selected' : null}
         onClick={() => this.props.changeSelect(this.props.cardId)}>
-        <CardMedia style={{ height: 80 }}
-          image={defaultImage}
-        // title="Paella dish"
+        <CardMedia
+          style={{ height: 80 }}
+          image={this.state.image}
         />
       </Card>
-
     );
   }
 }
