@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
+import { Button, Fab } from '@material-ui/core';
+
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import ClearIcon from '@material-ui/icons/Clear';
+import SaveIcon from '@material-ui/icons/Save';
 
 export default class Down extends React.Component {
 
@@ -32,11 +36,30 @@ export default class Down extends React.Component {
       <>
         {
           !this.state.photo
-            ? <Button color="secondary" variant="contained" onClick={this.click(true)}>Snap</Button>
+            ?
+            <Fab
+              variant="contained"
+              color="secondary"
+              aria-label="take picture"
+              onClick={this.click(true)}>
+              <CameraAltIcon />
+            </Fab>
             : (
               <>
-                <Button color="secondary" variant="contained" onClick={this.click(false)}>Cancel</Button>
-                <Button color="secondary" variant="contained" onClick={this.props.savePicture}>Save</Button>
+                <Fab
+                  variant="contained"
+                  color="secondary"
+                  aria-label="cancel"
+                  onClick={this.click(false)}>
+                  <ClearIcon />
+                </Fab>
+                <Fab
+                  variant="contained"
+                  color="primary"
+                  aria-label="save"
+                  onClick={this.props.savePicture}>
+                  <SaveIcon />
+                </Fab>
               </>
             )
         }
