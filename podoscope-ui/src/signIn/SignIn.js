@@ -9,12 +9,12 @@ import Copyright from './Copyright';
 
 
 export default class SignIn extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+
   }
 
-  
+
 
   render() {
     return (
@@ -58,16 +58,21 @@ export default class SignIn extends Component {
               fullWidth
               variant='contained'
               color='primary'
-              onClick = {this.props.authTrue}
+              onClick={this.props.authTrue}
             >
               Sign In
             </Button>
-      
+
           </form>
         </div>
         <Box mt={8}>
           <Copyright />
         </Box>
+        <Typography variant='body2' color='textSecondary' align='center'>
+          Icons made by Freepik from https://www.flaticon.com
+        </Typography>
+
+
       </Container>);
   }
 }
