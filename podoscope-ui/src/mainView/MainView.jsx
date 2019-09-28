@@ -13,6 +13,9 @@ import UserCard from './UserCard';
 import ImageSelection from './ImageSelection';
 import CamCanvas from './Cam/CamCanvas';
 import CreateUser from './CreateUser';
+import Drops from './Drops';
+import MyObservations from './MyObservations';
+import { postPodImage } from '../utils/requestsManager';
 
 import './MainView.css';
 
@@ -24,6 +27,8 @@ export default class MainView extends Component {
 
     this.canvasRef = React.createRef();
     this.imageselRef = React.createRef();
+    this.obsRef = React.createRef();
+    this.shoeRef = React.createRef();
 
     this.state = {
       open: false,
@@ -33,17 +38,40 @@ export default class MainView extends Component {
         cellphone: '-',
         email: '-',
         dob: '-',
-        sex: '-'
+        sex: '-',
+        left: {},
+        right: {}
+      },
+      feet: {
+        left: {
+          footprintType: 'NEUTRO',
+          heelType: 'NEUTRO',
+          footType: 'NEUTRO'
+        },
+        right: {
+          footprintType: 'NEUTRO',
+          heelType: 'NEUTRO',
+          footType: 'NEUTRO'
+        }
       }
+
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.savePhoto = this.savePhoto.bind(this);
     this.selectImage = this.selectImage.bind(this);
     this.setUser = this.setUser.bind(this);
+    this.setFeetInfo = this.setFeetInfo.bind(this);
 
     this.imageIndex = 0;
     this.images = [{}, {}, {}, {}, {}, {}];
+    this.observations = 'aaaaa';
   }
+
+  setFeetInfo(data) {
+    this.setState({ feet: data });
+  }
+
+
 
   selectImage(index) {
     this.imageIndex = index;
@@ -63,6 +91,15 @@ export default class MainView extends Component {
       this.images[this.imageIndex] = data;
       this.imageselRef.updateImage(this.imageIndex, data.image);
     }
+    postPodImage(Object.assign(this.state,
+      {
+        imgData: data,
+        observations: this.obsRef.current,
+        shoeSize: this.shoeRef.current,
+        imId:this.imageIndex
+      }), () => { }, () => { });
+
+
   }
 
   render() {
@@ -77,17 +114,25 @@ export default class MainView extends Component {
               alignItems="center"
               justify="center">
               <Grid item xs={12}>
-                <UserCard user={this.state.user} />
+                <UserCard user={this.state.user} shoeRef={this.shoeRef} />
               </Grid>
               <br />
               <Grid item xs={12}>
                 <ImageSelection selectImage={this.selectImage} ref={r => this.imageselRef = r} />
               </Grid>
+              <br />
+              <Grid item xs={12}>
+                <Drops feetInfo={this.state.feet} setFeetInfo={this.setFeetInfo} />
+              </Grid>
             </Grid>
           </Grid>
           <Grid item xs={5}>
             <CamCanvas savePhoto={this.savePhoto} ref={r => this.canvasRef = r} />
+
+            <MyObservations obsRef={this.obsRef} />
+
           </Grid>
+
         </Grid>
 
         <Fab

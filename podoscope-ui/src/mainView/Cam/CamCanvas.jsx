@@ -262,17 +262,17 @@ export default class CamCanvas extends React.Component {
 
     this.drawState();
     switch (this.action) {
-      case 1:
-        this.drawLine(x, true, this.side.point);
-        break;
-      case 2:
-        this.drawPoint(x, y, true, this.side.lineX);
-        break;
-      case 3:
-        this.freePaint(x, y);
-        break;
-      default:
-        break;
+    case 1:
+      this.drawLine(x, true, this.side.point);
+      break;
+    case 2:
+      this.drawPoint(x, y, true, this.side.lineX);
+      break;
+    case 3:
+      this.freePaint(x, y);
+      break;
+    default:
+      break;
     }
   }
 
@@ -281,14 +281,14 @@ export default class CamCanvas extends React.Component {
     const y = e.nativeEvent.offsetY;
 
     switch (this.action) {
-      case 1:
-        this.side.lineX = x;
-        break;
-      case 2:
-        this.side.point = { x, y };
-        break;
-      default:
-        break;
+    case 1:
+      this.side.lineX = x;
+      break;
+    case 2:
+      this.side.point = { x, y };
+      break;
+    default:
+      break;
     }
     if (this.action === 1 || this.action === 2) {
       this.drawState();

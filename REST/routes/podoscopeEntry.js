@@ -30,10 +30,11 @@ router.post('/', (req, res) => {
                                     TIPO_TALON_R,
                                     TIPO_R,
                                     OBSERVACIONES,
+                                    TALLA,
                                     FREE_DRAW,
                                     LAST_MOD
                                 )
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`,
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())`,
         [
             req.body.user_id,
             req.body.img_id,
@@ -56,6 +57,7 @@ router.post('/', (req, res) => {
             req.body.tipo_r,
 
             req.body.obervaciones,
+            req.body.talla,
             req.body.free_draw
         ],
         (error, result) => {

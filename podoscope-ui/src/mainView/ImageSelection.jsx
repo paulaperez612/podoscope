@@ -29,13 +29,13 @@ export default class ImageSelection extends Component {
   render() {
     return (
       <Grid container spacing={2} alignItems='center'>
-        <Grid item xs={12}>
-          <Typography variant='h5' align='center'>
+        {/* <Grid item xs={12}>
+          <Typography variant='h6' align='center'>
             Image select
           </Typography>
-        </Grid>
+        </Grid> */}
         <Grid item xs={2}>
-          <Typography variant='h5'>
+          <Typography variant='subtitle1'>
             Back
           </Typography>
         </Grid>
@@ -49,7 +49,7 @@ export default class ImageSelection extends Component {
           <ImageCard ref={r => this.imgsRefs[2] = r} changeSelect={this.changeSelection} cardId={2} selection={this.state.selection} cardCaption='Insoles' />
         </Grid>
         <Grid item xs={2}>
-          <Typography variant='h5'>
+          <Typography variant='subtitle1'>
             Front
           </Typography>
         </Grid>

@@ -22,7 +22,7 @@ export default class ImageCard extends Component {
         className={this.props.cardId == this.props.selection ? 'selected' : null}
         onClick={() => this.props.changeSelect(this.props.cardId)}>
         <CardMedia
-          style={{ height: 80 }}
+          style={{ height: 50 }}
           image={this.state.image}
         />
       </Card>

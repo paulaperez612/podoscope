@@ -95,7 +95,7 @@ export default class Info extends React.Component {
       rta.leftAngle = data && data.leftAngle;
       rta.rightAngle = data && data.rightAngle;
       rta.action = false;
-      
+
       return rta;
     });
   }
@@ -107,8 +107,8 @@ export default class Info extends React.Component {
 
   render() {
     return (
-      <Grid item xs={11} className="switch-container">
-        <Grid container direcction="row">
+      <Grid container className="switch-container" alignItems='center' justify='center'>
+        {/* <Grid container direcction="row">
           {Object.entries(this.state.drops).map(([k, v], i) => (
             <Grid item key={i}>
               <FormControl className='formControl'>
@@ -124,18 +124,20 @@ export default class Info extends React.Component {
               </FormControl>
             </Grid>
           ))}
+        </Grid> */}
+        {/* <Grid item xs={12}> */}
+        <Grid item xs={4} >
+          <Typography align='center' >{this.state.leftAngle || '-'}°</Typography>
+          <Typography align='center' variant="h5" component="h3">Left</Typography>
         </Grid>
-        <Grid item>
-          <Grid item >
-            <Typography>{this.state.leftAngle || '-'}°</Typography>
-            <Typography>Left</Typography>
-          </Grid>
-          <Switch color="primary" onChange={this.setAction} checked={this.state.action} />
-          <Grid item>
-            <Typography>{this.state.rightAngle || '-'}°</Typography>
-            <Typography>Right</Typography>
-          </Grid>
+
+        <Switch color="primary" onChange={this.setAction} checked={this.state.action} />
+
+        <Grid item xs={4}>
+          <Typography align='center'>{this.state.rightAngle || '-'}°</Typography>
+          <Typography align='center' variant="h5" component="h3">Right</Typography>
         </Grid>
+        {/* </Grid> */}
       </Grid>
     );
   }
