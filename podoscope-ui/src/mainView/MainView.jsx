@@ -17,6 +17,9 @@ import Drops from './Drops';
 import MyObservations from './MyObservations';
 import { postPodImage } from '../utils/requestsManager';
 
+import InfoIcon from '@material-ui/icons/Info';
+import ImageModal from './ImageModal';
+
 import './MainView.css';
 
 
@@ -32,6 +35,7 @@ export default class MainView extends Component {
 
     this.state = {
       open: false,
+      openImage: false,
       user: {
         name: '-',
         cedula: '-',
@@ -57,6 +61,7 @@ export default class MainView extends Component {
 
     };
     this.toggleModal = this.toggleModal.bind(this);
+    this.toogleImageModal = this.toogleImageModal.bind(this);
     this.savePhoto = this.savePhoto.bind(this);
     this.selectImage = this.selectImage.bind(this);
     this.setUser = this.setUser.bind(this);
@@ -71,6 +76,9 @@ export default class MainView extends Component {
     this.setState({ feet: data });
   }
 
+  toogleImageModal(){
+    this.setState(prevState=> ({openImage: !prevState.openImage}));
+  }
 
 
   selectImage(index) {
@@ -156,6 +164,30 @@ export default class MainView extends Component {
             in={this.state.open}
             className='modalContent'>
             <CreateUser toggleModal={this.toggleModal} setUser={this.setUser} />
+          </Fade>
+        </Modal>
+
+        <Fab
+          color="primary"
+          aria-label="info"
+          className="fabImage"
+          onClick={() => this.setState({ openImage: true })}>
+          <InfoIcon />
+        </Fab>
+
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className="imageModal"
+          open={this.state.openImage}
+          onClose={() => this.setState({ openImage: true })}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{ timeout: 200 }}>
+          <Fade
+            in={this.state.openImage}
+            className='imageModalContent'>
+            <ImageModal toggleModal={this.toogleImageModal}  />
           </Fade>
         </Modal>
       </div>
