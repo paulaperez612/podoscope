@@ -21,6 +21,24 @@ function genericPost(inObj, callback, onError, objFormat, endpoint) {
     });
 }
 
+export function genericGet(url, callback, onError) {
+
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        console.log('ERROR could not make post request.');
+        onError();
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      callback(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 function userFormat(user) {
   let userToSend = {
     first_name: user.firstName,
@@ -36,8 +54,8 @@ function userFormat(user) {
   return userToSend;
 }
 
-function podoscopeFormat(inObj){
-  let formatedOutput =  {
+function podoscopeFormat(inObj) {
+  let formatedOutput = {
 
     user_id: inObj.user.cedula,
 
@@ -49,7 +67,7 @@ function podoscopeFormat(inObj){
     y_l: inObj.imgData.data.left.point.y,
     angle_l: inObj.imgData.extra.leftAngle,
 
-    huella_l: inObj.feet.left.footprintType, 
+    huella_l: inObj.feet.left.footprintType,
     tipo_talon_l: inObj.feet.left.heelType,
     tipo_l: inObj.feet.left.footType,
 
@@ -71,11 +89,11 @@ function podoscopeFormat(inObj){
 
 export function postUser(user, callback, onError) {
 
-  genericPost(user,callback,onError,userFormat,'/users');
+  genericPost(user, callback, onError, userFormat, '/users');
 
 }
 
 export function postPodImage(inObj, callback, onError) {
 
-  genericPost(inObj,callback,onError,podoscopeFormat,'/podoscope');
+  genericPost(inObj, callback, onError, podoscopeFormat, '/podoscope');
 }
