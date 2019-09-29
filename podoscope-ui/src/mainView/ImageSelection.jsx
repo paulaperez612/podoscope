@@ -48,6 +48,22 @@ export default class ImageSelection extends Component {
         <Grid item xs={3}>
           <ImageCard ref={r => this.imgsRefs[2] = r} changeSelect={this.changeSelection} cardId={2} selection={this.state.selection} cardCaption='Insoles' />
         </Grid>
+        <Grid item xs={2}></Grid>
+        <Grid item xs={3}>
+          <Typography align='center' variant='body2'>
+            Standing Up 
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography align='center' variant='body2'>
+            45 ° 
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography align='center' variant='body2'>
+          Toes up
+          </Typography>
+        </Grid>
         <Grid item xs={2}>
           <Typography variant='subtitle1'>
             Front
@@ -65,19 +81,19 @@ export default class ImageSelection extends Component {
         <Grid item xs={2}></Grid>
         <Grid item xs={3}>
           <Typography align='center' variant='body2'>
-            Chaplin Pos
+            Chaplin 
           </Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography align='center' variant='body2'>
-            Chaplin Pos
+            Chaplin
             <br />
-            Raise Toes Up
+            Toes Up
           </Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography align='center' variant='body2'>
-            Insoles
+            With Insoles
           </Typography>
         </Grid>
       </Grid>
