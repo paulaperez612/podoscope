@@ -75,10 +75,16 @@ export default class CreateUser extends Component {
 
   createUser() {
     this.setState({ waiting: true }, () => {
-      genericGet(`/users/${this.state.cedula}`, () => {
-        this.setState({ waiting: false, dialogOpen: true });
+      genericGet(`/users/${this.state.cedula}`, (data) => {
+        if(data.length>0){
+          this.setState({ waiting: false, dialogOpen: true });
+        }
+        else{
+          this.confirmSave();
+        }
       }, () => {
-        this.confirmSave();
+        console.log('error!!!');
+        this.setState({waiting:false});
       });
     });
   }
