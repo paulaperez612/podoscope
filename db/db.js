@@ -7,7 +7,7 @@ const config = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DB, 
     port: process.env.DB_PORT,
-    ssl: true
+    // ssl: true
 };
 
 const pool = mysql.createPool(config);
