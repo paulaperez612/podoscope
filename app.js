@@ -23,9 +23,10 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'podoscope-ui/build')));
 
-app.use('/', indexRouter);
+
+app.use('/hello', indexRouter);
 app.use('/tryout', tryoutRouter);
 app.use('/users', usersRouter);
 app.use('/podoscope', podoscopeRouter);
