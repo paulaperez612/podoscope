@@ -105,12 +105,17 @@ export default class CamCanvas extends React.Component {
       free: {
         down: false,
         path: [[]]
+      },
+      extra: {
+        left: {angle:undefined},
+        right: {angle:undefined}
       }
     };
+
     this.downRef.reset(!!data.image);
 
     this.side = this.data.left;
-
+    this.infoRef.updateState(data.extra);
     this.drawState();
   }
 

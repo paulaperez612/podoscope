@@ -32,14 +32,10 @@ export default class Info extends React.Component {
   }
 
   updateState(data) {
-    this.setState(prevState => {
-      const rta = prevState;
-
-      rta.leftAngle = data && data.leftAngle;
-      rta.rightAngle = data && data.rightAngle;
-      rta.action = false;
-
-      return rta;
+    this.setState({
+      leftAngle: data && (data.leftAngle || (data.left && data.left.angle)),
+      rightAngle: data && (data.rightAngle || (data.right && data.right.angle)),
+      action: false
     });
   }
 
