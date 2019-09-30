@@ -24,7 +24,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'podoscope-ui/build')));
-app.use('/main', express.static('podoscope-ui/build'));
 
 
 app.use('/hello', indexRouter);
