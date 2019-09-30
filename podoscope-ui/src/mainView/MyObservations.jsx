@@ -3,23 +3,27 @@ import TextField from '@material-ui/core/TextField';
 
 export default class MyObservations extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {obs:''};
+    this.state = { obs: '' };
+  }
+
+  resetInfo(userObs='') {
+    this.setState({ obs: userObs });
   }
 
   render() {
     return (
-      <form 
-      // className={classes.container} 
-        noValidate 
+      <form
+        // className={classes.container} 
+        noValidate
         autoComplete="off">
         <TextField
           id="observations"
           label="Observations"
           // className={classes.textField}
           value={this.state.obs}
-          onChange={(e)=>this.setState({obs:e.target.value})}
+          onChange={(e) => this.setState({ obs: e.target.value })}
           margin="normal"
           fullWidth={true}
           multiline={true}

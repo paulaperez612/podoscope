@@ -28,7 +28,9 @@ export default class MainView extends Component {
     this.canvasRef = React.createRef();
     this.imageselRef = React.createRef();
     this.obsRef = React.createRef();
+    this.obsRefReal = React.createRef();
     this.shoeRef = React.createRef();
+    this.dropsRef = React.createRef();
 
     this.state = {
       open: false,
@@ -54,7 +56,6 @@ export default class MainView extends Component {
           footType: 'NEUTRO'
         }
       }
-
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.savePhoto = this.savePhoto.bind(this);
@@ -62,7 +63,7 @@ export default class MainView extends Component {
     this.setUser = this.setUser.bind(this);
     this.setFeetInfo = this.setFeetInfo.bind(this);
 
-    this.imageIndex = 0;
+    this.imageIndex = -1;
     this.images = [{}, {}, {}, {}, {}, {}];
     this.observations = 'aaaaa';
   }
@@ -70,8 +71,6 @@ export default class MainView extends Component {
   setFeetInfo(data) {
     this.setState({ feet: data });
   }
-
-
 
   selectImage(index) {
     this.imageIndex = index;
@@ -83,23 +82,39 @@ export default class MainView extends Component {
   }
 
   setUser(newUser) {
-    this.setState({ user: newUser });
+    this.setState({
+      user: newUser,
+      feet: {
+        left: {
+          footprintType: 'NEUTRO',
+          heelType: 'NEUTRO',
+          footType: 'NEUTRO'
+        },
+        right: {
+          footprintType: 'NEUTRO',
+          heelType: 'NEUTRO',
+          footType: 'NEUTRO'
+        }
+      }
+    }, () => {
+      this.canvasRef.resetInfo();
+      this.obsRefReal.resetInfo('');
+    });
   }
 
   savePhoto(data) {
     if (this.imageIndex >= 0) {
       this.images[this.imageIndex] = data;
       this.imageselRef.updateImage(this.imageIndex, data.image);
+
+      postPodImage(Object.assign(this.state,
+        {
+          imgData: data,
+          observations: this.obsRef.current,
+          shoeSize: this.shoeRef.current,
+          imId: this.imageIndex
+        }), () => { }, () => { });
     }
-    postPodImage(Object.assign(this.state,
-      {
-        imgData: data,
-        observations: this.obsRef.current,
-        shoeSize: this.shoeRef.current,
-        imId:this.imageIndex
-      }), () => { }, () => { });
-
-
   }
 
   render() {
@@ -122,14 +137,14 @@ export default class MainView extends Component {
               </Grid>
               <br />
               <Grid item xs={12}>
-                <Drops feetInfo={this.state.feet} setFeetInfo={this.setFeetInfo} />
+                <Drops feetInfo={this.state.feet} setFeetInfo={this.setFeetInfo} ref={r => this.dropsRef = r} />
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={5}>
             <CamCanvas savePhoto={this.savePhoto} ref={r => this.canvasRef = r} />
 
-            <MyObservations obsRef={this.obsRef} />
+            <MyObservations obsRef={this.obsRef} ref={r => this.obsRefReal = r} />
 
           </Grid>
 

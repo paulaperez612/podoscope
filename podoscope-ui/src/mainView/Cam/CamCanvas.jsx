@@ -42,21 +42,6 @@ export default class CamCanvas extends React.Component {
       free: {
         down: false,
         path: [[]]
-      },
-      extra: {
-        left: {
-          huella: undefined,
-          angle: undefined,
-          tipoTalon: undefined,
-          tipo: undefined
-        },
-        right: {
-          huella: undefined,
-          angle: undefined,
-          tipoTalon: undefined,
-          tipo: undefined
-        },
-        obs: ''
       }
     };
     this.side = this.data.left;
@@ -120,47 +105,8 @@ export default class CamCanvas extends React.Component {
       free: {
         down: false,
         path: [[]]
-      },
-      // extra: {
-      //   left: {
-      //     huella: undefined,
-      //     angle: undefined,
-      //     tipoTalon: undefined,
-      //     tipo: undefined
-      //   },
-      //   right: {
-      //     huella: undefined,
-      //     angle: undefined,
-      //     tipoTalon: undefined,
-      //     tipo: undefined
-      //   },
-      //   obs: ''
-      // }
+      }
     };
-    this.data.extra = {
-      left: {
-        huella: undefined,
-        angle: undefined,
-        tipoTalon: undefined,
-        tipo: undefined
-      },
-      right: {
-        huella: undefined,
-        angle: undefined,
-        tipoTalon: undefined,
-        tipo: undefined
-      },
-      obs: ''
-    };
-    this.data.extra.left.angle = (data && data.extra) ? data.extra.leftAngle : undefined;
-    this.data.extra.left.huella = (data && data.extra) ? data.extra.drops.huellaL : undefined;
-    this.data.extra.left.tipo = (data && data.extra) ? data.extra.drops.tipoL : undefined;
-    this.data.extra.left.tipoTalon = (data && data.extra) ? data.extra.drops.tipoTalonL : undefined;
-    this.data.extra.right.angle = (data && data.extra) ? data.extra.rightAngle : undefined;
-    this.data.extra.right.huella = (data && data.extra) ? data.extra.drops.huellaR : undefined;
-    this.data.extra.right.tipo = (data && data.extra) ? data.extra.drops.tipoR : undefined;
-    this.data.extra.right.tipoTalon = (data && data.extra) ? data.extra.drops.tipoTalonR : undefined;
-    this.infoRef.updateState(data.extra);
     this.downRef.reset(!!data.image);
 
     this.side = this.data.left;
@@ -262,17 +208,17 @@ export default class CamCanvas extends React.Component {
 
     this.drawState();
     switch (this.action) {
-    case 1:
-      this.drawLine(x, true, this.side.point);
-      break;
-    case 2:
-      this.drawPoint(x, y, true, this.side.lineX);
-      break;
-    case 3:
-      this.freePaint(x, y);
-      break;
-    default:
-      break;
+      case 1:
+        this.drawLine(x, true, this.side.point);
+        break;
+      case 2:
+        this.drawPoint(x, y, true, this.side.lineX);
+        break;
+      case 3:
+        this.freePaint(x, y);
+        break;
+      default:
+        break;
     }
   }
 
@@ -281,14 +227,14 @@ export default class CamCanvas extends React.Component {
     const y = e.nativeEvent.offsetY;
 
     switch (this.action) {
-    case 1:
-      this.side.lineX = x;
-      break;
-    case 2:
-      this.side.point = { x, y };
-      break;
-    default:
-      break;
+      case 1:
+        this.side.lineX = x;
+        break;
+      case 2:
+        this.side.point = { x, y };
+        break;
+      default:
+        break;
     }
     if (this.action === 1 || this.action === 2) {
       this.drawState();
@@ -376,6 +322,31 @@ export default class CamCanvas extends React.Component {
       },
       extra: this.infoRef.getState()
     });
+  }
+
+  resetInfo() {
+    this.action = 0;
+    // this.rect = undefined;
+    this.data = {
+      left: {
+        lineX: undefined,
+        point: undefined
+      },
+      right: {
+        lineX: undefined,
+        point: undefined
+      },
+      free: {
+        down: false,
+        path: [[]]
+      }
+    };
+    this.side = this.data.left;
+
+    this.drawState();
+    this.setImg({ image: null });
+    this.infoRef.resetInfo();
+    this.downRef.reset(false);
   }
 
   render() {

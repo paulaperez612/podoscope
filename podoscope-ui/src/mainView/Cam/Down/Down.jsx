@@ -38,7 +38,7 @@ export default class Down extends React.Component {
           !this.state.photo
             ?
             <Fab
-              variant="contained"
+              variant="extended"
               color="secondary"
               aria-label="take picture"
               onClick={this.click(true)}>
@@ -47,14 +47,14 @@ export default class Down extends React.Component {
             : (
               <>
                 <Fab
-                  variant="contained"
+                  variant="extended"
                   color="secondary"
                   aria-label="cancel"
                   onClick={this.click(false)}>
                   <ClearIcon />
                 </Fab>
                 <Fab
-                  variant="contained"
+                  variant="extended"
                   color="primary"
                   aria-label="save"
                   onClick={this.props.savePicture}>

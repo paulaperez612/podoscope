@@ -7,7 +7,7 @@ export default class ImageSelection extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { selection: 0 };
+    this.state = { selection: -1 };
     this.changeSelection = this.changeSelection.bind(this);
 
     this.imgsRefs = [

@@ -66,32 +66,32 @@ export default class CreateUser extends Component {
   }
 
   createUser() {
-    this.setState({ waiting: true });
+    this.setState({ waiting: true }, () => {
+      postUser(this.state,
+        //if succesfull
+        () => {
+          this.props.setUser({
+            name: this.state.firstName + ' ' +
+              this.state.secondName + ' ' +
+              this.state.firstSurname + ' ' +
+              this.state.secondSurname,
+            cedula: this.state.cedula,
+            cellphone: this.state.phoneNumber,
+            email: this.state.email,
+            dob: formatDate(this.state.selectedDate),
+            sex: formatSex(this.state.sex)
+          });
 
-    postUser(this.state,
-      //if succesfull
-      () => {
-        this.props.setUser({
-          name: this.state.firstName + ' ' +
-            this.state.secondName + ' ' +
-            this.state.firstSurname + ' ' +
-            this.state.secondSurname,
-          cedula: this.state.cedula,
-          cellphone: this.state.phoneNumber,
-          email: this.state.email,
-          dob: formatDate(this.state.selectedDate),
-          sex: formatSex(this.state.sex)
+          //close modal
+          this.props.toggleModal();
+        },
+        //on error
+        () => {
+          console.log('error!!');
+          //return to create user
+          this.setState({ waiting: false });
         });
-
-        //close modal
-        this.props.toggleModal();
-      },
-      //on error
-      () => {
-        console.log('error!!');
-        //return to create user
-        this.setState({ waiting: false });
-      });
+    });
   }
 
   renderCreateCard() {

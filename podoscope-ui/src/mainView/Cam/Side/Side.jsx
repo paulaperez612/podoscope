@@ -36,7 +36,7 @@ export default class Side extends React.Component {
         <Grid item xs={3}>
 
           <Fab
-            variant="contained"
+            variant="extended"
             color={(this.state.action === 1 ? 'secondary' : 'primary')}
             aria-label="Draw point"
             className={'cam-btn'}
@@ -47,7 +47,7 @@ export default class Side extends React.Component {
         <Grid item xs={3}>
 
           <Fab
-            variant="contained"
+            variant="extended"
             color={(this.state.action === 2 ? 'secondary' : 'primary')}
             aria-label="Draw point"
             className={'cam-btn'}
@@ -59,7 +59,7 @@ export default class Side extends React.Component {
 
 
           <Fab
-            variant="contained"
+            variant="extended"
             color={(this.state.action === 3 ? 'secondary' : 'primary')}
             aria-label="draw"
             className={'cam-btn'}
@@ -69,7 +69,7 @@ export default class Side extends React.Component {
         </Grid>
         <Grid item xs={3}>
           <Fab
-            variant="contained"
+            variant="extended"
             color={('primary')}
             aria-label="undo draw"
             className={'cam-btn'}
