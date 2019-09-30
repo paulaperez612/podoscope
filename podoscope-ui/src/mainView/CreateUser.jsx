@@ -19,8 +19,14 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { postUser } from '../utils/requestsManager';
+
+import { postUser, genericGet } from '../utils/requestsManager';
 
 import {
   MuiPickersUtilsProvider,
@@ -56,6 +62,8 @@ export default class CreateUser extends Component {
     this.createUser = this.createUser.bind(this);
     this.renderCreateCard = this.renderCreateCard.bind(this);
     this.renderWait = this.renderWait.bind(this);
+    this.showUser = this.showUser.bind(this);
+    this.confirmSave = this.confirmSave.bind(this);
   }
 
   handleSexChange(event) {
@@ -67,30 +75,11 @@ export default class CreateUser extends Component {
 
   createUser() {
     this.setState({ waiting: true }, () => {
-      postUser(this.state,
-        //if succesfull
-        () => {
-          this.props.setUser({
-            name: this.state.firstName + ' ' +
-              this.state.secondName + ' ' +
-              this.state.firstSurname + ' ' +
-              this.state.secondSurname,
-            cedula: this.state.cedula,
-            cellphone: this.state.phoneNumber,
-            email: this.state.email,
-            dob: formatDate(this.state.selectedDate),
-            sex: formatSex(this.state.sex)
-          });
-
-          //close modal
-          this.props.toggleModal();
-        },
-        //on error
-        () => {
-          console.log('error!!');
-          //return to create user
-          this.setState({ waiting: false });
-        });
+      genericGet(`/users/${this.state.cedula}`, () => {
+        this.setState({ waiting: false, dialogOpen: true });
+      }, () => {
+        this.confirmSave();
+      });
     });
   }
 
@@ -281,9 +270,67 @@ export default class CreateUser extends Component {
     );
   }
 
-  render() {
+  showUser() {
+    this.props.setUser({
+      name: [this.state.firstName, this.state.secondName, this.state.firstSurname, this.state.secondSurname].join(' '),
+      cedula: this.state.cedula,
+      cellphone: this.state.phoneNumber,
+      email: this.state.email,
+      dob: formatDate(this.state.selectedDate),
+      sex: formatSex(this.state.sex),
+      waiting: false,
+      dialogOpen: false
+    });
 
-    return !this.state.waiting ? this.renderCreateCard() : this.renderWait();
+    //close modal
+    this.props.toggleModal();
+
+  }
+
+  confirmSave() {
+
+    this.setState({ waiting: true, dialogOpen: false }, () => {
+      postUser(this.state,
+        //if succesfull
+        () => {
+          this.showUser();
+        },
+        //on error
+        () => {
+          console.log('error!!');
+          //return to create user
+          this.setState({ waiting: false });
+        });
+    });
+  }
+
+  render() {
+    return (
+      <>
+        {!this.state.waiting ? this.renderCreateCard() : this.renderWait()}
+        <Dialog
+          open={this.state.dialogOpen}
+          onClose={() => this.setState({ dialogOpen: false })}
+          aria-labelledby="draggable-dialog-title">
+          <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+            Ya existe un usuario con la cédula dada.
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ¿Desea sobreescribir la información del usuario?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.showUser} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={this.confirmSave} color="primary">
+              Sobreescribir
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    );
   }
 }
 
