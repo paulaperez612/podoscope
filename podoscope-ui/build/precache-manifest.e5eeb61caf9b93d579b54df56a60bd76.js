@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "db8c1e4215b79e317a07852b98566106",
+    "revision": "6f7ce70503fe0748a89cd49c4265b338",
     "url": "/index.html"
   },
   {
-    "revision": "b8b5dff917f4c8c1fc59",
+    "revision": "7c92728f9ee3f4bd067f",
     "url": "/static/css/main.9816f01a.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.33222e1c.chunk.js"
   },
   {
-    "revision": "b8b5dff917f4c8c1fc59",
-    "url": "/static/js/main.1e414610.chunk.js"
+    "revision": "7c92728f9ee3f4bd067f",
+    "url": "/static/js/main.3d291dae.chunk.js"
   },
   {
     "revision": "62dcf79d1d7af2ebb614",
@@ -24,7 +24,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/human-shoes-footprints.c3f385ee.svg"
   },
   {
-    "revision": "4bd62aea20b940c249ea997e3d52a440",
-    "url": "/static/media/plantilla-podoscopio.4bd62aea.jpg"
+    "revision": "db191954acd26ea3e20a2911bb1ea410",
+    "url": "/static/media/plantilla-podoscopio.db191954.jpg"
   }
 ]);
