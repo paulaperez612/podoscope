@@ -62,19 +62,19 @@ function podoscopeFormat(inObj) {
     img_id: inObj.imId,
     image: inObj.imgData.image,
 
-    line_l: inObj.imgData.data.left.lineX,
-    x_l: inObj.imgData.data.left.point.x,
-    y_l: inObj.imgData.data.left.point.y,
-    angle_l: inObj.imgData.extra.leftAngle,
+    line_l: inObj.imgData.data.left.lineX || '',
+    x_l: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.x : '',
+    y_l: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.y : '',
+    angle_l: inObj.imgData.extra.leftAngle || '',
 
     huella_l: inObj.feet.left.footprintType,
     tipo_talon_l: inObj.feet.left.heelType,
     tipo_l: inObj.feet.left.footType,
 
-    line_r: inObj.imgData.data.right.lineX,
-    x_r: inObj.imgData.data.right.point.x,
-    y_r: inObj.imgData.data.right.point.y,
-    angle_r: inObj.imgData.extra.rightAngle,
+    line_r: inObj.imgData.data.right.lineX || '',
+    x_r: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.x : '',
+    y_r: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.y : '',
+    angle_r: inObj.imgData.extra.rightAngle || '',
 
     huella_r: inObj.feet.right.footprintType,
     tipo_talon_r: inObj.feet.right.heelType,

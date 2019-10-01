@@ -151,7 +151,7 @@ export default class MainView extends Component {
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <CamCanvas savePhoto={this.savePhoto} ref={r => this.canvasRef = r} />
+            <CamCanvas savePhoto={this.savePhoto} ref={r => this.canvasRef = r} patientCedula={this.state.user.cedula}/>
 
             <MyObservations obsRef={this.obsRef} ref={r => this.obsRefReal = r} />
 

@@ -57,7 +57,9 @@ export default class Down extends React.Component {
                   variant="extended"
                   color="primary"
                   aria-label="save"
-                  onClick={this.props.savePicture}>
+                  onClick={this.props.savePicture}
+                  disabled={this.props.patientCedula==='-'}
+                  >
                   <SaveIcon />
                 </Fab>
               </>
@@ -71,5 +73,7 @@ export default class Down extends React.Component {
 Down.propTypes = {
   takePicture: PropTypes.func.isRequired,
   cancelPicture: PropTypes.func.isRequired,
-  savePicture: PropTypes.func.isRequired
+  savePicture: PropTypes.func.isRequired,
+  patientCedula: PropTypes.string.isRequired
+
 };

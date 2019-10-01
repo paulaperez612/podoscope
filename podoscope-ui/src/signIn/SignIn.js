@@ -20,8 +20,6 @@ export default class SignIn extends Component {
   }
 
   verifyAuth() {
-    console.log(process.env.REACT_APP_USERNAME);
-    console.log(process.env.REACT_APP_PASSWORD);
     if (this.state.username === process.env.REACT_APP_USERNAME && this.state.password === process.env.REACT_APP_PASSWORD) {
       this.props.authTrue();
     }
