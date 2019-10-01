@@ -60,7 +60,9 @@ export default class Info extends React.Component {
           <Typography align='center' variant="h5" component="h3">Left</Typography>
         </Grid>
 
-        <Switch color="primary" onChange={this.setAction} checked={this.state.action} />
+        <Grid item>
+          <Switch color="primary" onChange={this.setAction} checked={this.state.action} />
+        </Grid>
 
         <Grid item xs={4}>
           <Typography align='center'>{this.state.rightAngle || '-'}°</Typography>
