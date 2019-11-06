@@ -11,8 +11,6 @@ import Grid from '@material-ui/core/Grid';
 
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-// import CakeIcon from '@material-ui/icons/Cake';
-// import WcIcon from '@material-ui/icons/Wc';
 import DateFnsUtils from '@date-io/date-fns';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -244,12 +242,12 @@ export default class CreateUser extends Component {
         </CardContent>
 
         <CardActions >
-          <Button size="small" color="secondary" className='createUserActionButtons' onClick={this.props.toggleModal}>
+          <Button size="small" color="secondary"  onClick={this.props.toggleModal}>
             Cancel
           </Button>
-          <Button size="small" color="primary" className='createUserActionButtons' onClick={this.createUser}>
+          {/* <Button size="small" color="primary"  onClick={this.createUser}>
             Create
-          </Button>
+          </Button> */}
         </CardActions>
       </Card>);
   }

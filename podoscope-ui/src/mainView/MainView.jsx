@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-// import Paper from '@material-ui/core/Paper';
-// import { makeStyles, useTheme } from '@material-ui/core/styles';
-
-
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import SearchIcon from '@material-ui/icons/Search';
 import UserCard from './UserCard';
 import ImageSelection from './ImageSelection';
 import CamCanvas from './Cam/CamCanvas';
-import CreateUser from './CreateUser';
+import SearchUser from './SearchUser';
 import Drops from './Drops';
 import MyObservations from './MyObservations';
 import { postPodImage } from '../utils/requestsManager';
@@ -164,7 +160,7 @@ export default class MainView extends Component {
           aria-label="add"
           className="fab"
           onClick={() => this.setState({ open: true })}>
-          <AddIcon />
+          <SearchIcon />
         </Fab>
 
         <Modal
@@ -179,7 +175,7 @@ export default class MainView extends Component {
           <Fade
             in={this.state.open}
             className='modalContent'>
-            <CreateUser toggleModal={this.toggleModal} setUser={this.setUser} />
+            <SearchUser toggleModal={this.toggleModal} setUser={this.setUser} />
           </Fade>
         </Modal>
 
