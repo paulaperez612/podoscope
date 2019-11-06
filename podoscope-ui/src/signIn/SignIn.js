@@ -52,15 +52,12 @@ export default class SignIn extends Component {
     };
 
     const endpoint = `${host}?${this.serializeObject(queries)}`;
-    genericGet(endpoint, (rta) => {
-      rta.json()
-        .then((data) => {
-          localStorage.setItem('sid', data.id);
-          this.props.authTrue();
-        });
+    genericGet(endpoint, (data) => {
+      localStorage.setItem('sid', data.id);
+      this.props.authTrue();
     }, () => {
       this.setState({ username: '', password: '', failed: true });
-    });
+    }, false);
 
     // TODO: Remove when CORS available
     this.props.authTrue();

@@ -64,13 +64,13 @@ function genericPost(inObj, callback, onError, objFormat, endpoint) {
     .catch(error => { onError(); console.log(error); });
 }
 
-export function genericGet(url, callback, onError, withoutSID = true) {
+export function genericGet(url, callback, onError, withSID = true) {
   const headers = new Headers();
   headers.set('Access-Control-Allow-Credentials', 'true');
   headers.set('Access-Control-Allow-Origin', '*');
 
   let finalUrl = url;
-  if (!withoutSID) {
+  if (withSID) {
     const sid = localStorage.getItem('sid');
     finalUrl = `${url}&sid=${sid}`;
   }
