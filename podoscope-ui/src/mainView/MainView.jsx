@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
+import './MainView.css';
+
 import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
-import UserCard from './UserCard';
-import ImageSelection from './ImageSelection';
+import InfoIcon from '@material-ui/icons/Info';
+
+import UserCard from './UserInfo/UserCard';
+import ImageSelection from './UserInfo/ImageSelection';
 import CamCanvas from './Cam/CamCanvas';
 import SearchUser from './SearchUser';
-import Drops from './Drops';
-import MyObservations from './MyObservations';
+import Drops from './UserInfo/Drops/Drops';
+import MyObservations from './UserInfo/MyObservations';
+import ImageModal from './ImageModal/ImageModal';
+
 import { postPodImage } from '../utils/requestsManager';
-
-import InfoIcon from '@material-ui/icons/Info';
-import ImageModal from './ImageModal';
-
-import './MainView.css';
 
 
 export default class MainView extends Component {
@@ -66,15 +67,15 @@ export default class MainView extends Component {
 
     this.imageIndex = -1;
     this.images = [{}, {}, {}, {}, {}, {}];
-    this.observations = 'aaaaa';
+    this.observations = '--';
   }
 
   setFeetInfo(data) {
     this.setState({ feet: data });
   }
 
-  toogleImageModal(){
-    this.setState(prevState=> ({openImage: !prevState.openImage}));
+  toogleImageModal() {
+    this.setState(prevState => ({ openImage: !prevState.openImage }));
   }
 
   selectImage(index) {
@@ -87,24 +88,26 @@ export default class MainView extends Component {
   }
 
   setUser(newUser) {
-    this.setState({
-      user: newUser,
-      feet: {
-        left: {
-          footprintType: 'NEUTRO',
-          heelType: 'NEUTRO',
-          footType: 'NEUTRO'
-        },
-        right: {
-          footprintType: 'NEUTRO',
-          heelType: 'NEUTRO',
-          footType: 'NEUTRO'
+    this.setState(
+      {
+        user: newUser,
+        feet: {
+          left: {
+            footprintType: 'NEUTRO',
+            heelType: 'NEUTRO',
+            footType: 'NEUTRO'
+          },
+          right: {
+            footprintType: 'NEUTRO',
+            heelType: 'NEUTRO',
+            footType: 'NEUTRO'
+          }
         }
-      }
-    }, () => {
-      this.canvasRef.resetInfo();
-      this.obsRefReal.resetInfo('');
-    });
+      },
+      () => {
+        this.canvasRef.resetInfo();
+        this.obsRefReal.resetInfo('');
+      });
   }
 
   savePhoto(data) {
@@ -147,14 +150,10 @@ export default class MainView extends Component {
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <CamCanvas savePhoto={this.savePhoto} ref={r => this.canvasRef = r} patientCedula={this.state.user.cedula}/>
-
+            <CamCanvas savePhoto={this.savePhoto} ref={r => this.canvasRef = r} patientCedula={this.state.user.cedula} />
             <MyObservations obsRef={this.obsRef} ref={r => this.obsRefReal = r} />
-
           </Grid>
-
         </Grid>
-
         <Fab
           color="primary"
           aria-label="add"
@@ -178,7 +177,6 @@ export default class MainView extends Component {
             <SearchUser toggleModal={this.toggleModal} setUser={this.setUser} />
           </Fade>
         </Modal>
-
         <Fab
           color="primary"
           aria-label="info"
@@ -186,7 +184,6 @@ export default class MainView extends Component {
           onClick={() => this.setState({ openImage: true })}>
           <InfoIcon />
         </Fab>
-
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -199,7 +196,7 @@ export default class MainView extends Component {
           <Fade
             in={this.state.openImage}
             className='imageModalContent'>
-            <ImageModal toggleModal={this.toogleImageModal}  />
+            <ImageModal toggleModal={this.toogleImageModal} />
           </Fade>
         </Modal>
       </div>

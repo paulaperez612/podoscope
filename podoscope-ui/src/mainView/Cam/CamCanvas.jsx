@@ -4,7 +4,7 @@ import { Grid, Box } from '@material-ui/core';
 import Info from './Info/Info';
 import Side from './Side/Side';
 import Down from './Down/Down';
-import './camCanvas.css';
+import './CamCanvas.css';
 
 const tempColor = 'red';
 const tempPColor = 'yellow';
@@ -30,20 +30,7 @@ export default class CamCanvas extends React.Component {
 
     this.action = 0;
     this.rect = undefined;
-    this.data = {
-      left: {
-        lineX: undefined,
-        point: undefined
-      },
-      right: {
-        lineX: undefined,
-        point: undefined
-      },
-      free: {
-        down: false,
-        path: [[]]
-      }
-    };
+    this.data = this.getDefaultData();
     this.side = this.data.left;
   }
 
@@ -76,6 +63,27 @@ export default class CamCanvas extends React.Component {
     window.removeEventListener('resize', this.updateDimension);
   }
 
+  getDefaultData() {
+    return {
+      left: {
+        lineX: undefined,
+        point: undefined
+      },
+      right: {
+        lineX: undefined,
+        point: undefined
+      },
+      free: {
+        down: false,
+        path: [[]]
+      },
+      extra: {
+        left: { angle: undefined },
+        right: { angle: undefined }
+      }
+    };
+  }
+
   updateDimension() {
     this.rect = this.videoRef.getBoundingClientRect();
     this.canvasRef.height = this.rect.height;
@@ -93,24 +101,7 @@ export default class CamCanvas extends React.Component {
       this.imgRef.removeAttribute('src');
       this.imgRef.classList.add('hidden');
     }
-    this.data = data.data || {
-      left: {
-        lineX: undefined,
-        point: undefined
-      },
-      right: {
-        lineX: undefined,
-        point: undefined
-      },
-      free: {
-        down: false,
-        path: [[]]
-      },
-      extra: {
-        left: {angle:undefined},
-        right: {angle:undefined}
-      }
-    };
+    this.data = data.data || this.getDefaultData();
 
     this.downRef.reset(!!data.image);
 
@@ -153,7 +144,6 @@ export default class CamCanvas extends React.Component {
     //+20 to avoid white space just before border of canvas
     this.sketchLine(x, 0, x, this.rect.height + 20);
 
-
     if (point) {
       if (temp) {
         this.ctx.setLineDash([5, 3]);
@@ -182,13 +172,20 @@ export default class CamCanvas extends React.Component {
   freePaint(x, y) {
     if (this.data.free.down) {
       this.ctx.strokeStyle = freeColor;
-      this.sketchLine(this.data.free.path[this.data.free.path.length - 1].x, this.data.free.path[this.data.free.path.length - 1].y, x, y);
+      this.sketchLine(
+        this.data.free.path[this.data.free.path.length - 1].x,
+        this.data.free.path[this.data.free.path.length - 1].y,
+        x, y);
       this.data.free.path[this.data.free.path.length - 1].push({ x, y });
     }
   }
 
-  deleteFreePaint() {
+  deleteDraws() {
     this.data.free.path = [[]];
+    this.data.left.lineX = undefined;
+    this.data.left.point = undefined;
+    this.data.right.lineX = undefined;
+    this.data.right.point = undefined;
     this.drawState();
   }
 
@@ -265,7 +262,7 @@ export default class CamCanvas extends React.Component {
 
   setAction(action) {
     if (action === 4) {
-      this.deleteFreePaint();
+      this.deleteDraws();
       this.action = 0;
     } else {
       this.action = (this.action === action ? 0 : action);
@@ -331,21 +328,7 @@ export default class CamCanvas extends React.Component {
 
   resetInfo() {
     this.action = 0;
-    // this.rect = undefined;
-    this.data = {
-      left: {
-        lineX: undefined,
-        point: undefined
-      },
-      right: {
-        lineX: undefined,
-        point: undefined
-      },
-      free: {
-        down: false,
-        path: [[]]
-      }
-    };
+    this.data = this.getDefaultData();
     this.side = this.data.left;
 
     this.drawState();
@@ -355,7 +338,6 @@ export default class CamCanvas extends React.Component {
   }
 
   render() {
-    
     return (
       <Grid container direction="column">
         <Grid item xs={11}>
@@ -367,12 +349,10 @@ export default class CamCanvas extends React.Component {
               <Box
                 component="img"
                 ref={r => this.imgRef = r}
-                className='hidden'
-              />
+                className='hidden' />
               <Box
                 component="video"
-                ref={r => this.videoRef = r}
-              />
+                ref={r => this.videoRef = r} />
               <Box
                 component="canvas"
                 ref={r => this.canvasRef = r}
@@ -380,8 +360,7 @@ export default class CamCanvas extends React.Component {
                 onClick={this.mouseClickHandler.bind(this)}
                 onMouseDown={this.mouseDownUpHandler(true)}
                 onMouseUp={this.mouseDownUpHandler(false)}
-                onMouseOut={this.drawState.bind(this)}
-              ></Box>
+                onMouseOut={this.drawState.bind(this)} />
             </Grid>
             <Grid item xs={1}>
               <Side setAction={this.setAction} />

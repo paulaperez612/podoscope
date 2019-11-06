@@ -15,12 +15,12 @@ export function formatDate(date) {
 export function formatSex(sex) {
   let ans = 'Other';
   switch (sex) {
-  case 'MALE':
-    ans = 'M';
-    break;
-  case 'FEMALE':
-    ans = 'F';
-    break;
+    case 'MALE':
+      ans = 'M';
+      break;
+    case 'FEMALE':
+      ans = 'F';
+      break;
   }
   return ans;
 }

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './ImageCard.css';
 
 import { Card, CardMedia } from '@material-ui/core';
-import defaultImage from '../assets/defaultImage.png';
-import './ImageCard.css';
+
+import defaultImage from '../../../assets/defaultImage.png';
+
 export default class ImageCard extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +21,7 @@ export default class ImageCard extends Component {
   render() {
     return (
       <Card
-        className={this.props.cardId == this.props.selection ? 'selected' : null}
+        className={this.props.cardId === this.props.selection ? 'selected' : null}
         onClick={() => this.props.changeSelect(this.props.cardId)}>
         <CardMedia
           style={{ height: 50 }}

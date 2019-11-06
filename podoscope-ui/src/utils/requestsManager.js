@@ -1,44 +1,3 @@
-function genericPost(inObj, callback, onError, objFormat, endpoint) {
-
-  let outObj = objFormat(inObj);
-
-  fetch(endpoint, {
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(outObj)
-  })
-    .then((response) => {
-      if (!response.ok) {
-        console.log('ERROR could not make post request.');
-        onError();
-      }
-    })
-    .then(function () {
-      callback();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-export function genericGet(url, callback, onError) {
-
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        console.log('ERROR could not make post request.');
-        onError();
-      }
-      return response.json();
-    })
-    .then(function (data) {
-      callback(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
 function userFormat(user) {
   let userToSend = {
     first_name: user.firstName,
@@ -87,13 +46,55 @@ function podoscopeFormat(inObj) {
   return formatedOutput;
 }
 
+function genericPost(inObj, callback, onError, objFormat, endpoint) {
+  let outObj = objFormat(inObj);
+
+  fetch(endpoint, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(outObj)
+  })
+    .then(response => {
+      if (!response.ok) {
+        console.log('ERROR could not make post request.');
+        onError();
+      }
+    })
+    .then(() => callback())
+    .catch(error => { onError(); console.log(error); });
+}
+
+export function genericGet(url, callback, onError, withoutSID = true) {
+  const headers = new Headers();
+  headers.set('Access-Control-Allow-Credentials', 'true');
+  headers.set('Access-Control-Allow-Origin', '*');
+
+  let finalUrl = url;
+  if (!withoutSID) {
+    const sid = localStorage.getItem('sid');
+    finalUrl = `${url}&sid=${sid}`;
+  }
+
+  fetch(finalUrl, {
+    method: 'GET',
+    mode: 'cors',
+    headers
+  })
+    .then(response => {
+      if (!response.ok) {
+        console.log('ERROR could not make get request.');
+        onError();
+      }
+      return response.json();
+    })
+    .then(data => callback(data))
+    .catch(error => { onError(error); console.log(error); });
+}
+
 export function postUser(user, callback, onError) {
-
   genericPost(user, callback, onError, userFormat, '/users');
-
 }
 
 export function postPodImage(inObj, callback, onError) {
-
   genericPost(inObj, callback, onError, podoscopeFormat, '/podoscope');
 }
