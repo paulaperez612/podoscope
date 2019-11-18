@@ -25,7 +25,7 @@ export default class SearchUser extends Component {
         this.setState({loading:true});
         // NEED SESSION ID TO OVERCOME CORS 
         genericGet(
-            'http://podosys.soel.com.co/index.php?sid=t3o1oe2shnlcg5oadp8j4k77b3&entryPoint=obtener_paciente&cedula=938472',
+            `http://podosys.soel.com.co/service/v2/rest.php?method=login&input_type=JSON&response_type=JSON&rest_data={"user_auth":{"user_name":"soel","password":"869e6b24288603dff00067ac9365b913"},"application_name":"","name_value_list":[{"name":"notifyonsave","value":"true"}]}`,
             (data)=>{
                 console.log(data);
                 //loading =true 
