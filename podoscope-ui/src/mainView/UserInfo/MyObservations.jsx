@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import TextField from '@material-ui/core/TextField';
 
 export default class MyObservations extends Component {
@@ -8,7 +10,7 @@ export default class MyObservations extends Component {
     this.state = { obs: '' };
   }
 
-  resetInfo(userObs='') {
+  resetInfo(userObs = '') {
     this.setState({ obs: userObs });
   }
 
@@ -36,4 +38,6 @@ export default class MyObservations extends Component {
   }
 }
 
-
+MyObservations.propTypes = {
+  obsRef: PropTypes.any
+};

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './CreateUser.css';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -8,39 +9,27 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import DateFnsUtils from '@date-io/date-fns';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
-
-import { postUser, genericGet } from '../utils/requestsManager';
-
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Select from '@material-ui/core/Select';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
+import { postUser, genericGet } from '../utils/requestsManager';
 import { formatDate, formatSex } from '../utils/valueFormater';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-
-import './CreateUser.css';
-
 export default class CreateUser extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -73,111 +62,69 @@ export default class CreateUser extends Component {
 
   createUser() {
     this.setState({ waiting: true }, () => {
-      genericGet(`/users/${this.state.cedula}`, (data) => {
-        if(data.length>0){
-          this.setState({ waiting: false, dialogOpen: true });
-        }
-        else{
-          this.confirmSave();
-        }
-      }, () => {
-        console.log('error!!!');
-        this.setState({waiting:false});
-      });
+      genericGet(`/users/${this.state.cedula}`,
+        (data) => {
+          if (data.length > 0) {
+            this.setState({ waiting: false, dialogOpen: true });
+          }
+          else {
+            this.confirmSave();
+          }
+        },
+        () => {
+          console.log('error!!!');
+          this.setState({ waiting: false });
+        });
     });
   }
 
   renderCreateCard() {
+    const makeTextField = (attr, id, label, adornment = {}) => {
+      const makeAdornment = (adornment) => {
+        return adornment
+          ? {
+            endAdornment: (
+              <InputAdornment position="end">
+                {adornment}
+              </InputAdornment>
+            )
+          }
+          : {};
+      };
+      return (
+        <Grid item xs={5}>
+          <TextField
+            id={id}
+            label={label}
+            value={this.state[attr]}
+            onChange={(x) => {
+              const nState = {};
+              nState[attr] = x.target.value;
+              this.setState(nState);
+            }}
+            margin="normal"
+            InputProps={makeAdornment(adornment)} />
+        </Grid>
+      );
+    };
+
     return (
       <Card >
-
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             Create new user
           </Typography>
-
           <form
             noValidate
-            autoComplete="off"
-          >
+            autoComplete="off">
             <Grid container spacing={1} justify='space-around' >
-              <Grid item xs={5}>
-                <TextField
-                  id="first-name"
-                  label="First name"
-                  // className={classes.textField}
-                  value={this.state.firstName}
-                  onChange={(x) => this.setState({ firstName: x.target.value })}
-                  margin="normal"
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <TextField
-                  // id="first-name"
-                  label="Second name"
-                  // className={classes.textField}
-                  value={this.state.secondName}
-                  onChange={(x) => this.setState({ secondName: x.target.value })}
-                  margin="normal"
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <TextField
-                  // id="first-name"
-                  label="First surname"
-                  // className={classes.textField}
-                  value={this.state.firstSurname}
-                  onChange={(x) => this.setState({ firstSurname: x.target.value })}
-                  margin="normal"
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <TextField
-                  // id="first-name"
-                  label="Second surname"
-                  // className={classes.textField}
-                  value={this.state.secondSurname}
-                  onChange={(x) => this.setState({ secondSurname: x.target.value })}
-                  margin="normal"
-                />
-              </Grid>
+              {makeTextField('firstName', 'first-name', 'First name')}
+              {makeTextField('secondName', 'second-name', 'Second name')}
+              {makeTextField('firstSurname', 'first-surname', 'First surname')}
+              {makeTextField('secondSurname', 'second-surname', 'Second surname')}
 
-              <Grid item xs={5}>
-                <TextField
-                  // className={classes.margin}
-                  // id="input-with-icon-textfield"
-                  label="Cedula"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <AccountCircle />
-                      </InputAdornment>
-                    ),
-                  }}
-                  value={this.state.cedula}
-                  onChange={(x) => this.setState({ cedula: x.target.value })}
-                />
-              </Grid>
-
-              <Grid item xs={5}>
-                <TextField
-                  // className={classes.margin}
-                  // id="input-with-icon-textfield"
-                  label="Cellphone"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <PhoneIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  value={this.state.phoneNumber}
-                  onChange={(x) => this.setState({ phoneNumber: x.target.value })}
-                />
-              </Grid>
-
-
-
+              {makeTextField('cedula', 'cedula', 'Cedula', <AccountCircle />)}
+              {makeTextField('cellphone', 'cellphone', 'Cellphone', <PhoneIcon />)}
 
               <Grid item xs={5} >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -193,12 +140,9 @@ export default class CreateUser extends Component {
                     }}
                   />
                 </MuiPickersUtilsProvider>
-
               </Grid>
-
               <Grid item xs={5} className='formGrid'>
-                <FormControl className='formControl'
-                >
+                <FormControl className='formControl'>
                   <InputLabel htmlFor="sex-selector">Sex</InputLabel>
                   <Select
                     value={this.state.sex}
@@ -207,8 +151,7 @@ export default class CreateUser extends Component {
                       name: 'sex',
                       id: 'sex-selector',
                     }}
-                    autoWidth
-                  >
+                    autoWidth>
                     <MenuItem value={'MALE'}>Male</MenuItem>
                     <MenuItem value={'FEMALE'}>Female</MenuItem>
                     <MenuItem value={'OTHER'}>Other</MenuItem>
@@ -216,38 +159,14 @@ export default class CreateUser extends Component {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={5}>
-                <TextField
-                  // className={classes.margin}
-                  // id="input-with-icon-textfield"
-                  label="Email"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <MailOutlineIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                  value={this.state.email}
-                  onChange={(x) => this.setState({ email: x.target.value })}
-                />
-              </Grid>
-
-
+              {makeTextField('email', 'email', 'Email', <MailOutlineIcon />)}
             </Grid>
-
-
-
           </form >
         </CardContent>
-
         <CardActions >
-          <Button size="small" color="secondary"  onClick={this.props.toggleModal}>
+          <Button size="small" color="secondary" onClick={this.props.toggleModal}>
             Cancel
           </Button>
-          {/* <Button size="small" color="primary"  onClick={this.createUser}>
-            Create
-          </Button> */}
         </CardActions>
       </Card>);
   }
@@ -288,11 +207,9 @@ export default class CreateUser extends Component {
 
     //close modal
     this.props.toggleModal();
-
   }
 
   confirmSave() {
-
     this.setState({ waiting: true, dialogOpen: false }, () => {
       postUser(this.state,
         //if succesfull
@@ -337,7 +254,6 @@ export default class CreateUser extends Component {
     );
   }
 }
-
 
 CreateUser.propTypes = {
   toggleModal: PropTypes.func,
