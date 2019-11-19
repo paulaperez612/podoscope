@@ -16,6 +16,11 @@ export default class SignIn extends Component {
     super(props);
     this.state = { username: '', password: '', failed: false };
     this.verifyAuth = this.verifyAuth.bind(this);
+
+    const storedSID = localStorage.getItem('sid');
+    if (storedSID && storedSID !== 'undefined') {
+      this.props.authTrue();
+    }
   }
 
   serializeObject(obj) {
@@ -23,12 +28,13 @@ export default class SignIn extends Component {
     Object.entries(obj).forEach(e => {
       if (Object.prototype.hasOwnProperty.call(obj, e[0])) {
         if (typeof e[1] === 'object') {
-          str.push(encodeURIComponent(e[0]) + '=' + JSON.stringify(e[1]));
+          str.push((e[0]) + '=' + JSON.stringify(e[1]));
         } else {
-          str.push(encodeURIComponent(e[0]) + '=' + encodeURIComponent(e[1]));
+          str.push((e[0]) + '=' + (e[1]));
         }
       }
     });
+
     return str.join('&');
   }
 
@@ -53,14 +59,15 @@ export default class SignIn extends Component {
 
     const endpoint = `${host}?${this.serializeObject(queries)}`;
     genericGet(endpoint, (data) => {
-      localStorage.setItem('sid', data.id);
-      this.props.authTrue();
+      if (data.id) {
+        localStorage.setItem('sid', data.id);
+        this.props.authTrue();
+      } else {
+        console.error(data);
+      }
     }, () => {
       this.setState({ username: '', password: '', failed: true });
     }, false);
-
-    // TODO: Remove when CORS available
-    this.props.authTrue();
   }
 
   render() {

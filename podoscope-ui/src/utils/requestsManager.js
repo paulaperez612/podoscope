@@ -65,21 +65,13 @@ function genericPost(inObj, callback, onError, objFormat, endpoint) {
 }
 
 export function genericGet(url, callback, onError, withSID = true) {
-  const headers = new Headers();
-  headers.set('Access-Control-Allow-Credentials', 'true');
-  headers.set('Access-Control-Allow-Origin', '*');
-
   let finalUrl = url;
   if (withSID) {
     const sid = localStorage.getItem('sid');
     finalUrl = `${url}&sid=${sid}`;
   }
 
-  fetch(finalUrl, {
-    method: 'GET',
-    mode: 'cors',
-    headers
-  })
+  fetch(finalUrl, {method: 'GET'})
     .then(response => {
       if (!response.ok) {
         console.log('ERROR could not make get request.');

@@ -56,7 +56,7 @@ export default class ImageSelection extends Component {
     return (
       <Grid container spacing={2} alignItems='center'>
         <>
-          {this.makeCaption('Back', 'subtitle1', 2, '')}
+          {this.makeCaption('Back', 'subtitle1', 2)}
 
           {this.makeImageCard(0, 'Standing Up')}
           {this.makeImageCard(1, '45 °')}
@@ -69,7 +69,7 @@ export default class ImageSelection extends Component {
           {this.makeCaption('Toes up')}
         </>
         <>
-          {this.makeCaption('Front', 'subtitle1', 2, '')}
+          {this.makeCaption('Front', 'subtitle1', 2)}
 
           {this.makeImageCard(3, 'Chaplin')}
           {this.makeImageCard(4, 'Chaplin Toes Up')}
