@@ -20,16 +20,42 @@ export default class SearchUser extends Component {
       userCedula: '',
       loading: false
     };
+    this.cedulaFound = true;
     this.searchUser = this.searchUser.bind(this);
   }
 
   searchUser() {
     this.setState({ loading: true });
-    // NEED SESSION ID TO OVERCOME CORS 
+    // session id
+    let currentSessionID = localStorage.getItem('sid');
+    console.log(currentSessionID);
+
     genericGet(
-      'http://podosys.soel.com.co/index.php?sid=t3o1oe2shnlcg5oadp8j4k77b3&entryPoint=obtener_paciente&cedula=938472',
+      'http://podosys.soel.com.co/index.php?sid=' + currentSessionID + '&entryPoint=obtener_paciente&cedula=' + this.state.userCedula,
       (data) => {
         console.log(data);
+        
+
+        if (data.rta.id == null) {
+          this.cedulaFound = false;
+          this.setState({ loading: false });
+        }
+        else {
+          // patient exists
+          let newPatient = {
+            name: data.rta.nombre,
+            cedula: this.state.userCedula,
+            cellphone: data.rta.celular,
+            email: data.rta.email,
+            dob: data.rta.nacimiento,
+            sex: data.rta.genero,
+            left: {},
+            right: {}
+          }
+
+          this.props.setUser(newPatient);
+          this.props.toggleModal();
+        }
         //loading =true 
         // check if user exists 
         //if exists, then exit modal and input info in main view
@@ -41,7 +67,7 @@ export default class SearchUser extends Component {
 
   }
 
-  renderSearchCard() {
+  renderSearchCard(cedulaFound) {
     return (
       <Card>
         <CardContent>
@@ -65,6 +91,18 @@ export default class SearchUser extends Component {
                 <SearchIcon />
               </Button>
             </Grid>
+            {!cedulaFound ?
+
+              <Grid item xs={12}>
+                <br />
+                <Typography component="h2" color='error' align='center'>
+                  Cedula not found
+                </Typography>
+              </Grid>
+              :
+              <br />
+            }
+
           </Grid>
         </CardContent>
 
@@ -86,6 +124,7 @@ export default class SearchUser extends Component {
           alignItems="center"
           justify="space-around" >
           <Grid item xs={12}>
+            <br/>
             <Typography variant="h5" component="h2" align='center'>
               Searching user...
             </Typography>
@@ -94,6 +133,7 @@ export default class SearchUser extends Component {
             <CircularProgress />
           </Grid>
         </Grid>
+        <br/>
       </Card >
     );
   }
@@ -101,7 +141,7 @@ export default class SearchUser extends Component {
   render() {
     return (
       <div>
-        {!this.state.loading ? this.renderSearchCard() : this.renderLoading()}
+        {!this.state.loading ? this.renderSearchCard(this.cedulaFound) : this.renderLoading()}
       </div>
     );
   }
