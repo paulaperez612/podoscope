@@ -61,11 +61,17 @@ export default class SignIn extends Component {
         localStorage.setItem('sid', data.id);
         this.props.authTrue();
       } else {
-        console.error(data);
+        this.setState({ failed: true });
       }
     }, () => {
       this.setState({ username: '', password: '', failed: true });
     }, false);
+  }
+
+  onEnter(e) {
+    if (e.key === 'Enter') {
+      this.verifyAuth();
+    }
   }
 
   render() {
@@ -87,6 +93,7 @@ export default class SignIn extends Component {
             // autoComplete='email'
             value={this.state.username}
             onChange={(x) => this.setState({ username: x.target.value })}
+            onKeyDown={this.onEnter.bind(this)}
             autoFocus
           />
           <TextField
@@ -100,6 +107,7 @@ export default class SignIn extends Component {
             id='password'
             value={this.state.password}
             onChange={(x) => this.setState({ password: x.target.value })}
+            onKeyDown={this.onEnter.bind(this)}
           // autoComplete='current-password'
           />
           <Button

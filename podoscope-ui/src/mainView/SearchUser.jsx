@@ -34,7 +34,7 @@ export default class SearchUser extends Component {
       'http://podosys.soel.com.co/index.php?sid=' + currentSessionID + '&entryPoint=obtener_paciente&cedula=' + this.state.userCedula,
       (data) => {
         console.log(data);
-        
+
 
         if (data.rta.id == null) {
           this.cedulaFound = false;
@@ -62,7 +62,13 @@ export default class SearchUser extends Component {
         //loading to true either way (valid or invalid user) 
       },
       //todo make snackbar
-      () => console.log('error.')
+      (e) => {
+        if (e.type === 'fetch') {
+          console.log('Failed to fetch');
+        } else if (e.type === 'session_expired') {
+          console.log('Session Expired');
+        }
+      }
     );
 
   }
@@ -124,7 +130,7 @@ export default class SearchUser extends Component {
           alignItems="center"
           justify="space-around" >
           <Grid item xs={12}>
-            <br/>
+            <br />
             <Typography variant="h5" component="h2" align='center'>
               Searching user...
             </Typography>
@@ -133,7 +139,7 @@ export default class SearchUser extends Component {
             <CircularProgress />
           </Grid>
         </Grid>
-        <br/>
+        <br />
       </Card >
     );
   }

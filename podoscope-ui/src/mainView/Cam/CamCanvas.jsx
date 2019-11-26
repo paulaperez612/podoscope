@@ -296,6 +296,7 @@ export default class CamCanvas extends React.Component {
     this.ctx.clearRect(0, 0, this.rect.width + 20, this.rect.height + 20);
     this.ctx.drawImage(this.videoRef, 0, 0, this.rect.width, this.rect.height);
     const imgData = this.canvasRef.toDataURL('image/png');
+    
     this.imgRef.setAttribute('src', imgData);
     this.imgRef.classList.remove('hidden');
     this.drawState();

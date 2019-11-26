@@ -71,7 +71,7 @@ export function genericGet(url, callback, onError, withSID = true) {
     finalUrl = `${url}&sid=${sid}`;
   }
 
-  fetch(finalUrl, {method: 'GET'})
+  fetch(finalUrl, { method: 'GET' })
     .then(response => {
       if (!response.ok) {
         console.log('ERROR could not make get request.');
@@ -79,8 +79,16 @@ export function genericGet(url, callback, onError, withSID = true) {
       }
       return response.json();
     })
-    .then(data => callback(data))
-    .catch(error => { onError(error); console.log(error); });
+    .then(data => {
+      if (data.rta === 'La sesion es invalida , por favor verificar credenciales') {
+        onError({ type: 'session_expired', error: data.rta });
+      } else {
+        callback(data);
+      }
+    })
+    .catch(error => {
+      onError({ type: 'fetch', error });
+    });
 }
 
 export function postUser(user, callback, onError) {
