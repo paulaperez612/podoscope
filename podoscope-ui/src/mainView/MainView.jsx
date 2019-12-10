@@ -56,7 +56,8 @@ export default class MainView extends Component {
           heelType: 'NEUTRO',
           footType: 'NEUTRO'
         }
-      }
+      },
+      shoeSize: 40
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toogleImageModal = this.toogleImageModal.bind(this);
@@ -64,10 +65,15 @@ export default class MainView extends Component {
     this.selectImage = this.selectImage.bind(this);
     this.setUser = this.setUser.bind(this);
     this.setFeetInfo = this.setFeetInfo.bind(this);
+    this.setShoeSize = this.setShoeSize.bind(this);
 
     this.imageIndex = -1;
     this.images = [{}, {}, {}, {}, {}, {}];
     this.observations = '--';
+  }
+
+  setShoeSize(newShoeSize) {
+    this.setState({ shoeSize: newShoeSize });
   }
 
   setFeetInfo(data) {
@@ -137,7 +143,7 @@ export default class MainView extends Component {
               alignItems="center"
               justify="center">
               <Grid item xs={12}>
-                <UserCard user={this.state.user} shoeRef={this.shoeRef} />
+                <UserCard user={this.state.user} setShoeSize={this.setShoeSize} shoeSize={this.state.shoeSize} />
               </Grid>
               <br />
               <Grid item xs={12}>
@@ -174,7 +180,13 @@ export default class MainView extends Component {
           <Fade
             in={this.state.open}
             className='modalContent'>
-            <SearchUser toggleModal={this.toggleModal} setUser={this.setUser} />
+            <SearchUser
+              toggleModal={this.toggleModal}
+              setUser={this.setUser}
+              setFeetInfo={this.setFeetInfo}
+              obsRefReal={this.obsRefReal}
+              setShoeSize={this.setShoeSize}
+            />
           </Fade>
         </Modal>
         <Fab

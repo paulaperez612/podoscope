@@ -98,3 +98,35 @@ export function postUser(user, callback, onError) {
 export function postPodImage(inObj, callback, onError) {
   genericPost(inObj, callback, onError, podoscopeFormat, '/podoscope');
 }
+
+export function genericPostUrlParams(baseUrl, inObj, callback, onError) {
+  let completeUrl = baseUrl+'?';
+
+  let first = true;
+  for (const prop in inObj) {
+    if(!first){
+      completeUrl += '&';
+    }
+    
+    completeUrl += prop + '=' + inObj[prop];
+    first = false;
+  }
+
+  // console.log('the complete post url:',completeUrl);
+
+  fetch(completeUrl, {
+    method: 'POST',
+  })
+    .then((response) => response.text())
+    .then(data => {
+      if (data.rta === 'La sesion es invalida , por favor verificar credenciales') {
+        onError({ type: 'session_expired', error: data.rta });
+      } else {
+        callback(data);
+      }
+    })
+    .catch((error) => {
+      onError({type: 'fetch', error});
+    });
+
+}

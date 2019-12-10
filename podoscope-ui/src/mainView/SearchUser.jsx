@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { genericGet } from '../utils/requestsManager';
+import { genericGet, genericPostUrlParams } from '../utils/requestsManager';
 
 export default class SearchUser extends Component {
   constructor(props) {
@@ -22,19 +22,148 @@ export default class SearchUser extends Component {
     };
     this.cedulaFound = true;
     this.searchUser = this.searchUser.bind(this);
+    this.onEnter = this.onEnter.bind(this);
+  }
+
+  setMainViewState(newPatient,patientExam){
+    console.log('setting user');
+    this.props.setUser(newPatient);
+
+    console.log('setting feet');
+    // set feet state in main view
+    this.props.setFeetInfo(patientExam.feet);
+    
+    console.log('setting observations');
+    // set shoe size state in main view
+    console.log(patientExam.observations);
+    this.props.obsRefReal.setObservation(patientExam.observations);
+
+    console.log('setting shoe size');
+    // set obs state in main view
+    console.log(patientExam.shoeSize);
+    this.props.setShoeSize(parseInt(patientExam.shoeSize));
+    
+
+    console.log('toggling modal');
+    this.props.toggleModal();
+  }
+
+  searchUserExam(pid, sid, newPatient) {
+
+
+
+    genericGet(
+      //todo unify urls
+      'http://podosys.soel.com.co/index.php?sid=' + sid + '&entryPoint=list_efp&pid=' + pid,
+      (data) => {
+        let patientExam;
+        if (data.rta.length > 0) {
+          //get first and only exam
+          let exam = data.rta[0];
+          patientExam = {
+            eid: exam.id,
+            feet: {
+              left: {
+                footprintType: exam.tipo_huella_i,
+                heelType: exam.tipo_talon_i,
+                footType: exam.tipo_pie_i
+              },
+              right: {
+                footprintType: exam.tipo_huella_d,
+                heelType: exam.tipo_talon_d,
+                footType: exam.tipo_pie_d
+              }
+            },
+            observations: exam.observaciones,
+            shoeSize: exam.talla_plantillas
+
+          };
+
+          console.log(patientExam);
+
+          this.setMainViewState(newPatient,patientExam);
+        }
+        else {
+          const defaultType = 'NEUTRO';
+          const defaultObs = '';
+          const defaultShoesize = 40;
+          //create exam
+          genericPostUrlParams('http://podosys.soel.com.co/index.php',
+            {
+              entryPoint: 'save_efp',
+              sid: sid,
+              thi: defaultType,
+              thd: defaultType,
+              tpi: defaultType,
+              tpd: defaultType,
+              tti: defaultType,
+              ttd: defaultType,
+              obs: defaultObs,
+              tp: defaultShoesize,
+              pid: pid
+            },
+            (data) => {
+              console.log('Sucessfully created exam for patient ', newPatient.cedula);
+              console.log(data);
+
+              //success, eid in data.rta
+              patientExam = {
+                eid: data.rta,
+                feet: {
+                  left: {
+                    footprintType: defaultType,
+                    heelType: defaultType,
+                    footType: defaultType
+                  },
+                  right: {
+                    footprintType: defaultType,
+                    heelType: defaultType,
+                    footType: defaultType
+                  }
+                },
+                observations: defaultObs,
+                shoeSize: defaultShoesize
+
+              };
+
+              this.setMainViewState(newPatient,patientExam);
+
+            },
+            (e) => {
+              if (e.type === 'fetch') {
+                console.log('Failed to fetch');
+                // todo snackbar try again later
+              } else if (e.type === 'session_expired') {
+                console.log('Session Expired');
+                // todo modal for relogin
+              }
+            });
+        }
+
+
+      },
+      (e) => {
+        if (e.type === 'fetch') {
+          console.log('Failed to fetch');
+        } else if (e.type === 'session_expired') {
+          console.log('Session Expired');
+        }
+      }
+    );
+
+
   }
 
   searchUser() {
     this.setState({ loading: true });
     // session id
     let currentSessionID = localStorage.getItem('sid');
-    console.log(currentSessionID);
+
 
     genericGet(
+      //todo unify urls
       'http://podosys.soel.com.co/index.php?sid=' + currentSessionID + '&entryPoint=obtener_paciente&cedula=' + this.state.userCedula,
       (data) => {
-        console.log(data);
-
 
         if (data.rta.id == null) {
           this.cedulaFound = false;
@@ -43,23 +172,22 @@ export default class SearchUser extends Component {
         else {
           // patient exists
           let newPatient = {
-            name: data.rta.nombre,
+            name: data.rta.nombre + ' ' + data.rta.apellidos,
             cedula: this.state.userCedula,
             cellphone: data.rta.celular,
             email: data.rta.email,
             dob: data.rta.nacimiento,
             sex: data.rta.genero,
+            //patient id in the db
+            pid: data.rta.id,
             left: {},
             right: {}
-          }
+          };
 
-          this.props.setUser(newPatient);
-          this.props.toggleModal();
+          // get exam with shoe size, type of foot, etc. 
+          this.searchUserExam(newPatient.pid, currentSessionID, newPatient);
         }
-        //loading =true 
-        // check if user exists 
-        //if exists, then exit modal and input info in main view
-        //loading to true either way (valid or invalid user) 
+
       },
       //todo make snackbar
       (e) => {
@@ -71,6 +199,12 @@ export default class SearchUser extends Component {
       }
     );
 
+  }
+
+  onEnter(e) {
+    if (e.key === 'Enter') {
+      this.searchUser();
+    }
   }
 
   renderSearchCard(cedulaFound) {
@@ -88,6 +222,9 @@ export default class SearchUser extends Component {
                 // className={classes.textField}
                 value={this.state.userCedula}
                 onChange={(x) => this.setState({ userCedula: x.target.value })}
+                autoFocus={true}
+                onKeyDown={this.onEnter.bind(this)}
+                type="number"
               // margin="auto"
               />
 
@@ -155,5 +292,9 @@ export default class SearchUser extends Component {
 
 SearchUser.propTypes = {
   toggleModal: PropTypes.func,
-  setUser: PropTypes.func
+  setUser: PropTypes.func,
+  setFeetInfo: PropTypes.func,
+  // shoeRef: PropTypes.any,
+  obsRefReal: PropTypes.any,
+  setShoeSize: PropTypes.func
 };

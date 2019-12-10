@@ -14,6 +14,12 @@ export default class MyObservations extends Component {
     this.setState({ obs: userObs });
   }
 
+  setObservation(newobs){
+    this.setState({obs:newobs});
+  }
+
+  
+
   render() {
     return (
       <form

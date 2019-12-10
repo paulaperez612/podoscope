@@ -64,11 +64,12 @@ export default class UserCard extends Component {
             {this.makeListItem('sex', <WcIcon color='primary' />)}
             {this.makeListItem('sex', <DaShoeIcon color='primary' viewBox='0 0 65 65' />, false, (
               <TextField
-                value={this.state.shoeSize}
-                onChange={(x) => this.setState({ shoeSize: x.target.value })}
+                value={this.props.shoeSize}
+                onChange={(x) => this.props.setShoeSize(parseInt(x.target.value))}
                 type="number"
                 margin="dense"
-                inputRef={this.props.shoeRef} />)
+              />
+            )
             )}
           </List>
         </CardContent>
@@ -80,5 +81,6 @@ export default class UserCard extends Component {
 
 UserCard.propTypes = {
   user: PropTypes.object.isRequired,
-  shoeRef: PropTypes.any
+  setShoeSize: PropTypes.func,
+  shoeSize: PropTypes.number
 };
