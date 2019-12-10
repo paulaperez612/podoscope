@@ -37,6 +37,7 @@ export default class SignIn extends Component {
   }
 
   verifyAuth() {
+    //TODO unify urls
     const host = 'http://podosys.soel.com.co/service/v2/rest.php';
     const queries = {
       method: 'login',

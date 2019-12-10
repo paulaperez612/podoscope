@@ -121,11 +121,14 @@ export default class MainView extends Component {
       this.images[this.imageIndex] = data;
       this.imageselRef.updateImage(this.imageIndex, data.image);
 
-      postPodImage(Object.assign(this.state,
+
+      // this unifies 2 objects into 1 object
+      postPodImage(Object.assign(
+        this.state,
         {
           imgData: data,
           observations: this.obsRef.current,
-          shoeSize: this.shoeRef.current,
+          shoeSize: this.state.shoeSize,
           imId: this.imageIndex
         }), () => { }, () => { });
     }

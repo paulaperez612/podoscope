@@ -16,32 +16,68 @@ function userFormat(user) {
 function podoscopeFormat(inObj) {
   let formatedOutput = {
 
-    user_id: inObj.user.cedula,
+    imgFormat: {
 
-    img_id: inObj.imId,
-    image: inObj.imgData.image,
+      sid: localStorage.getItem('sid'),
+      entryPoint: 'save_img',
+      angulo_i: inObj.imgData.extra.leftAngle || '',
+      angulo_d: inObj.imgData.extra.rightAngle || '',
+      // save image id after @. Doesnt interfere with base64 encoding
+      imagen: inObj.imgData.image + '@' + inObj.imId,
+      u_x_d: inObj.imgData.data.right.lineX || '',
+      u_x_i: inObj.imgData.data.left.lineX || '',
+      x_i: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.x : '',
+      x_d: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.x : '',
+      y_i: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.y : '',
+      y_d: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.y : '',
+      efp_id: inObj.user.eid,
+      traza: JSON.stringify(inObj.imgData.data.free.path)
 
-    line_l: inObj.imgData.data.left.lineX || '',
-    x_l: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.x : '',
-    y_l: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.y : '',
-    angle_l: inObj.imgData.extra.leftAngle || '',
+    },
 
-    huella_l: inObj.feet.left.footprintType,
-    tipo_talon_l: inObj.feet.left.heelType,
-    tipo_l: inObj.feet.left.footType,
+    examFormat: {
 
-    line_r: inObj.imgData.data.right.lineX || '',
-    x_r: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.x : '',
-    y_r: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.y : '',
-    angle_r: inObj.imgData.extra.rightAngle || '',
+      entryPoint: 'save_efp',
+      sid: localStorage.getItem('sid'),
+      thi: inObj.feet.left.footprintType,
+      thd: inObj.feet.right.footprintType,
+      tpi: inObj.feet.left.footType,
+      tpd: inObj.feet.right.footType,
+      tti: inObj.feet.left.heelType,
+      ttd: inObj.feet.right.heelType,
+      obs: inObj.observations.defaultValue,
+      tp: inObj.shoeSize,
+      pid: inObj.user.pid
 
-    huella_r: inObj.feet.right.footprintType,
-    tipo_talon_r: inObj.feet.right.heelType,
-    tipo_r: inObj.feet.right.footType,
+    }
 
-    obervaciones: inObj.observations.defaultValue,
-    talla: inObj.shoeSize.defaultValue,
-    free_draw: JSON.stringify(inObj.imgData.data.free.path)
+
+    // user_id: inObj.user.cedula,  
+
+    // img_id: inObj.imId,
+    // image: inObj.imgData.image,
+
+    // line_l: inObj.imgData.data.left.lineX || '',
+    // x_l: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.x : '',
+    // y_l: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.y : '',
+    // angle_l: inObj.imgData.extra.leftAngle || '',
+
+    // huella_l: inObj.feet.left.footprintType,
+    // tipo_talon_l: inObj.feet.left.heelType,
+    // tipo_l: inObj.feet.left.footType,
+
+    // line_r: inObj.imgData.data.right.lineX || '',
+    // x_r: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.x : '',
+    // y_r: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.y : '',
+    // angle_r: inObj.imgData.extra.rightAngle || '',
+
+    // huella_r: inObj.feet.right.footprintType,
+    // tipo_talon_r: inObj.feet.right.heelType,
+    // tipo_r: inObj.feet.right.footType,
+
+    // obervaciones: inObj.observations.defaultValue,
+    // talla: inObj.shoeSize.defaultValue,
+    // free_draw: JSON.stringify(inObj.imgData.data.free.path)
   };
   return formatedOutput;
 }
@@ -96,18 +132,45 @@ export function postUser(user, callback, onError) {
 }
 
 export function postPodImage(inObj, callback, onError) {
-  genericPost(inObj, callback, onError, podoscopeFormat, '/podoscope');
+  // genericPost(inObj, callback, onError, podoscopeFormat, '/podoscope');
+
+  let correctFormat = podoscopeFormat(inObj);
+
+  //exam stuff
+  genericPostUrlParams('http://podosys.soel.com.co/index.php',
+    correctFormat.examFormat,
+    (data) => {
+      console.log('Sucessfully updated exam');
+      console.log(data);
+      callback(data);
+    },
+    (e) => {
+      onError(e);
+    });
+
+  //image stuff
+  console.log(correctFormat.imgFormat.imagen);
+  genericPostUrlParams('http://podosys.soel.com.co/index.php',
+    correctFormat.imgFormat,
+    (data) => {
+      console.log('Sucessfully saved image');
+      console.log(data);
+      callback(data);
+    },
+    (e) => {
+      onError(e);
+    });
 }
 
 export function genericPostUrlParams(baseUrl, inObj, callback, onError) {
-  let completeUrl = baseUrl+'?';
+  let completeUrl = baseUrl + '?';
 
   let first = true;
   for (const prop in inObj) {
-    if(!first){
+    if (!first) {
       completeUrl += '&';
     }
-    
+
     completeUrl += prop + '=' + inObj[prop];
     first = false;
   }
@@ -126,7 +189,7 @@ export function genericPostUrlParams(baseUrl, inObj, callback, onError) {
       }
     })
     .catch((error) => {
-      onError({type: 'fetch', error});
+      onError({ type: 'fetch', error });
     });
 
 }

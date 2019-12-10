@@ -26,6 +26,8 @@ export default class SearchUser extends Component {
   }
 
   setMainViewState(newPatient,patientExam){
+    newPatient.eid = patientExam.eid;
+
     this.props.setUser(newPatient);
 
     // set feet state in main view
@@ -37,7 +39,11 @@ export default class SearchUser extends Component {
     // set obs state in main view
     this.props.setShoeSize(parseInt(patientExam.shoeSize));
     
+    //TODO search images
+    
+    
     this.props.toggleModal();
+
   }
 
   searchUserExam(pid, sid, newPatient) {
@@ -45,7 +51,7 @@ export default class SearchUser extends Component {
 
 
     genericGet(
-      //todo unify urls
+      //TODO unify urls
       'http://podosys.soel.com.co/index.php?sid=' + sid + '&entryPoint=list_efp&pid=' + pid,
       (data) => {
         let patientExam;
@@ -79,6 +85,7 @@ export default class SearchUser extends Component {
           const defaultObs = '';
           const defaultShoesize = 40;
           //create exam
+          //TODO unify urls
           genericPostUrlParams('http://podosys.soel.com.co/index.php',
             {
               entryPoint: 'save_efp',
@@ -123,10 +130,10 @@ export default class SearchUser extends Component {
             (e) => {
               if (e.type === 'fetch') {
                 console.log('Failed to fetch');
-                // todo snackbar try again later
+                // TODO snackbar try again later
               } else if (e.type === 'session_expired') {
                 console.log('Session Expired');
-                // todo modal for relogin
+                // TODO modal for relogin
               }
             });
         }
@@ -152,7 +159,7 @@ export default class SearchUser extends Component {
 
 
     genericGet(
-      //todo unify urls
+      //TODO unify urls
       'http://podosys.soel.com.co/index.php?sid=' + currentSessionID + '&entryPoint=obtener_paciente&cedula=' + this.state.userCedula,
       (data) => {
 
@@ -180,7 +187,7 @@ export default class SearchUser extends Component {
         }
 
       },
-      //todo make snackbar
+      //TODO make snackbar
       (e) => {
         if (e.type === 'fetch') {
           console.log('Failed to fetch');
