@@ -73,13 +73,13 @@ export default class Drops extends Component {
         </Grid>
         {this.makeDropdown('Footprint type', 'left', 'footprintType', this.drops.footprintType)}
         {this.makeDropdown('Foot type', 'left', 'footType', this.drops.footType)}
-        {this.makeDropdown('Foot type', 'left', 'heelType', this.drops.heelType)}
+        {this.makeDropdown('Heel type', 'left', 'heelType', this.drops.heelType)}
         <Grid item xs={2}>
           <Typography variant='subtitle1'> Right</Typography>
         </Grid>
         {this.makeDropdown('Footprint type', 'right', 'footprintType', this.drops.footprintType)}
         {this.makeDropdown('Foot type', 'right', 'footType', this.drops.footType)}
-        {this.makeDropdown('Foot type', 'right', 'heelType', this.drops.heelType)}
+        {this.makeDropdown('Heel type', 'right', 'heelType', this.drops.heelType)}
       </Grid>
     );
   }

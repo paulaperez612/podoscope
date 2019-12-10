@@ -26,25 +26,17 @@ export default class SearchUser extends Component {
   }
 
   setMainViewState(newPatient,patientExam){
-    console.log('setting user');
     this.props.setUser(newPatient);
 
-    console.log('setting feet');
     // set feet state in main view
     this.props.setFeetInfo(patientExam.feet);
     
-    console.log('setting observations');
     // set shoe size state in main view
-    console.log(patientExam.observations);
     this.props.obsRefReal.setObservation(patientExam.observations);
 
-    console.log('setting shoe size');
     // set obs state in main view
-    console.log(patientExam.shoeSize);
     this.props.setShoeSize(parseInt(patientExam.shoeSize));
     
-
-    console.log('toggling modal');
     this.props.toggleModal();
   }
 
@@ -79,7 +71,6 @@ export default class SearchUser extends Component {
 
           };
 
-          console.log(patientExam);
 
           this.setMainViewState(newPatient,patientExam);
         }
