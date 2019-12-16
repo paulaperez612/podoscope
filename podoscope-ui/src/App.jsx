@@ -9,12 +9,13 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = { authenticated: false };
-    this.setAuthenticatedTrue = this.setAuthenticatedTrue.bind(this);
+    this.setAuthenticated = this.setAuthenticated.bind(this);
   }
 
-  setAuthenticatedTrue() {
-    console.log('authenticated!');
-    this.setState({ authenticated: true });
+  setAuthenticated(auth) {
+    this.setState({ authenticated: auth }, () => {
+      console.log(auth ? 'authenticated!' : 'logout!');
+    });
   }
 
   render() {
@@ -28,8 +29,8 @@ export default class App extends Component {
           justify="center"
           style={{ minHeight: '100vh' }}>
           {this.state.authenticated
-            ? <MainView />
-            : <SignIn authTrue={this.setAuthenticatedTrue} />
+            ? <MainView logout={() => this.setAuthenticated(false)} />
+            : <SignIn authTrue={this.setAuthenticated} />
           }
         </Grid>
       </Container>

@@ -342,7 +342,7 @@ export default class CamCanvas extends React.Component {
     return (
       <Grid container direction="column">
         <Grid item xs={11}>
-          <Info ref={r => this.infoRef = r} onSideChange={this.onSideChange.bind(this)} />
+          <Info ref={r => this.infoRef = r} onSideChange={this.onSideChange.bind(this)} threshold={this.props.threshold} />
         </Grid >
         <Grid item>
           <Grid container direcction="row">
@@ -383,5 +383,6 @@ export default class CamCanvas extends React.Component {
 
 CamCanvas.propTypes = {
   savePhoto: PropTypes.func.isRequired,
-  patientCedula: PropTypes.string.isRequired
+  patientCedula: PropTypes.string.isRequired,
+  threshold: PropTypes.object.isRequired
 };

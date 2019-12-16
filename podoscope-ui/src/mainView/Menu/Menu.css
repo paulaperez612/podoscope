@@ -1,0 +1,31 @@
+#logout-btn {
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid lightgray;
+}
+
+#menu-threshold-sett {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 5px;
+}
+
+#menu-threshold-sett > div input {
+  text-align: center;
+}
+
+#threshold-title {
+  margin: 15px;
+  font-weight: bold;
+}
+
+#open-draw {
+  top: 40px;
+  left: 30px;
+  transform: translateY(100%) translateY(20px);
+}
+
+#draw-back {
+  margin: 0 0 0 auto;
+}

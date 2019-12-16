@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './MainView.css';
 
 import Grid from '@material-ui/core/Grid';
@@ -18,6 +19,7 @@ import MyObservations from './UserInfo/MyObservations';
 import ImageModal from './ImageModal/ImageModal';
 
 import { postPodImage } from '../utils/requestsManager';
+import Menu from './Menu/Menu';
 
 
 export default class MainView extends Component {
@@ -57,7 +59,17 @@ export default class MainView extends Component {
           footType: 'NEUTRO'
         }
       },
-      shoeSize: 40
+      shoeSize: 40,
+      threshold: (() => {
+        const th = localStorage.getItem('threshold');
+        if (th && th !== 'undefined') {
+          return JSON.parse(th);
+        } else {
+          const nth = { right: 0, left: 0 };
+          localStorage.setItem('threshold', JSON.stringify(nth));
+          return nth;
+        }
+      })()
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toogleImageModal = this.toogleImageModal.bind(this);
@@ -66,6 +78,7 @@ export default class MainView extends Component {
     this.setUser = this.setUser.bind(this);
     this.setFeetInfo = this.setFeetInfo.bind(this);
     this.setShoeSize = this.setShoeSize.bind(this);
+    this.setThreshold = this.setThreshold.bind(this);
 
     this.imageIndex = -1;
     this.images = [{}, {}, {}, {}, {}, {}];
@@ -134,10 +147,18 @@ export default class MainView extends Component {
     }
   }
 
+  setThreshold(side, value) {
+    this.setState((prev) => {
+      prev.threshold[side] = +value;
+      return prev;
+    }, () => localStorage.setItem('threshold', JSON.stringify(this.state.threshold)));
+  }
+
   render() {
     return (
       // try justify center and space around
       <div className='mainViewDiv'>
+        <Menu logout={this.props.logout} threshold={this.state.threshold} setThreshold={this.setThreshold} />
         <Grid container spacing={0} justify='space-around' >
           <Grid item xs={4} >
             <Grid container
@@ -159,7 +180,11 @@ export default class MainView extends Component {
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <CamCanvas savePhoto={this.savePhoto} ref={r => this.canvasRef = r} patientCedula={this.state.user.cedula} />
+            <CamCanvas 
+              threshold={this.state.threshold} 
+              savePhoto={this.savePhoto} 
+              ref={r => this.canvasRef = r} 
+              patientCedula={this.state.user.cedula} />
             <MyObservations obsRef={this.obsRef} ref={r => this.obsRefReal = r} />
           </Grid>
         </Grid>
@@ -218,3 +243,7 @@ export default class MainView extends Component {
     );
   }
 }
+
+MainView.propTypes = {
+  logout: PropTypes.func.isRequired
+};

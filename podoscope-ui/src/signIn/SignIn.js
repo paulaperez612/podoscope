@@ -17,7 +17,7 @@ export default class SignIn extends Component {
 
     const storedSID = localStorage.getItem('sid');
     if (storedSID && storedSID !== 'undefined') {
-      this.props.authTrue();
+      this.props.authTrue(true);
     }
   }
 
@@ -60,7 +60,7 @@ export default class SignIn extends Component {
     genericGet(endpoint, (data) => {
       if (data.id) {
         localStorage.setItem('sid', data.id);
-        this.props.authTrue();
+        this.props.authTrue(true);
       } else {
         this.setState({ failed: true });
       }
