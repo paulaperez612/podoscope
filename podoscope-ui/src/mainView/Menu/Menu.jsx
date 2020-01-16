@@ -1,7 +1,6 @@
 import React from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Button, Drawer, ListItem, ListItemText, ListItemIcon, Typography, TextField, InputAdornment, FormControl, InputLabel, OutlinedInput, Fab } from '@material-ui/core';
+import { Button, Drawer, ListItem, ListItemText, ListItemIcon, Typography, TextField, Fab } from '@material-ui/core';
 import { Settings as SettingIcon, ExitToApp as ExitToAppIcon, ArrowBack } from '@material-ui/icons';
 import './Menu.css';
 
