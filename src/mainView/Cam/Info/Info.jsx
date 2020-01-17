@@ -53,8 +53,8 @@ export default class Info extends React.Component {
     });
   }
 
-  colorValidationAngle(side, value) {
-    const diff = this.props.threshold[side] - value;
+  colorValidationAngle( value) {
+    const diff = this.props.threshold.value - value;
     return diff < 0 ? 'error' : 'inherit';
   }
 
@@ -62,7 +62,7 @@ export default class Info extends React.Component {
     return (
       <Grid container className="switch-container" alignItems='center' justify='center'>
         <Grid item xs={4} >
-          <Typography color={this.colorValidationAngle('left', this.state.leftAngle)} align='center' >
+          <Typography color={this.colorValidationAngle(this.state.leftAngle)} align='center' >
             {this.state.leftAngle || '-'}°
           </Typography>
           <Typography align='center' variant="h5" component="h3">
@@ -75,7 +75,7 @@ export default class Info extends React.Component {
         </Grid>
 
         <Grid item xs={4}>
-          <Typography color={this.colorValidationAngle('right', this.state.rightAngle)} align='center'>
+          <Typography color={this.colorValidationAngle(this.state.rightAngle)} align='center'>
             {this.state.rightAngle || '-'}°
           </Typography>
           <Typography align='center' variant="h5" component="h3">

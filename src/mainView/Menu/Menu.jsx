@@ -25,7 +25,6 @@ export default class Menu extends React.Component {
 
   logOut() {
     localStorage.setItem('sid', undefined);
-    localStorage.setItem('threshold', undefined);
     this.toggleDrawer(false);
     this.props.logout();
   }
@@ -55,20 +54,15 @@ export default class Menu extends React.Component {
                 <TextField
                   required
                   id="outlined-required"
-                  label="Left"
-                  value={this.props.threshold.left}
+                  label="Both sides"
+                  value={this.props.threshold.value}
                   variant="outlined"
                   type="number"
-                  onChange={e => this.props.setThreshold('left', e.target.value)}
-                />
-                <TextField
-                  required
-                  id="outlined-required"
-                  label="Right"
-                  value={this.props.threshold.right}
-                  variant="outlined"
-                  type="number"
-                  onChange={e => this.props.setThreshold('right', e.target.value)}
+                  onChange={e => {
+                    this.props.setThreshold(e.target.value);
+                    +e.target.value === 0 && e.target.select();
+                  }}
+                  onFocus={e => e.target.select()}
                 />
               </div>
             </div>

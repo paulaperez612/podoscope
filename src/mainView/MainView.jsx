@@ -65,7 +65,7 @@ export default class MainView extends Component {
         if (th && th !== 'undefined') {
           return JSON.parse(th);
         } else {
-          const nth = { right: 0, left: 0 };
+          const nth = { value: 15 };
           localStorage.setItem('threshold', JSON.stringify(nth));
           return nth;
         }
@@ -147,9 +147,9 @@ export default class MainView extends Component {
     }
   }
 
-  setThreshold(side, value) {
+  setThreshold(value) {
     this.setState((prev) => {
-      prev.threshold[side] = +value;
+      prev.threshold.value = +value;
       return prev;
     }, () => localStorage.setItem('threshold', JSON.stringify(this.state.threshold)));
   }
