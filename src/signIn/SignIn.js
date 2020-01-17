@@ -9,6 +9,8 @@ import CryptoJS from 'crypto-js';
 import PropTypes from 'prop-types';
 import { genericGet } from '../utils/requestsManager';
 
+import logo from '../assets/logo_piesalud.png';
+
 export default class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -80,6 +82,9 @@ export default class SignIn extends Component {
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
         <div>
+          
+          <img src={logo} alt="logo piesalud" height={'150px'} />
+
           <Typography component='h1' variant='h5' align='center'>
             Sign in
           </Typography>
