@@ -39,7 +39,6 @@ export default class SignIn extends Component {
   }
 
   verifyAuth() {
-    //TODO unify urls
     const host = baseUrl + '/service/v2/rest.php';
     const queries = {
       method: 'login',

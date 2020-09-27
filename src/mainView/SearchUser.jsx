@@ -51,7 +51,6 @@ export default class SearchUser extends Component {
 
 
     genericGet(
-      //TODO unify urls
       baseUrl + '/index.php?sid=' + sid + '&entryPoint=list_efp&pid=' + pid,
       (data) => {
         let patientExam;
@@ -85,7 +84,6 @@ export default class SearchUser extends Component {
           const defaultObs = '';
           const defaultShoesize = 40;
           //create exam
-          //TODO unify urls
           genericPostUrlParams(baseUrl + '/index.php',
             {
               entryPoint: 'save_efp',
@@ -159,7 +157,6 @@ export default class SearchUser extends Component {
 
 
     genericGet(
-      //TODO unify urls
       baseUrl + '/index.php?sid=' + currentSessionID + '&entryPoint=obtener_paciente&cedula=' + this.state.userCedula,
       (data) => {
 
