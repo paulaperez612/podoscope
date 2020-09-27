@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import CryptoJS from 'crypto-js';
 
 import PropTypes from 'prop-types';
-import { genericGet } from '../utils/requestsManager';
+import { baseUrl, genericGet } from '../utils/requestsManager';
 
 import logo from '../assets/logo_piesalud.png';
 
@@ -40,7 +40,7 @@ export default class SignIn extends Component {
 
   verifyAuth() {
     //TODO unify urls
-    const host = 'http://podosys.soel.com.co/service/v2/rest.php';
+    const host = baseUrl + '/service/v2/rest.php';
     const queries = {
       method: 'login',
       input_type: 'JSON',

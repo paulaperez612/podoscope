@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { genericGet, genericPostUrlParams } from '../utils/requestsManager';
+import { baseUrl, genericGet, genericPostUrlParams } from '../utils/requestsManager';
 
 export default class SearchUser extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ export default class SearchUser extends Component {
 
     genericGet(
       //TODO unify urls
-      'http://podosys.soel.com.co/index.php?sid=' + sid + '&entryPoint=list_efp&pid=' + pid,
+      baseUrl + '/index.php?sid=' + sid + '&entryPoint=list_efp&pid=' + pid,
       (data) => {
         let patientExam;
         if (data.rta.length > 0) {
@@ -86,7 +86,7 @@ export default class SearchUser extends Component {
           const defaultShoesize = 40;
           //create exam
           //TODO unify urls
-          genericPostUrlParams('http://podosys.soel.com.co/index.php',
+          genericPostUrlParams(baseUrl + '/index.php',
             {
               entryPoint: 'save_efp',
               sid: sid,
@@ -160,7 +160,7 @@ export default class SearchUser extends Component {
 
     genericGet(
       //TODO unify urls
-      'http://podosys.soel.com.co/index.php?sid=' + currentSessionID + '&entryPoint=obtener_paciente&cedula=' + this.state.userCedula,
+      baseUrl + '/index.php?sid=' + currentSessionID + '&entryPoint=obtener_paciente&cedula=' + this.state.userCedula,
       (data) => {
 
         if (data.rta.id == null) {

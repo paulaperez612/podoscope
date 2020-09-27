@@ -1,3 +1,5 @@
+export const baseUrl = 'http://podosys.piesalud.com';
+
 function userFormat(user) {
   let userToSend = {
     first_name: user.firstName,
@@ -52,32 +54,6 @@ function podoscopeFormat(inObj) {
     }
 
 
-    // user_id: inObj.user.cedula,  
-
-    // img_id: inObj.imId,
-    // image: inObj.imgData.image,
-
-    // line_l: inObj.imgData.data.left.lineX || '',
-    // x_l: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.x : '',
-    // y_l: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.y : '',
-    // angle_l: inObj.imgData.extra.leftAngle || '',
-
-    // huella_l: inObj.feet.left.footprintType,
-    // tipo_talon_l: inObj.feet.left.heelType,
-    // tipo_l: inObj.feet.left.footType,
-
-    // line_r: inObj.imgData.data.right.lineX || '',
-    // x_r: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.x : '',
-    // y_r: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.y : '',
-    // angle_r: inObj.imgData.extra.rightAngle || '',
-
-    // huella_r: inObj.feet.right.footprintType,
-    // tipo_talon_r: inObj.feet.right.heelType,
-    // tipo_r: inObj.feet.right.footType,
-
-    // obervaciones: inObj.observations.defaultValue,
-    // talla: inObj.shoeSize.defaultValue,
-    // free_draw: JSON.stringify(inObj.imgData.data.free.path)
   };
   return formatedOutput;
 }
@@ -137,7 +113,7 @@ export function postPodImage(inObj, callback, onError) {
   let correctFormat = podoscopeFormat(inObj);
 
   //exam stuff
-  genericPostUrlParams('http://podosys.soel.com.co/index.php',
+  genericPostUrlParams(baseUrl + '/index.php',
     correctFormat.examFormat,
     (data) => {
       console.log('Sucessfully updated exam');
@@ -150,7 +126,7 @@ export function postPodImage(inObj, callback, onError) {
 
   //image stuff
   console.log(correctFormat.imgFormat.imagen);
-  genericPostUrlParams('http://podosys.soel.com.co/index.php',
+  genericPostUrlParams(baseUrl + '/index.php',
     correctFormat.imgFormat,
     (data) => {
       console.log('Sucessfully saved image');
