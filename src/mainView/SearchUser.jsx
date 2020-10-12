@@ -53,10 +53,14 @@ export default class SearchUser extends Component {
     genericGet(
       baseUrl + '/index.php?sid=' + sid + '&entryPoint=list_efp&pid=' + pid,
       (data) => {
+        console.log('Obtained patient exams:', data);
         let patientExam;
         if (data.rta.length > 0) {
+          // user has exams
+
           //get first and only exam
           let exam = data.rta[0];
+          console.log('Using exam:', exam);
           patientExam = {
             eid: exam.id,
             feet: {
@@ -80,6 +84,7 @@ export default class SearchUser extends Component {
           this.setMainViewState(newPatient,patientExam);
         }
         else {
+          // user does not have an exam.
           const defaultType = 'NEUTRO';
           const defaultObs = '';
           const defaultShoesize = 40;
@@ -155,7 +160,7 @@ export default class SearchUser extends Component {
     // session id
     let currentSessionID = localStorage.getItem('sid');
 
-
+    // get patient info
     genericGet(
       baseUrl + '/index.php?sid=' + currentSessionID + '&entryPoint=obtener_paciente&cedula=' + this.state.userCedula,
       (data) => {
@@ -166,6 +171,7 @@ export default class SearchUser extends Component {
         }
         else {
           // patient exists
+          console.log('Patient found: ', data)
           let newPatient = {
             name: data.rta.nombre + ' ' + data.rta.apellidos,
             cedula: this.state.userCedula,
@@ -180,7 +186,9 @@ export default class SearchUser extends Component {
           };
 
           // get exam with shoe size, type of foot, etc. 
-          this.searchUserExam(newPatient.pid, currentSessionID, newPatient);
+          const eid = this.searchUserExam(newPatient.pid, currentSessionID, newPatient);
+
+          // this.searchUserImages()
         }
 
       },
