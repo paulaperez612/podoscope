@@ -49,7 +49,8 @@ function podoscopeFormat(inObj) {
       ttd: inObj.feet.right.heelType,
       obs: inObj.observations.defaultValue,
       tp: inObj.shoeSize,
-      pid: inObj.user.pid
+      pid: inObj.user.pid,
+      id: inObj.user.eid // exam id
 
     }
 
