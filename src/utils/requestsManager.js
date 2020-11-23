@@ -21,19 +21,19 @@ function podoscopeFormat(inObj) {
     imgFormat: {
 
       sid: localStorage.getItem('sid'),
-      entryPoint: 'save_img',
-      angulo_i: inObj.imgData.extra.leftAngle || '',
-      angulo_d: inObj.imgData.extra.rightAngle || '',
+      id: '',
+      angulo_i: inObj.imgData.extra.leftAngle || null,
+      angulo_d: inObj.imgData.extra.rightAngle || null,
       // save image id after @. Doesnt interfere with base64 encoding
-      imagen: inObj.imgData.image + '@' + inObj.imId,
-      u_x_d: inObj.imgData.data.right.lineX || '',
-      u_x_i: inObj.imgData.data.left.lineX || '',
-      x_i: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.x : '',
-      x_d: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.x : '',
-      y_i: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.y : '',
-      y_d: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.y : '',
+      u_x_d: inObj.imgData.data.right.lineX || null,
+      u_x_i: inObj.imgData.data.left.lineX || null,
+      x_i: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.x : null,
+      x_d: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.x : null,
+      y_i: inObj.imgData.data.left.point ? inObj.imgData.data.left.point.y : null,
+      y_d: inObj.imgData.data.right.point ? inObj.imgData.data.right.point.y : null,
       efp_id: inObj.user.eid,
-      traza: JSON.stringify(inObj.imgData.data.free.path)
+      traza: JSON.stringify(inObj.imgData.data.free.path),
+      imagen: inObj.imgData.image + '@' + inObj.imId,
 
     },
 
@@ -108,35 +108,77 @@ export function postUser(user, callback, onError) {
   genericPost(user, callback, onError, userFormat, '/users');
 }
 
-export function postPodImage(inObj, callback, onError) {
+export function postPodImage(inObj, examCallback, examOnError,imageCallback,imageOnError) {
   // genericPost(inObj, callback, onError, podoscopeFormat, '/podoscope');
 
   let correctFormat = podoscopeFormat(inObj);
 
   //exam stuff
+  console.log('saving exam...')
   genericPostUrlParams(baseUrl + '/index.php',
     correctFormat.examFormat,
     (data) => {
       console.log('Sucessfully updated exam');
       console.log(data);
-      callback(data);
+      examCallback(data);
     },
     (e) => {
-      onError(e);
+      examOnError(e);
     });
 
   //image stuff
-  console.log(correctFormat.imgFormat.imagen);
-  genericPostUrlParams(baseUrl + '/index.php',
-    correctFormat.imgFormat,
-    (data) => {
-      console.log('Sucessfully saved image');
-      console.log(data);
-      callback(data);
-    },
+
+  console.log('saving image...')
+  saveImage(correctFormat.imgFormat, 
+    (data) => { 
+      imageCallback(data);
+    }, 
     (e) => {
-      onError(e);
+      imageOnError(e);
+     })
+
+
+  // console.log(correctFormat.imgFormat.imagen);
+  // genericPostUrlParams(baseUrl + '/index.php',
+  //   correctFormat.imgFormat,
+  //   (data) => {
+  //     console.log('Sucessfully saved image');
+  //     console.log(data);
+  //     callback(data);
+  //   },
+  //   (e) => {
+  //     onError(e);
+  //   });
+}
+
+function saveImage(imageObj, callback, onError) {
+  let saveImgURL = baseUrl;
+  saveImgURL += '/index.php?entryPoint=save_img';
+
+  console.log('sending body to save image: ', JSON.stringify(imageObj))
+
+  fetch(saveImgURL, {
+    method: 'POST',
+    body: JSON.stringify(imageObj)
+  })
+    .then((response) => {
+      console.log('create image response:');
+      console.log(response);
+      return response.text();
+    })
+    .then(data => {
+      if (data.rta === 'La sesion es invalida , por favor verificar credenciales') {
+        onError({ type: 'session_expired', error: data.rta });
+      } else {
+        console.log('Succesfully saved image: ')
+        console.log(data);
+        callback(data);
+      }
+    })
+    .catch((error) => {
+      onError({ type: 'fetch', error });
     });
+
 }
 
 export function genericPostUrlParams(baseUrl, inObj, callback, onError) {
