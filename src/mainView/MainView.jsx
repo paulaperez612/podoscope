@@ -10,10 +10,12 @@ import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
 import InfoIcon from '@material-ui/icons/Info';
 
+
 import UserCard from './UserInfo/UserCard';
 import ImageSelection from './UserInfo/ImageSelection';
 import CamCanvas from './Cam/CamCanvas';
 import SearchUser from './SearchUser';
+import LoadingCard from './LoadingCard';
 import Drops from './UserInfo/Drops/Drops';
 import MyObservations from './UserInfo/MyObservations';
 import ImageModal from './ImageModal/ImageModal';
@@ -37,6 +39,7 @@ export default class MainView extends Component {
     this.state = {
       open: false,
       openImage: false,
+      savingImage: false,
       user: {
         name: '-',
         cedula: '-',
@@ -131,6 +134,7 @@ export default class MainView extends Component {
 
   savePhoto(data) {
     if (this.imageIndex >= 0) {
+      this.setState({savingImage:true})
       this.images[this.imageIndex] = data;
       this.imageselRef.updateImage(this.imageIndex, data.image);
 
@@ -143,7 +147,16 @@ export default class MainView extends Component {
           observations: this.obsRef.current,
           shoeSize: this.state.shoeSize,
           imId: this.imageIndex
-        }), () => { }, () => { });
+        }), 
+        () => {}, () => {},
+        () => { 
+          this.setState({savingImage:false})
+        }, 
+        () => { 
+          console.log('COULD NOT SAVE IMAGE')
+          this.setState({savingImage:false})
+        });
+
     }
   }
 
@@ -215,6 +228,23 @@ export default class MainView extends Component {
               obsRefReal={this.obsRefReal}
               setShoeSize={this.setShoeSize}
             />
+          </Fade>
+        </Modal>
+        <Modal
+          // aria-labelledby="transition-modal-title"
+          // aria-describedby="transition-modal-description"
+          className="modal"
+          open={this.state.savingImage}
+          onClose={() => this.setState({ savingImage: true })}
+          closeAfterTransition
+          disableEnforceFocus
+          disableAutoFocus
+          BackdropComponent={Backdrop}
+          BackdropProps={{ timeout: 200 }}>
+          <Fade
+            in={this.state.savingImage}
+            className='modalContent'>
+            <LoadingCard renderText='Saving image...'/>
           </Fade>
         </Modal>
         <Fab
