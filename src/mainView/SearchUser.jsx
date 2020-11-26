@@ -43,7 +43,6 @@ export default class SearchUser extends Component {
     //TODO search images
     this.searchUserImages(examID);
     
-    this.props.toggleModal();
 
   }
 
@@ -185,8 +184,40 @@ export default class SearchUser extends Component {
           const [imID, image] = this.getImageAndID(imObject.imagen); 
           console.log(`Image # ${i} Image ID: ${imID} End of string ${image.substring(image.length-20, image.length)}`)
           console.log('Setting image...')
-          this.props.selectImageRef.updateImage(imID,image)
-          console.log('Image set succesfully')
+          const imageData = {
+            data: {
+              free: {
+                path: JSON.parse(imObject.traza.replace(/&quot;/g,`"`)),
+                down: false
+              },
+              left: {
+                lineX: imObject.u_x_i || undefined,
+                point: {
+                  x: imObject.x_i || undefined,
+                  y: imObject.y_i || undefined
+                }
+              },
+              right: {
+                lineX: imObject.u_x_d || undefined,
+                point: {
+                  x: imObject.x_d || undefined,
+                  y: imObject.y_d || undefined
+                }
+              }
+            },
+            extra: {
+              leftAngle: imObject.angulo_i || undefined,
+              rightAngle: imObject.angulo_d || undefined
+            },
+            image:image
+          };
+
+          this.props.setImageInMainView(imID,imageData,() => {
+          });
+          this.props.selectImageRef.updateImage(imID,image);
+          console.log('Image set succesfully');
+          this.setState({ loading: false });
+          this.props.toggleModal();
         }
       }, 
       () => {}
@@ -205,7 +236,6 @@ export default class SearchUser extends Component {
 
         if (data.rta.id == null) {
           this.cedulaFound = false;
-          this.setState({ loading: false });
         }
         else {
           // patient exists

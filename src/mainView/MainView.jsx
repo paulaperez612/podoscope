@@ -82,12 +82,17 @@ export default class MainView extends Component {
     this.setFeetInfo = this.setFeetInfo.bind(this);
     this.setShoeSize = this.setShoeSize.bind(this);
     this.setThreshold = this.setThreshold.bind(this);
+    this.setImageInMainView = this.setImageInMainView.bind(this);
 
     this.imageIndex = -1;
     this.images = [{}, {}, {}, {}, {}, {}];
     this.observations = '--';
   }
 
+  setImageInMainView(imIndex, imageData, callback){
+    this.images[imIndex] = imageData;
+    callback();
+  }
   setShoeSize(newShoeSize) {
     this.setState({ shoeSize: newShoeSize });
   }
@@ -101,6 +106,10 @@ export default class MainView extends Component {
   }
 
   selectImage(index) {
+    console.log('Selecting image...');
+    console.log('Images in main veiw:');
+    console.log(this.images);
+
     this.imageIndex = index;
     this.canvasRef.setImg(this.images[this.imageIndex]);
   }
@@ -228,6 +237,7 @@ export default class MainView extends Component {
               obsRefReal={this.obsRefReal}
               setShoeSize={this.setShoeSize}
               selectImageRef={this.imageselRef}
+              setImageInMainView={this.setImageInMainView}
             />
           </Fade>
         </Modal>
