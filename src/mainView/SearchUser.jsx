@@ -177,6 +177,16 @@ export default class SearchUser extends Component {
         console.log(`Obtained images with examid ${examID}:`);
         console.log(`Recieved ${data.rta.length} images.`);
 
+        //clear previous image data
+        console.log('Clearing image data');
+        for(let i = 0; i<6 ; i++){
+          console.log(`Clearing image ${i}`);
+          this.props.setImageInMainView(i,{});
+          console.log('Main view cleared');
+          this.props.selectImageRef.setImageToDefault(i);
+          console.log('Image ref cleared');
+        }
+
         console.log('Iterating over data:')
         for(let i = 0; i<data.rta.length; i++){
           const imObject = data.rta[i];
@@ -212,8 +222,7 @@ export default class SearchUser extends Component {
             image:image
           };
 
-          this.props.setImageInMainView(imID,imageData,() => {
-          });
+          this.props.setImageInMainView(imID,imageData);
           this.props.selectImageRef.updateImage(imID,image);
           console.log('Image set succesfully');
           this.setState({ loading: false });

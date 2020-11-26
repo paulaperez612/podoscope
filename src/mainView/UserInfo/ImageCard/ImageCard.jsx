@@ -18,6 +18,11 @@ export default class ImageCard extends Component {
     this.setState({ image: img });
   }
 
+  setImageToDefaultImage(){
+    console.log(`Inside the image ref itself`)
+    this.setState({image: defaultImage});
+  }
+
   render() {
     return (
       <Card

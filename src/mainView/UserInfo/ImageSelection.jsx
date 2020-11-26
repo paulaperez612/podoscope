@@ -28,6 +28,11 @@ export default class ImageSelection extends Component {
   updateImage(i, img) {
     this.imgsRefs[i].updateImage(img);
   }
+  
+  setImageToDefault(i){
+    console.log(`In selection ref, setting image ${i} to default.`)
+    this.imgsRefs[i].setImageToDefaultImage();
+  }
 
   makeImageCard(cardId, caption) {
     return (

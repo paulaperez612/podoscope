@@ -89,9 +89,8 @@ export default class MainView extends Component {
     this.observations = '--';
   }
 
-  setImageInMainView(imIndex, imageData, callback){
+  setImageInMainView(imIndex, imageData){
     this.images[imIndex] = imageData;
-    callback();
   }
   setShoeSize(newShoeSize) {
     this.setState({ shoeSize: newShoeSize });
