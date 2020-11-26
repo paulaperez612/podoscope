@@ -227,6 +227,7 @@ export default class MainView extends Component {
               setFeetInfo={this.setFeetInfo}
               obsRefReal={this.obsRefReal}
               setShoeSize={this.setShoeSize}
+              selectImageRef={this.imageselRef}
             />
           </Fade>
         </Modal>

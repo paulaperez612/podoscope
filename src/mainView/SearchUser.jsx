@@ -26,7 +26,8 @@ export default class SearchUser extends Component {
   }
 
   setMainViewState(newPatient,patientExam){
-    newPatient.eid = patientExam.eid;
+    const examID = patientExam.eid;
+    newPatient.eid = examID;
 
     this.props.setUser(newPatient);
 
@@ -40,7 +41,7 @@ export default class SearchUser extends Component {
     this.props.setShoeSize(parseInt(patientExam.shoeSize));
     
     //TODO search images
-    
+    this.searchUserImages(examID);
     
     this.props.toggleModal();
 
@@ -59,7 +60,7 @@ export default class SearchUser extends Component {
           // user has exams
 
           //get first and only exam
-          let exam = data.rta[0];
+          const exam = data.rta[0];
           console.log('Using exam:', exam);
           patientExam = {
             eid: exam.id,
@@ -155,6 +156,43 @@ export default class SearchUser extends Component {
 
   }
 
+  getImageAndID(rawImageString){
+    console.log('Splitting string:')
+    const strLength = rawImageString.length;
+    console.log(`Raw string length: ${strLength}`)
+    const index = rawImageString.indexOf("@");
+    console.log(`Found @ char in ${index}`);
+    const imID = rawImageString.substring(index+1,strLength);
+    const im = rawImageString.substring(0,index);
+    console.log('Split string.')
+    return [imID,im]
+  }
+
+  searchUserImages(examID){
+    console.log('In search user images');
+    let currentSessionID = localStorage.getItem('sid');
+    console.log(`Searching for exams with examid: ${examID}`)
+    const endpointURL = baseUrl + '/index.php?sid=' + currentSessionID + '&entryPoint=list_img&efp_id=' + examID;
+    genericGet(endpointURL, 
+      (data)=> {
+        console.log(`Obtained images with examid ${examID}:`);
+        console.log(`Recieved ${data.rta.length} images.`);
+
+        console.log('Iterating over data:')
+        for(let i = 0; i<data.rta.length; i++){
+          const imObject = data.rta[i];
+          console.log(imObject);
+          const [imID, image] = this.getImageAndID(imObject.imagen); 
+          console.log(`Image # ${i} Image ID: ${imID} End of string ${image.substring(image.length-20, image.length)}`)
+          console.log('Setting image...')
+          this.props.selectImageRef.updateImage(imID,image)
+          console.log('Image set succesfully')
+        }
+      }, 
+      () => {}
+    )
+  }
+
   searchUser() {
     this.setState({ loading: true });
     // session id
@@ -185,10 +223,10 @@ export default class SearchUser extends Component {
             right: {}
           };
 
+          console.log('Getting exam id')
           // get exam with shoe size, type of foot, etc. 
-          const eid = this.searchUserExam(newPatient.pid, currentSessionID, newPatient);
-
-          // this.searchUserImages()
+          this.searchUserExam(newPatient.pid, currentSessionID, newPatient);
+          // get exam images
         }
 
       },
