@@ -19,6 +19,8 @@ import LoadingCard from './LoadingCard';
 import Drops from './UserInfo/Drops/Drops';
 import MyObservations from './UserInfo/MyObservations';
 import ImageModal from './ImageModal/ImageModal';
+import DialogContent from '@material-ui/core/DialogContent';
+
 
 import { postPodImage } from '../utils/requestsManager';
 import Menu from './Menu/Menu';
@@ -114,6 +116,7 @@ export default class MainView extends Component {
   }
 
   toggleModal() {
+    console.log('Toggling modal');
     this.setState((prevState) => ({ open: !prevState.open }));
   }
 
@@ -224,21 +227,27 @@ export default class MainView extends Component {
           open={this.state.open}
           onClose={() => this.setState({ open: true })}
           closeAfterTransition
+          disableEnforceFocus
+          disableAutoFocus
           BackdropComponent={Backdrop}
           BackdropProps={{ timeout: 200 }}>
-          <Fade
-            in={this.state.open}
-            className='modalContent'>
-            <SearchUser
-              toggleModal={this.toggleModal}
-              setUser={this.setUser}
-              setFeetInfo={this.setFeetInfo}
-              obsRefReal={this.obsRefReal}
-              setShoeSize={this.setShoeSize}
-              selectImageRef={this.imageselRef}
-              setImageInMainView={this.setImageInMainView}
-            />
-          </Fade>
+          <DialogContent>
+            
+            <Fade
+              in={this.state.open}
+              className='modalContent'>
+              <SearchUser
+                toggleModal={this.toggleModal}
+                setUser={this.setUser}
+                setFeetInfo={this.setFeetInfo}
+                obsRefReal={this.obsRefReal}
+                setShoeSize={this.setShoeSize}
+                selectImageRef={this.imageselRef}
+                setImageInMainView={this.setImageInMainView}
+                logout={this.props.logout}
+              />
+            </Fade>
+          </DialogContent>
         </Modal>
         <Modal
           // aria-labelledby="transition-modal-title"
@@ -251,12 +260,15 @@ export default class MainView extends Component {
           disableAutoFocus
           BackdropComponent={Backdrop}
           BackdropProps={{ timeout: 200 }}>
-          <Fade
-            in={this.state.savingImage}
-            className='modalContent'>
-            <LoadingCard renderText='Saving image...'/>
-          </Fade>
+          <DialogContent>
+            <Fade
+              in={this.state.savingImage}
+              className='modalContent'>
+              <LoadingCard renderText='Saving image...'/>
+            </Fade>
+          </DialogContent>
         </Modal>
+
         <Fab
           color="primary"
           aria-label="info"
@@ -269,15 +281,19 @@ export default class MainView extends Component {
           aria-describedby="transition-modal-description"
           className="imageModal"
           open={this.state.openImage}
-          onClose={() => this.setState({ openImage: true })}
+          onClose={() => this.setState({ openImage: false })}
           closeAfterTransition
+          disableEnforceFocus
+          disableAutoFocus
           BackdropComponent={Backdrop}
           BackdropProps={{ timeout: 200 }}>
-          <Fade
-            in={this.state.openImage}
-            className='imageModalContent'>
-            <ImageModal toggleModal={this.toogleImageModal} />
-          </Fade>
+          <DialogContent>
+            <Fade
+              in={this.state.openImage}
+              className='imageModalContent'>
+              <ImageModal toggleModal={this.toogleImageModal} />
+            </Fade>
+          </DialogContent>
         </Modal>
       </div>
     );

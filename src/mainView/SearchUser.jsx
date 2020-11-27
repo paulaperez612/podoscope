@@ -18,7 +18,8 @@ export default class SearchUser extends Component {
     super(props);
     this.state = {
       userCedula: '',
-      loading: false
+      loading: false,
+      sessionExpired: false,
     };
     this.cedulaFound = true;
     this.searchUser = this.searchUser.bind(this);
@@ -42,6 +43,8 @@ export default class SearchUser extends Component {
     
     //TODO search images
     this.searchUserImages(examID);
+    
+    // this.props.toggleModal();
     
 
   }
@@ -137,6 +140,7 @@ export default class SearchUser extends Component {
               } else if (e.type === 'session_expired') {
                 console.log('Session Expired');
                 // TODO modal for relogin
+                this.setState({sessionExpired: true});
               }
             });
         }
@@ -148,6 +152,7 @@ export default class SearchUser extends Component {
           console.log('Failed to fetch');
         } else if (e.type === 'session_expired') {
           console.log('Session Expired');
+          this.setState({sessionExpired: true});
         }
       }
     );
@@ -225,9 +230,10 @@ export default class SearchUser extends Component {
           this.props.setImageInMainView(imID,imageData);
           this.props.selectImageRef.updateImage(imID,image);
           console.log('Image set succesfully');
-          this.setState({ loading: false });
-          this.props.toggleModal();
+          
         }
+        this.setState({ loading: false });
+        this.props.toggleModal();
       }, 
       () => {}
     )
@@ -275,10 +281,16 @@ export default class SearchUser extends Component {
           console.log('Failed to fetch');
         } else if (e.type === 'session_expired') {
           console.log('Session Expired');
+          this.setState({sessionExpired: true});
         }
       }
     );
 
+  }
+
+  logOut() {
+    localStorage.setItem('sid', undefined);
+    this.props.logout();
   }
 
   onEnter(e) {
@@ -361,10 +373,51 @@ export default class SearchUser extends Component {
     );
   }
 
+  renderLogout(){
+    return (
+      <Card className='waitingCard'>
+        <Grid className='gridWaiting'
+          container
+          spacing={4}
+          direction="column"
+          alignItems="center"
+          justify="space-around" >
+          <Grid item xs={12}>
+            <br />
+            <Typography variant="h5" component="h2" align='center'>
+              Your session has expired.
+              <br/> 
+              Please login again.
+            </Typography>
+          </Grid>
+        <CardActions >
+          <Button size="small" variant="contained" color="primary" onClick={()=>this.logOut()}>
+            Log out
+          </Button>
+        </CardActions>
+        </Grid>
+        <br />
+      </Card > 
+    )
+  }
+
   render() {
+    let renderedComponent;
+    if(this.state.sessionExpired){
+      renderedComponent = this.renderLogout();
+    }
+    else{
+      if(!this.state.loading){
+        renderedComponent = this.renderSearchCard(this.cedulaFound);
+      }
+      else{
+        renderedComponent = this.renderLoading();
+      }
+    }
+
     return (
       <div>
-        {!this.state.loading ? this.renderSearchCard(this.cedulaFound) : this.renderLoading()}
+        {renderedComponent}
       </div>
     );
   }
