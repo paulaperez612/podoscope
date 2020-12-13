@@ -1,4 +1,4 @@
-export const baseUrl = 'http://podosys.piesalud.com';
+export const baseUrl = 'https://podosys.piesalud.com';
 
 function userFormat(user) {
   let userToSend = {
