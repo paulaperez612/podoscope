@@ -64,7 +64,7 @@ export default class MainView extends Component {
           footType: 'NEUTRO'
         }
       },
-      shoeSize: 40,
+      shoeSize: 0,
       threshold: (() => {
         const th = localStorage.getItem('threshold');
         if (th && th !== 'undefined') {

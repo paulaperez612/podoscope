@@ -90,7 +90,7 @@ export default class SearchUser extends Component {
           // user does not have an exam.
           const defaultType = 'NEUTRO';
           const defaultObs = '';
-          const defaultShoesize = 40;
+          const defaultShoesize = 0;
           //create exam
           genericPostUrlParams(baseUrl + '/index.php',
             {

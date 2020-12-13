@@ -30,7 +30,7 @@ export default class UserCard extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { shoeSize: 40 };
+    this.state = { shoeSize: 0 };
   }
 
   makeListItem(attr, icon, withDivider = true, overrideItem = undefined) {
