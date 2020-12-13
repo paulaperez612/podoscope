@@ -20,8 +20,9 @@ export default class SearchUser extends Component {
       userCedula: '',
       loading: false,
       sessionExpired: false,
+      cedulaFound: true,
     };
-    this.cedulaFound = true;
+    // this.cedulaFound = true;
     this.searchUser = this.searchUser.bind(this);
     this.onEnter = this.onEnter.bind(this);
   }
@@ -41,7 +42,6 @@ export default class SearchUser extends Component {
     // set obs state in main view
     this.props.setShoeSize(parseInt(patientExam.shoeSize));
     
-    //TODO search images
     this.searchUserImages(examID);
     
     // this.props.toggleModal();
@@ -250,7 +250,9 @@ export default class SearchUser extends Component {
       (data) => {
 
         if (data.rta.id == null) {
-          this.cedulaFound = false;
+          // this.cedulaFound = false;
+          this.setState({cedulaFound: false, loading: false});
+          console.log('Cedula not found')
         }
         else {
           // patient exists
@@ -299,7 +301,7 @@ export default class SearchUser extends Component {
     }
   }
 
-  renderSearchCard(cedulaFound) {
+  renderSearchCard() {
     return (
       <Card>
         <CardContent>
@@ -326,7 +328,7 @@ export default class SearchUser extends Component {
                 <SearchIcon />
               </Button>
             </Grid>
-            {!cedulaFound ?
+            {!this.state.cedulaFound ?
 
               <Grid item xs={12}>
                 <br />
@@ -408,7 +410,7 @@ export default class SearchUser extends Component {
     }
     else{
       if(!this.state.loading){
-        renderedComponent = this.renderSearchCard(this.cedulaFound);
+        renderedComponent = this.renderSearchCard();
       }
       else{
         renderedComponent = this.renderLoading();
