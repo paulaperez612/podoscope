@@ -40,23 +40,24 @@ export default class CamCanvas extends React.Component {
     this.rect = this.videoRef.getBoundingClientRect();
     this.ctx = this.canvasRef.getContext('2d');
 
-    navigator.getMedia = (navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia);
+    let constraints = { video: true, audio: false };
+    console.log(this);
+
+    navigator.mediaDevices.getUserMedia(constraints)
+    .then((mediaStream) => this.setTheVideoStuff(mediaStream))
+    .catch(function(err) { console.log("An error ocurred: " + err.name + ": " + err.message); });
+  }
+
+  setTheVideoStuff(mediaStream){
+      this.videoRef.srcObject = mediaStream;
+      console.log('ref set.');
 
 
-    navigator.getMedia({ video: true, audio: false },
-      (stream) => {
-        this.videoRef.srcObject = stream;
-
-        setTimeout(() => {
-          this.videoRef.play();
-          this.updateDimension();
-          window.addEventListener('resize', this.updateDimension);
-        }, 500);
-      },
-      (err) => console.log('An error occured! ' + err));
+      setTimeout(() => {
+        this.videoRef.play();
+        this.updateDimension();
+        window.addEventListener('resize', this.updateDimension);
+      }, 500);
   }
 
   componentWillUnmount() {
