@@ -1,7 +1,99 @@
-.dropTitle{
+.dropTitle {
     padding: 10px;
+    color: #ffffff;
+    /* Texto en blanco para contraste */
+    background: #5A9EA6;
+    /* Color más oscuro del esquema */
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.dropDown{
+.dropDown {
     min-width: 110px !important;
+    margin-top: -799px !important;
+    left: 550px;
+    background: linear-gradient(135deg, #7FFFD4, #86a8f4, #8CCFD6);
+    background-size: 200% auto;
+    /*Amplíaeldegradadoparaefectosdinámicos*/
+    border: 2px solid #7FFFD4;
+    /*Bordeencoloraguamarina*/
+    border-radius: 2px;
+    /*Bordesmásredo2deadosparaunlookmássuave*/
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    color: #ffffff;
+    font-weight: bold;
+    height: 48px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #5A9EA6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.5s ease;
+
+}
+
+/* Efecto hover para darle dinamismo */
+.dropDown:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background-position: 100% center;
+}
+
+
+.gridContainer {
+    margin-top: -320px;
+    /*Ajustasegúnseanecesario*/
+    position: relative;
+    /* background: #71B3BD; */
+    /*Fondoaplicado*/
+    padding: 15px;
+    border-radius: 2px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.leftRightText {
+    position: relative;
+    left: 539px;
+    /* Ajusta según sea necesario */
+    top: -790px;
+    /* Mueve hacia arriba (valores negativos) o abajo (positivos) */
+    color: #0a0909;
+    font-size: 19px;
+    font-weight: bold;
+    font-family: "Poppins", sans-serif;
+    /* Fuente moderna y elegante */
+    /* letter-spacing: 0.5px; */
+    /* Espaciado sutil para mejorar legibilidad */
+    text-transform: uppercase;
+    /* Hace que resalte más */
+}
+
+.observationsForm {
+    position: relative;
+    top: -487px;
+    width: 250px;
+    left: 395px;
+    background: linear-gradient(135deg, #7FFFD4, #86a8f4, #8CCFD6);
+    background-size: 200% auto;
+    /* Amplía el degradado para efectos dinámicos */
+    height: 110px;
+    font-size: 12px;
+    color: #0b0b0b;
+    font-family: "Poppins", sans-serif;
+    font-weight: 450;
+    letter-spacing: 0.8px;
+    text-transform: capitalize;
+    border-radius: 8px;
+    /* Bordes más redondeados para un look más suave */
+    border: 2px solid #7FFFD4;
+    /* Borde en color agua marina */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    transition: background-position 0.5s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Efecto hover para darle dinamismo */
+.observationsForm:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background-position: 100% center;
 }

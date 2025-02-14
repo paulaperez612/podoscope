@@ -1,16 +1,19 @@
 #logout-btn {
   position: absolute;
   bottom: 0;
-  border-top: 1px solid lightgray;
+  border-top: 1px solid rgb(59, 115, 171);
+
+
 }
 
 #menu-threshold-sett {
   display: grid;
   gap: 5px;
   padding: 5px;
+
 }
 
-#menu-threshold-sett > div input {
+#menu-threshold-sett>div input {
   text-align: center;
 }
 
@@ -19,12 +22,15 @@
   font-weight: bold;
 }
 
+/* Boton Configuracion */
 #open-draw {
   top: 40px;
-  left: 30px;
-  transform: translateY(100%) translateY(20px);
+  left: 920px;
+  transform: translateY(716px);
+
 }
 
 #draw-back {
   margin: 0 0 0 auto;
+
 }

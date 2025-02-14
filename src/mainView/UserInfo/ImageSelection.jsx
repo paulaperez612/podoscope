@@ -6,7 +6,6 @@ import { Grid, Typography } from '@material-ui/core';
 import ImageCard from './ImageCard/ImageCard';
 
 export default class ImageSelection extends Component {
-
   constructor(props) {
     super(props);
     this.state = { selection: -1 };
@@ -19,74 +18,86 @@ export default class ImageSelection extends Component {
   }
 
   changeSelection(id) {
-    this.setState({ selection: id },
-      () => {
-        this.props.selectImage(id);
-      });
+    this.setState({ selection: id }, () => {
+      this.props.selectImage(id);
+    });
   }
 
   updateImage(i, img) {
     this.imgsRefs[i].updateImage(img);
   }
-  
-  setImageToDefault(i){
-    console.log(`In selection ref, setting image ${i} to default.`)
+
+  setImageToDefault(i) {
+    console.log(`In selection ref, setting image ${i} to default.`);
     this.imgsRefs[i].setImageToDefaultImage();
   }
 
-  makeImageCard(cardId, caption) {
+  // Función que agrupa la tarjeta con su concepto debajo
+  makeCardWithCaption(cardId, caption) {
     return (
-      <Grid item xs={3}>
-        <ImageCard
-          ref={r => this.imgsRefs[cardId] = r}
-          changeSelect={this.changeSelection}
-          cardId={cardId}
-          selection={this.state.selection}
-          cardCaption={caption} />
-      </Grid>
-    );
-  }
-
-  makeCaption(caption, variant = 'body2', size = 3, align = 'center') {
-    return (
-      <Grid item xs={size}>
-        <Typography align={align} variant={variant}>
-          {caption}
-        </Typography>
+      <Grid item key={`card-${cardId}`}>
+        <Grid container direction="column" alignItems="center" spacing={1}>
+          <Grid item>
+            <ImageCard
+              ref={r => this.imgsRefs[cardId] = r}
+              changeSelect={this.changeSelection}
+              cardId={cardId}
+              selection={this.state.selection}
+              cardCaption={caption} // Se sigue pasando si lo necesitas en el componente
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="body2" align="center">
+              {caption}
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
     );
   }
 
   render() {
     return (
-      <Grid container spacing={2} alignItems='center'>
-        <>
-          {this.makeCaption('Back', 'subtitle1', 2)}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '1010px',      // Se mantiene la separación de 550px entre columnas
+          marginTop: '-102px', // Ajusta la posición vertical según tus necesidades
+          transform: 'translateX(333px)' // Mueve todos los recuadros hacia la derecha (en este ejemplo 8cm)
+        }}
+      >
 
-          {this.makeImageCard(0, 'Standing Up')}
-          {this.makeImageCard(1, '45 °')}
-          {this.makeImageCard(2, 'Toes up')}
-
-          <Grid item xs={2} />
-          
-          {this.makeCaption('Standing Up')}
-          {this.makeCaption('45 °')}
-          {this.makeCaption('Toes up')}
-        </>
-        <>
-          {this.makeCaption('Front', 'subtitle1', 2)}
-
-          {this.makeImageCard(3, 'Chaplin')}
-          {this.makeImageCard(4, 'Chaplin Toes Up')}
-          {this.makeImageCard(5, 'With Insoles')}
-
-          <Grid item xs={2} />
-
-          {this.makeCaption('Chaplin')}
-          {this.makeCaption(<>Chaplin<br />Toes Up</>)}
-          {this.makeCaption('With Insoles')}
-        </>
-      </Grid>
+        {/* distancia de los recuadros de la capturas */}
+        {/* Columna izquierda */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="subtitle1">Back</Typography>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            style={{ gap: '60px' }} // Se establece un espacio de 10px entre recuadros verticalmente
+          >
+            {this.makeCardWithCaption(0, 'Standing Up')}
+            {this.makeCardWithCaption(1, '45 °')}
+            {this.makeCardWithCaption(2, 'Toes up')}
+          </Grid>
+        </div>
+        {/* Columna derecha */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="subtitle1">Front</Typography>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            style={{ gap: '60px' }} // Se establece un espacio de 10px entre recuadros verticalmente
+          >
+            {this.makeCardWithCaption(3, 'Chaplin')}
+            {this.makeCardWithCaption(4, 'Chaplin Toes Up')}
+            {this.makeCardWithCaption(5, 'With Insoles')}
+          </Grid>
+        </div>
+      </div>
     );
   }
 }

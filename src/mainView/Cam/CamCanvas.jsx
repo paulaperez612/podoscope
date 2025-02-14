@@ -44,20 +44,20 @@ export default class CamCanvas extends React.Component {
     console.log(this);
 
     navigator.mediaDevices.getUserMedia(constraints)
-    .then((mediaStream) => this.setTheVideoStuff(mediaStream))
-    .catch(function(err) { console.log("An error ocurred: " + err.name + ": " + err.message); });
+      .then((mediaStream) => this.setTheVideoStuff(mediaStream))
+      .catch(function (err) { console.log("An error ocurred: " + err.name + ": " + err.message); });
   }
 
-  setTheVideoStuff(mediaStream){
-      this.videoRef.srcObject = mediaStream;
-      console.log('ref set.');
+  setTheVideoStuff(mediaStream) {
+    this.videoRef.srcObject = mediaStream;
+    console.log('ref set.');
 
 
-      setTimeout(() => {
-        this.videoRef.play();
-        this.updateDimension();
-        window.addEventListener('resize', this.updateDimension);
-      }, 500);
+    setTimeout(() => {
+      this.videoRef.play();
+      this.updateDimension();
+      window.addEventListener('resize', this.updateDimension);
+    }, 500);
   }
 
   componentWillUnmount() {
@@ -297,7 +297,7 @@ export default class CamCanvas extends React.Component {
     this.ctx.clearRect(0, 0, this.rect.width + 20, this.rect.height + 20);
     this.ctx.drawImage(this.videoRef, 0, 0, this.rect.width, this.rect.height);
     const imgData = this.canvasRef.toDataURL('image/png');
-    
+
     this.imgRef.setAttribute('src', imgData);
     this.imgRef.classList.remove('hidden');
     this.drawState();
@@ -341,12 +341,12 @@ export default class CamCanvas extends React.Component {
 
   render() {
     return (
-      <Grid container direction="column">
+      <Grid >
         <Grid item xs={11}>
           <Info ref={r => this.infoRef = r} onSideChange={this.onSideChange.bind(this)} threshold={this.props.threshold} />
         </Grid >
         <Grid item>
-          <Grid container direcction="row">
+          <Grid direcction="row">
             <Grid item xs={11} id="canvas-video-container">
               <Box
                 component="img"
@@ -378,6 +378,7 @@ export default class CamCanvas extends React.Component {
           </Grid>
         </Grid>
       </Grid>
+
     );
   }
 }

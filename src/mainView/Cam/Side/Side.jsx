@@ -49,7 +49,7 @@ export default class Side extends React.Component {
 
   render() {
     return (
-      <Grid container direction="column" className="cam-btn-container">
+      <Grid className="cam-btn-container">
         {this.makeButton(1, <MoreVertIcon />, 'Draw line')}
         {this.makeButton(2, <FiberManualRecordIcon />, 'Draw point')}
         {this.makeButton(3, <CreateIcon />, 'Draw')}

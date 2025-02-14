@@ -32,6 +32,7 @@ export default class Drops extends Component {
         ['CAVO_1', 'Cavo 1'],
         ['CAVO_2', 'Cavo 2'],
         ['CAVO_3', 'Cavo 3'],
+
       ],
       heelType: [
         ['VALGO', 'Valgo'],
@@ -49,7 +50,7 @@ export default class Drops extends Component {
 
   makeDropdown(title, side, attr, options) {
     return (
-      <Grid item xs={3} className='dropDown'>
+      <Grid item xs={3} className='dropDown_'>
         <FormControl className='dropDown'>
           <InputLabel>{title}</InputLabel>
           <Select
@@ -68,15 +69,19 @@ export default class Drops extends Component {
     return (
       <Grid container spacing={2} alignItems='center'>
         <br />
-        <Grid item xs={2}>
-          <Typography variant='subtitle1'> Left</Typography>
+        <Grid container item xs={2} justifyContent="center" alignItems="center">
+          <Typography variant='subtitle1' className='leftRightText'> Left</Typography>
         </Grid>
-        {this.makeDropdown('Footprint type', 'left', 'footprintType', this.drops.footprintType)}
+
+        {this.makeDropdown('Footprint type_', 'left', 'footprintType', this.drops.footprintType)}
         {this.makeDropdown('Foot type', 'left', 'footType', this.drops.footType)}
         {this.makeDropdown('Heel type', 'left', 'heelType', this.drops.heelType)}
-        <Grid item xs={2}>
-          <Typography variant='subtitle1'> Right</Typography>
+
+
+        <Grid container item xs={2} justifyContent="center" alignItems="center">
+          <Typography variant='subtitle1' className='leftRightText'> Right</Typography>
         </Grid>
+
         {this.makeDropdown('Footprint type', 'right', 'footprintType', this.drops.footprintType)}
         {this.makeDropdown('Foot type', 'right', 'footType', this.drops.footType)}
         {this.makeDropdown('Heel type', 'right', 'heelType', this.drops.heelType)}

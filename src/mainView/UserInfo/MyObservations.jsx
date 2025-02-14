@@ -14,32 +14,36 @@ export default class MyObservations extends Component {
     this.setState({ obs: userObs });
   }
 
-  setObservation(newobs){
-    this.setState({obs:newobs});
+  setObservation(newobs) {
+    this.setState({ obs: newobs });
   }
 
-  
+
 
   render() {
     return (
-      <form
+
+
+      <div className="observationsContainer">
+        <form className="observationsForm" noValidate autoComplete="off"
+
         // className={classes.container} 
-        noValidate
-        autoComplete="off">
-        <TextField
-          id="observations"
-          label="Observations"
-          // className={classes.textField}
-          value={this.state.obs}
-          onChange={(e) => this.setState({ obs: e.target.value })}
-          margin="normal"
-          fullWidth={true}
-          multiline={true}
-          rows={3}
-          variant='filled'
-          inputRef={this.props.obsRef}
-        />
-      </form>
+        >
+          <TextField
+            id="observations"
+            label="Observations"
+            // className={classes.textField}
+            value={this.state.obs}
+            onChange={(e) => this.setState({ obs: e.target.value })}
+            margin="normal"
+            fullWidth={true}
+            multiline={true}
+            rows={3}
+            variant='filled'
+            inputRef={this.props.obsRef}
+          />
+        </form>
+      </div>
     );
   }
 }

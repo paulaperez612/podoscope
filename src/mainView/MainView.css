@@ -1,34 +1,200 @@
-.fab{
+/*Lupa*/
+.fab {
     position: absolute !important;
     bottom: 5%;
-    right: 5%;   
+    right: 5%;
+    transform: translateY(235px);
+    left: 325px;
+
 }
 
-.modal{
-    /* display: 'flex';
-    align-items: 'center';
-    justify-content: 'center'; */
 
+
+.modal {
+    /*display: 'flex';
+    align-items: 'center';
+    justify-content: 'center';
+    */
     width: 40%;
     margin: auto;
     margin-top: 100px;
+
+
 }
 
 
-.mainViewDiv{
+.mainViewDiv {
     width: 100%;
     height: 100%;
 }
 
-
-.fabImage{
+/*Imegen Cuerpo*/
+.fabImage {
     position: absolute !important;
     top: 5%;
-    left: 2%;  
+    left: 840px;
+    transform: translateY(726px);
+
 }
 
-.imageModal{
-    width: 70%;
+
+
+.imageModal {
+    width: 63%;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 65px;
+    transform: translateY(-60px);
+    height: 632px;
+
+}
+
+.logo_ {
+    width: 300px;
+    height: 150px;
+    transform: translateY(70px);
+    margin-left: 890px;
+    /*Muevealaizquierda*/
+
+}
+
+
+.user-data-container {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.data-item {
+
+    /* Espaciado entre el icono y el texto */
+
+
+    display: flex;
+    /* Alinea el contenido al inicio */
+    gap: 4px;
+    /* Añade espacio entre las líneas */
+    flex-basis: 48%;
+}
+
+.icon {
+    color: #090a0a;
+    font-size: 2px;
+    margin-left: -15px !important;
+}
+
+
+
+.user-data-container .data-text {
+    margin-left: -3px !important;
+    font-size: 11px;
+    color: #0b0b0b;
+    font-family: "Poppins", sans-serif;
+    /* Fuente moderna y elegante */
+    font-weight: 600;
+    /* Hace que el texto resalte más */
+    letter-spacing: 0.5px;
+    /* Da más espacio entre letras */
+    text-transform: capitalize;
+    /* Convierte la primera letra en mayúscula */
+}
+
+
+
+
+.user-card {
+    width: 80%;
+    max-width: 900px;
+    margin: auto;
+    background: linear-gradient(135deg, #7FFFD4, #86a8f4, #8CCFD6);
+    background-size: 200% auto;
+    /* Amplía el degradado para efecto dinámico */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: 2px solid #7FFFD4;
+    /* Borde en color agua marina */
+    transform: translateY(-140px);
+    margin-left: 5px;
+    max-height: 115px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.5s ease;
+}
+
+/* Efecto hover para darle dinamismo */
+.user-card:hover {
+    transform: translateY(-145px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background-position: 100% center;
+}
+
+.user-name {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    transform: translateY(-30px);
+
+}
+
+.user-data-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+    /*Aseguraqueocupeelanchodisponible*/
+    max-width: 750px;
+    /*Ajustasegúnseanecesario*/
+    /*Espacioentrefilas*/
+    margin-left: -50px;
+    /*Ajustaelvalorsegúnlonecesites*/
+    transform: translateX(-32px);
+    /*Muevetodoelcontenido30pxalaizquierda*/
+    row-gap: -5px;
+    /*Reduceelespacioentrelasfilas*/
+    transform: translateY(-15px);
+    /*Aseguraquetodoestéalineadoalaizquierda*/
+    gap: 0px;
+    /* Asegura que todo esté alineado a la izquierda */
+}
+
+
+
+.data-item {
+    flex-basis: 48%;
+    /* Hace que los elementos ocupen el 48% del ancho (dos columnas) */
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap: -10px;
+    /* Espaciado entre ícono y texto */
+    justify-content: flex-start;
+    /* Asegura que todo esté alineado a la izquierda */
+
+}
+
+
+
+
+.size-input {
+    width: 150px;
+    font-size: 12px;
+    padding: 2px;
+}
+
+.user-data-list_ {
+    display: flex;
+    flex-direction: row;
+    /* Cambia de columna a fila */
+    gap: 2px;
+    /* Espaciado entre los elementos */
+
+    align-items: center;
+    /* Alinea los elementos en el centro verticalmente */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+    /* Permite que los elementos se ajusten en varias líneas si es necesario */
 }
