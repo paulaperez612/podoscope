@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './MainView.css';
+// import './Cam/CamCanvas.css'
 
 import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
@@ -9,6 +10,8 @@ import Fade from '@material-ui/core/Fade';
 import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
 import InfoIcon from '@material-ui/icons/Info';
+import logo from '../assets/Logopodoline_.png';
+
 
 
 import UserCard from './UserInfo/UserCard';
@@ -39,10 +42,13 @@ export default class MainView extends Component {
     this.dropsRef = React.createRef();
 
     this.state = {
+
+
       open: false,
       openImage: false,
       savingImage: false,
       user: {
+
         name: '-',
         cedula: '-',
         cellphone: '-',
@@ -91,7 +97,7 @@ export default class MainView extends Component {
     this.observations = '--';
   }
 
-  setImageInMainView(imIndex, imageData){
+  setImageInMainView(imIndex, imageData) {
     this.images[imIndex] = imageData;
   }
   setShoeSize(newShoeSize) {
@@ -145,7 +151,7 @@ export default class MainView extends Component {
 
   savePhoto(data) {
     if (this.imageIndex >= 0) {
-      this.setState({savingImage:true})
+      this.setState({ savingImage: true })
       this.images[this.imageIndex] = data;
       this.imageselRef.updateImage(this.imageIndex, data.image);
 
@@ -158,14 +164,14 @@ export default class MainView extends Component {
           observations: this.obsRef.current,
           shoeSize: this.state.shoeSize,
           imId: this.imageIndex
-        }), 
-        () => {}, () => {},
-        () => { 
-          this.setState({savingImage:false})
-        }, 
-        () => { 
+        }),
+        () => { }, () => { },
+        () => {
+          this.setState({ savingImage: false })
+        },
+        () => {
           console.log('COULD NOT SAVE IMAGE')
-          this.setState({savingImage:false})
+          this.setState({ savingImage: false })
         });
 
     }
@@ -181,8 +187,24 @@ export default class MainView extends Component {
   render() {
     return (
       // try justify center and space around
+
+
       <div className='mainViewDiv'>
+
+        <div className="logo-container">
+          <img src={logo} alt="Logo" className="logo_" />
+        </div>
         <Menu logout={this.props.logout} threshold={this.state.threshold} setThreshold={this.setThreshold} />
+
+
+
+        <Grid item xs={12}>
+          <div className="user-data-container horizontal">
+            <UserCard user={this.state.user} setShoeSize={this.setShoeSize} shoeSize={this.state.shoeSize} />
+          </div>
+        </Grid>
+
+
         <Grid container spacing={0} justify='space-around' >
           <Grid item xs={4} >
             <Grid container
@@ -190,9 +212,8 @@ export default class MainView extends Component {
               direction="column"
               alignItems="center"
               justify="center">
-              <Grid item xs={12}>
-                <UserCard user={this.state.user} setShoeSize={this.setShoeSize} shoeSize={this.state.shoeSize} />
-              </Grid>
+
+
               <br />
               <Grid item xs={12}>
                 <ImageSelection selectImage={this.selectImage} ref={r => this.imageselRef = r} />
@@ -204,10 +225,10 @@ export default class MainView extends Component {
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <CamCanvas 
-              threshold={this.state.threshold} 
-              savePhoto={this.savePhoto} 
-              ref={r => this.canvasRef = r} 
+            <CamCanvas
+              threshold={this.state.threshold}
+              savePhoto={this.savePhoto}
+              ref={r => this.canvasRef = r}
               patientCedula={this.state.user.cedula} />
             <MyObservations obsRef={this.obsRef} ref={r => this.obsRefReal = r} />
           </Grid>
@@ -232,7 +253,7 @@ export default class MainView extends Component {
           BackdropComponent={Backdrop}
           BackdropProps={{ timeout: 200 }}>
           <DialogContent>
-            
+
             <Fade
               in={this.state.open}
               className='modalContent'>
@@ -264,7 +285,7 @@ export default class MainView extends Component {
             <Fade
               in={this.state.savingImage}
               className='modalContent'>
-              <LoadingCard renderText='Saving image...'/>
+              <LoadingCard renderText='Saving image...' />
             </Fade>
           </DialogContent>
         </Modal>

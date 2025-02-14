@@ -1,83 +1,97 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import PhoneIcon from '@material-ui/icons/Phone';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import CakeIcon from '@material-ui/icons/Cake';
-import WcIcon from '@material-ui/icons/Wc';
+import { Card, CardContent, Typography, Grid, TextField } from '@material-ui/core';
+import { Phone, MailOutline, Cake, Wc } from '@material-ui/icons';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import TextField from '@material-ui/core/TextField';
 
 import { ReactComponent as ShoeIcon } from '../../assets/human-shoes-footprints.svg';
 
 function DaShoeIcon(props) {
   return (
-    <SvgIcon {...props}>
+    <SvgIcon {...props} viewBox="0 0 65 65" style={{ fontSize: 20 }}>
       <ShoeIcon />
     </SvgIcon>
   );
 }
 
 export default class UserCard extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = { shoeSize: 0 };
-  }
-
-  makeListItem(attr, icon, withDivider = true, overrideItem = undefined) {
+  renderDataItem(label, value, icon) {
     return (
-      <>
-        <ListItem>
-          <ListItemAvatar>
-            {icon}
-          </ListItemAvatar>
-          {overrideItem || <ListItemText secondary={this.props.user[attr]} />}
-        </ListItem>
-        {withDivider && <Divider variant="inset" component="li" />}
-      </>
+      <Grid item xs={6} sm={4} className="data-item">
+        {icon}
+        <Typography variant="body2" className="data-text">
+          <strong>{label}:</strong> {value}
+        </Typography>
+      </Grid>
     );
   }
 
   render() {
     return (
-      <Card style={{ minWidth: 400 }}>
+      <Card className="user-card">
         <CardContent>
-          <Typography variant="h5" component="h2" align='center' style={{ maxWidth: 400 }}>
+          <Typography variant="h6" className="user-name">
             {this.props.user.name}
           </Typography>
-          <Typography variant='body2' align='center'>
-            CC {this.props.user.cedula}
-          </Typography>
-          <List>
-            {this.makeListItem('cellphone', <PhoneIcon color='primary' />)}
-            {this.makeListItem('email', <MailOutlineIcon color='primary' />)}
-            {this.makeListItem('dob', <CakeIcon color='primary' />)}
-            {this.makeListItem('sex', <WcIcon color='primary' />)}
-            {this.makeListItem('sex', <DaShoeIcon color='primary' viewBox='0 0 65 65' />, false, (
+          <Grid
+            container
+            spacing={2}
+            className="user-data-container"
+            style={{ marginLeft: '-20px' }} // Mueve todo el contenido hacia la izquierda 10px
+          >
+            {/* Fila 1 */}
+            <Grid item xs={4} className="data-item">
+              <Phone className="icon" />
+              <Typography variant="body2" className="data-text">
+                <strong>Teléfono:</strong> {this.props.user.cellphone}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} className="data-item">
+              <Typography variant="body2" className="data-text">
+                <strong>Cédula:</strong> CC {this.props.user.cedula}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} className="data-item">
+              <MailOutline className="icon" />
+              <Typography variant="body2" className="data-text">
+                <strong>Email:</strong> {this.props.user.email}
+              </Typography>
+            </Grid>
+
+            {/* Fila 2 */}
+            <Grid item xs={4} className="data-item">
+              <Cake className="icon" />
+              <Typography variant="body2" className="data-text">
+                <strong>Nacimiento:</strong> {this.props.user.dob}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} className="data-item">
+              <Wc className="icon" />
+              <Typography variant="body2" className="data-text">
+                <strong>Sexo:</strong> {this.props.user.sex}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} className="data-item">
+              <DaShoeIcon className="icon" />
+              <Typography variant="body2" className="data-text">
+                <strong>Talla:</strong>
+              </Typography>
               <TextField
                 value={this.props.shoeSize}
-                onChange={(x) => this.props.setShoeSize(parseInt(x.target.value))}
+                onChange={(e) => this.props.setShoeSize(parseInt(e.target.value))}
                 type="number"
-                margin="dense"
+                size="small"
+                className="size-input"
               />
-            )
-            )}
-          </List>
+            </Grid>
+          </Grid>
+
+
         </CardContent>
       </Card>
     );
   }
 }
-
 
 UserCard.propTypes = {
   user: PropTypes.object.isRequired,

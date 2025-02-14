@@ -32,8 +32,13 @@ export default class App extends Component {
             ? <MainView logout={() => this.setAuthenticated(false)} />
             : <SignIn authTrue={this.setAuthenticated} />
           }
+
+
         </Grid>
       </Container>
+
+
+
     );
   }
 }

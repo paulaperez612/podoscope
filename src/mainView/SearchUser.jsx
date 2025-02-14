@@ -27,7 +27,7 @@ export default class SearchUser extends Component {
     this.onEnter = this.onEnter.bind(this);
   }
 
-  setMainViewState(newPatient,patientExam){
+  setMainViewState(newPatient, patientExam) {
     const examID = patientExam.eid;
     newPatient.eid = examID;
 
@@ -35,17 +35,17 @@ export default class SearchUser extends Component {
 
     // set feet state in main view
     this.props.setFeetInfo(patientExam.feet);
-    
+
     // set shoe size state in main view
     this.props.obsRefReal.setObservation(patientExam.observations);
 
     // set obs state in main view
     this.props.setShoeSize(parseInt(patientExam.shoeSize));
-    
+
     this.searchUserImages(examID);
-    
+
     // this.props.toggleModal();
-    
+
 
   }
 
@@ -84,7 +84,7 @@ export default class SearchUser extends Component {
           };
 
 
-          this.setMainViewState(newPatient,patientExam);
+          this.setMainViewState(newPatient, patientExam);
         }
         else {
           // user does not have an exam.
@@ -130,7 +130,7 @@ export default class SearchUser extends Component {
 
               };
 
-              this.setMainViewState(newPatient,patientExam);
+              this.setMainViewState(newPatient, patientExam);
 
             },
             (e) => {
@@ -140,7 +140,7 @@ export default class SearchUser extends Component {
               } else if (e.type === 'session_expired') {
                 console.log('Session Expired');
                 // TODO modal for relogin
-                this.setState({sessionExpired: true});
+                this.setState({ sessionExpired: true });
               }
             });
         }
@@ -152,7 +152,7 @@ export default class SearchUser extends Component {
           console.log('Failed to fetch');
         } else if (e.type === 'session_expired') {
           console.log('Session Expired');
-          this.setState({sessionExpired: true});
+          this.setState({ sessionExpired: true });
         }
       }
     );
@@ -160,49 +160,49 @@ export default class SearchUser extends Component {
 
   }
 
-  getImageAndID(rawImageString){
+  getImageAndID(rawImageString) {
     console.log('Splitting string:')
     const strLength = rawImageString.length;
     console.log(`Raw string length: ${strLength}`)
     const index = rawImageString.indexOf("@");
     console.log(`Found @ char in ${index}`);
-    const imID = rawImageString.substring(index+1,strLength);
-    const im = rawImageString.substring(0,index);
+    const imID = rawImageString.substring(index + 1, strLength);
+    const im = rawImageString.substring(0, index);
     console.log('Split string.')
-    return [imID,im]
+    return [imID, im]
   }
 
-  searchUserImages(examID){
+  searchUserImages(examID) {
     console.log('In search user images');
     let currentSessionID = localStorage.getItem('sid');
     console.log(`Searching for exams with examid: ${examID}`)
     const endpointURL = baseUrl + '/index.php?sid=' + currentSessionID + '&entryPoint=list_img&efp_id=' + examID;
-    genericGet(endpointURL, 
-      (data)=> {
+    genericGet(endpointURL,
+      (data) => {
         console.log(`Obtained images with examid ${examID}:`);
         console.log(`Recieved ${data.rta.length} images.`);
 
         //clear previous image data
         console.log('Clearing image data');
-        for(let i = 0; i<6 ; i++){
+        for (let i = 0; i < 6; i++) {
           console.log(`Clearing image ${i}`);
-          this.props.setImageInMainView(i,{});
+          this.props.setImageInMainView(i, {});
           console.log('Main view cleared');
           this.props.selectImageRef.setImageToDefault(i);
           console.log('Image ref cleared');
         }
 
         console.log('Iterating over data:')
-        for(let i = 0; i<data.rta.length; i++){
+        for (let i = 0; i < data.rta.length; i++) {
           const imObject = data.rta[i];
           console.log(imObject);
-          const [imID, image] = this.getImageAndID(imObject.imagen); 
-          console.log(`Image # ${i} Image ID: ${imID} End of string ${image.substring(image.length-20, image.length)}`)
+          const [imID, image] = this.getImageAndID(imObject.imagen);
+          console.log(`Image # ${i} Image ID: ${imID} End of string ${image.substring(image.length - 20, image.length)}`)
           console.log('Setting image...')
           const imageData = {
             data: {
               free: {
-                path: JSON.parse(imObject.traza.replace(/&quot;/g,`"`)),
+                path: JSON.parse(imObject.traza.replace(/&quot;/g, `"`)),
                 down: false
               },
               left: {
@@ -224,18 +224,18 @@ export default class SearchUser extends Component {
               leftAngle: imObject.angulo_i || undefined,
               rightAngle: imObject.angulo_d || undefined
             },
-            image:image
+            image: image
           };
 
-          this.props.setImageInMainView(imID,imageData);
-          this.props.selectImageRef.updateImage(imID,image);
+          this.props.setImageInMainView(imID, imageData);
+          this.props.selectImageRef.updateImage(imID, image);
           console.log('Image set succesfully');
-          
+
         }
         this.setState({ loading: false });
         this.props.toggleModal();
-      }, 
-      () => {}
+      },
+      () => { }
     )
   }
 
@@ -251,7 +251,7 @@ export default class SearchUser extends Component {
 
         if (data.rta.id == null) {
           // this.cedulaFound = false;
-          this.setState({cedulaFound: false, loading: false});
+          this.setState({ cedulaFound: false, loading: false });
           console.log('Cedula not found')
         }
         else {
@@ -283,7 +283,7 @@ export default class SearchUser extends Component {
           console.log('Failed to fetch');
         } else if (e.type === 'session_expired') {
           console.log('Session Expired');
-          this.setState({sessionExpired: true});
+          this.setState({ sessionExpired: true });
         }
       }
     );
@@ -375,7 +375,7 @@ export default class SearchUser extends Component {
     );
   }
 
-  renderLogout(){
+  renderLogout() {
     return (
       <Card className='waitingCard'>
         <Grid className='gridWaiting'
@@ -388,31 +388,31 @@ export default class SearchUser extends Component {
             <br />
             <Typography variant="h5" component="h2" align='center'>
               Your session has expired.
-              <br/> 
+              <br />
               Please login again.
             </Typography>
           </Grid>
-        <CardActions >
-          <Button size="small" variant="contained" color="primary" onClick={()=>this.logOut()}>
-            Log out
-          </Button>
-        </CardActions>
+          <CardActions >
+            <Button size="small" variant="contained" color="primary" onClick={() => this.logOut()}>
+              Log out
+            </Button>
+          </CardActions>
         </Grid>
         <br />
-      </Card > 
+      </Card >
     )
   }
 
   render() {
     let renderedComponent;
-    if(this.state.sessionExpired){
+    if (this.state.sessionExpired) {
       renderedComponent = this.renderLogout();
     }
-    else{
-      if(!this.state.loading){
+    else {
+      if (!this.state.loading) {
         renderedComponent = this.renderSearchCard();
       }
-      else{
+      else {
         renderedComponent = this.renderLoading();
       }
     }

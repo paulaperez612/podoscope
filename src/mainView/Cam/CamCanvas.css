@@ -1,6 +1,15 @@
-div.switch-container{
+/* Boton left - Right */
+div.switch-container {
   width: 100%;
+  transform: translateY(-115px);
+
+  margin-left: -245px;
+
+  /* Alinea elementos a la izquierda */
+  /* Empuja el botón hacia la derecha, pero ajusta según tu caso */
 }
+
+
 /*
 div.switch-container > div:nth-child(1) {
   display: grid;
@@ -35,31 +44,60 @@ div.switch-container > div:nth-child(2) {
 }*/
 
 .cam-btn-container {
-  height: 100%;
-  padding: 100% 0;
+  height: 50px;
+  /*oquítalosinoesnecesario*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 77px;
+  position: relative;
+  left: -155px;
+  transform: translateX(-50%);
+  top: 400px;
+  border-radius: 50%;
+
+
 }
 
-button.cam-btn {
-  height: calc(100% - 40px);
-  margin: 20px 0 0 10px;
-}
+
 
 button.cam-btn.active {
   background-color: red;
 }
 
+/* Campo de captura imagen */
 #canvas-video-container {
-  position: relative;
+  position: absolute;
+  /*Ofixed,segúntunecesidad*/
+  left: 50%;
+  transform: translateX(-50%);
+  top: 250px;
+  /*Mantieneelajustevertical*/
+  width: 1000px;
   overflow: hidden;
+  background-color: #1f4e7c;
+
 }
 
-#canvas-video-container > video {
+#canvas-video-container {
+  pointer-events: none;
+  /* Evita interacción accidental */
+}
+
+canvas {
+  pointer-events: auto;
+  /* Permite interactuar con el contenido dentro */
+}
+
+
+
+#canvas-video-container>video {
   position: absolute;
   z-index: -2;
   min-height: 50vh;
 }
 
-#canvas-video-container > canvas {
+#canvas-video-container>canvas {
   width: 100%;
   background-color: transparent;
   display: block;
@@ -67,20 +105,13 @@ button.cam-btn.active {
   /* padding: 25% 0; */
 }
 
-#canvas-video-container > img {
+#canvas-video-container>img {
   /* display: none; */
   position: absolute;
   z-index: -1;
 }
 
-#canvas-video-container > img.hidden {
+#canvas-video-container>img.hidden {
   display: none;
-}
 
-#bottom-container {
-  padding: 20px;
-}
-
-#bottom-container > button {
-  margin: auto;
 }

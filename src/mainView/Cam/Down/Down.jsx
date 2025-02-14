@@ -5,6 +5,7 @@ import { Fab } from '@material-ui/core';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
+import './Down.css';
 
 export default class Down extends React.Component {
 
@@ -35,24 +36,24 @@ export default class Down extends React.Component {
     return (
       <>
         {!this.state.photo
-          ? <Fab
-            variant="extended"
-            color="secondary"
+          ? <Fab className="Botonesimg"
+
+            color="primary"
             aria-label="take picture"
             onClick={this.click(true)}>
             <CameraAltIcon />
           </Fab>
           : (<>
-            <Fab
-              variant="extended"
+            <Fab className="Botonesimg"
+
               color="secondary"
               aria-label="cancel"
               onClick={this.click(false)}>
               <ClearIcon />
             </Fab>
-            <Fab
-              variant="extended"
-              color="primary"
+            <Fab className="Botonesimg"
+
+              color="secondary"
               aria-label="save"
               onClick={this.props.savePicture}
               disabled={this.props.patientCedula === '-'}>

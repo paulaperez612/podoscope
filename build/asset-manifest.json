@@ -1,25 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.5175a340.chunk.css",
-    "main.js": "/static/js/main.4cce77c5.chunk.js",
-    "main.js.map": "/static/js/main.4cce77c5.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.106c6883.js",
-    "runtime-main.js.map": "/static/js/runtime-main.106c6883.js.map",
-    "static/js/2.22c2716c.chunk.js": "/static/js/2.22c2716c.chunk.js",
-    "static/js/2.22c2716c.chunk.js.map": "/static/js/2.22c2716c.chunk.js.map",
+    "main.css": "/static/css/main.e1e0d19b.chunk.css",
+    "main.js": "/static/js/main.72d3011c.chunk.js",
+    "main.js.map": "/static/js/main.72d3011c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.c74e50b7.js",
+    "runtime-main.js.map": "/static/js/runtime-main.c74e50b7.js.map",
+    "static/js/2.b7b6dbe9.chunk.js": "/static/js/2.b7b6dbe9.chunk.js",
+    "static/js/2.b7b6dbe9.chunk.js.map": "/static/js/2.b7b6dbe9.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.cd305c608bb41af8a068e11f1f4304b2.js": "/precache-manifest.cd305c608bb41af8a068e11f1f4304b2.js",
+    "precache-manifest.eb08ff0ad8797dc48223860e469b0a5f.js": "/precache-manifest.eb08ff0ad8797dc48223860e469b0a5f.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.5175a340.chunk.css.map": "/static/css/main.5175a340.chunk.css.map",
-    "static/js/2.22c2716c.chunk.js.LICENSE.txt": "/static/js/2.22c2716c.chunk.js.LICENSE.txt",
-    "static/media/human-shoes-footprints.61dee20a.svg": "/static/media/human-shoes-footprints.61dee20a.svg",
+    "static/css/main.e1e0d19b.chunk.css.map": "/static/css/main.e1e0d19b.chunk.css.map",
+    "static/js/2.b7b6dbe9.chunk.js.LICENSE": "/static/js/2.b7b6dbe9.chunk.js.LICENSE",
+    "static/media/Logopodoline_.png": "/static/media/Logopodoline_.a2bc18b7.png",
+    "static/media/human-shoes-footprints.c3f385ee.svg": "/static/media/human-shoes-footprints.c3f385ee.svg",
     "static/media/logo_piesalud.png": "/static/media/logo_piesalud.b4e22e13.png",
     "static/media/plantilla-podoscopio.jpg": "/static/media/plantilla-podoscopio.db191954.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.106c6883.js",
-    "static/js/2.22c2716c.chunk.js",
-    "static/css/main.5175a340.chunk.css",
-    "static/js/main.4cce77c5.chunk.js"
+    "static/js/runtime-main.c74e50b7.js",
+    "static/js/2.b7b6dbe9.chunk.js",
+    "static/css/main.e1e0d19b.chunk.css",
+    "static/js/main.72d3011c.chunk.js"
   ]
 }
