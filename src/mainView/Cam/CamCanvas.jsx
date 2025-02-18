@@ -341,7 +341,8 @@ export default class CamCanvas extends React.Component {
 
   render() {
     return (
-      <Grid >
+
+      <Grid id="Container-body">
         <Grid item xs={11}>
           <Info ref={r => this.infoRef = r} onSideChange={this.onSideChange.bind(this)} threshold={this.props.threshold} />
         </Grid >

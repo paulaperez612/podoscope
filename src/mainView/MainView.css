@@ -105,13 +105,13 @@
     width: 80%;
     max-width: 900px;
     margin: auto;
-    background: linear-gradient(135deg, #7FFFD4, #86a8f4, #8CCFD6);
+    background: linear-gradient(135deg, #4baac5, #4baac5, #4baac5);
     background-size: 200% auto;
     /* Amplía el degradado para efecto dinámico */
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border: 2px solid #7FFFD4;
+    border: 2px solid #4baac5;
     /* Borde en color agua marina */
     transform: translateY(-140px);
     margin-left: 5px;

@@ -17,10 +17,6 @@
     "react-dom": "^16.9.0",
     "react-scripts": "^3.3.0"
   },
-
-
-
-
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -42,5 +38,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001",
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
 }
